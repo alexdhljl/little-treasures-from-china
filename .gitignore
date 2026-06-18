@@ -1,0 +1,25 @@
+node_modules/
+.next/
+out/
+frontend/out/
+.vercel/
+.env
+.env.*
+!.env.example
+__pycache__/
+*.pyc
+.npm-cache/
+backend/
+exports/
+organized-products/
+product photos/
+frontend/data/
+frontend/env.txt
+frontend/components/DashboardView.tsx
+frontend/components/email-composition-sidebar.tsx
+frontend/lib/crm-pipeline.ts
+frontend/scripts/discover-leads.ts
+frontend/scripts/render-leaderboard-image.py
+frontend/scripts/render-opportunity-section-image.py
+frontend/scripts/inline-export-css.cjs
+frontend/public/images/little-treasures-hero.png
