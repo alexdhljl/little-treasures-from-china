@@ -14,7 +14,7 @@ export default function CatalogError({ reset }: CatalogErrorProps) {
   return (
     <main className="min-h-screen bg-[#fffdf8] text-[#171717]">
       <SiteHeader locale={locale} path="/catalog" />
-      <section className="mx-auto max-w-4xl px-5 py-24">
+      <section className="mx-auto max-w-4xl px-4 py-14 sm:px-5 sm:py-24">
         <p className="section-kicker">{locale === "zh" ? "产品目录" : "Product Catalog"}</p>
         <h1 className="mt-4 text-5xl font-black leading-tight">
           {locale === "zh" ? "目录暂时没有加载成功。" : "The catalog did not load this time."}

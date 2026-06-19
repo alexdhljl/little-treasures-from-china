@@ -27,15 +27,15 @@ export default async function LocalizedSectionPage({ params }: PageProps) {
     <main className="min-h-screen bg-[#fffdf8] text-[#171717]">
       <SiteHeader locale={locale} path={`/${sectionParam}`} />
       <section className={`border-b border-black/10 ${sectionParam === "institutions" ? "bg-[#171717] text-white" : "bg-white"}`}>
-        <div className="mx-auto max-w-7xl px-5 py-20">
+        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-5 sm:py-16 lg:py-20">
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-black/15 bg-[#fffdf8] px-4 py-2 text-sm font-bold text-[#171717]">
             <Sparkles size={16} className="text-[#f27a5e]" />
             {t.kicker}
           </div>
-          <h1 className="max-w-5xl text-6xl font-black leading-[0.92] sm:text-7xl">
+          <h1 className="max-w-5xl text-4xl font-black leading-[0.98] sm:text-6xl lg:text-7xl">
             {t.title}
           </h1>
-          <p className={`mt-7 max-w-2xl text-xl leading-8 ${sectionParam === "institutions" ? "text-white/75" : "text-[#4a4a4a]"}`}>
+          <p className={`mt-5 max-w-2xl text-base leading-7 sm:mt-7 sm:text-xl sm:leading-8 ${sectionParam === "institutions" ? "text-white/75" : "text-[#4a4a4a]"}`}>
             {t.intro}
           </p>
         </div>
@@ -54,7 +54,7 @@ export default async function LocalizedSectionPage({ params }: PageProps) {
 function AboutBody({ locale }: { locale: Locale }) {
   const page = dictionary[locale].staticPages.about;
   return (
-    <section className="mx-auto grid max-w-6xl gap-12 px-5 py-20 lg:grid-cols-[280px_1fr]">
+    <section className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:px-5 sm:py-16 lg:grid-cols-[280px_1fr] lg:gap-12 lg:py-20">
       <aside>
         <p className="section-kicker">{locale === "zh" ? "我们的故事" : "Our Story"}</p>
         <div className="mt-6 h-3 w-28 bg-[#f9d95f]" />
@@ -64,7 +64,7 @@ function AboutBody({ locale }: { locale: Locale }) {
       <article className="max-w-3xl">
         {page.body.map((paragraph, index) => (
           <p
-            className={index === 2 || index === 3 ? "mt-10 text-3xl font-black leading-tight" : "mt-6 text-xl leading-9 text-[#3f3f3f]"}
+            className={index === 2 || index === 3 ? "mt-8 text-2xl font-black leading-tight sm:mt-10 sm:text-3xl" : "mt-5 text-base leading-8 text-[#3f3f3f] sm:mt-6 sm:text-xl sm:leading-9"}
             key={paragraph}
           >
             {paragraph}
@@ -77,19 +77,19 @@ function AboutBody({ locale }: { locale: Locale }) {
 
 function CollectionsBody({ locale }: { locale: Locale }) {
   return (
-    <section className="mx-auto max-w-7xl px-5 py-16">
-      <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+    <section className="mx-auto max-w-7xl px-4 py-10 sm:px-5 sm:py-16">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {collections.map((collection) => (
           <a
             className="overflow-hidden border border-black/10 bg-white transition hover:-translate-y-1 hover:shadow-[0_18px_35px_rgba(0,0,0,0.08)]"
             href={`${localizedPath(locale, "/catalog")}?category=${encodeURIComponent(collection.name)}`}
             key={collection.name}
           >
-            <div className={`h-32 ${collection.color}`} />
-            <div className="p-5">
-              <h2 className="text-2xl font-black">{displayName(collection.name, locale)}</h2>
-              <p className="mt-3 min-h-20 text-sm leading-6 text-[#555]">{collection.theme}</p>
-              <span className="mt-6 inline-flex items-center gap-2 text-sm font-black">
+            <div className={`h-20 sm:h-32 ${collection.color}`} />
+            <div className="p-4 sm:p-5">
+              <h2 className="text-xl font-black sm:text-2xl">{displayName(collection.name, locale)}</h2>
+              <p className="mt-3 text-[15px] leading-6 text-[#555] sm:min-h-20 sm:text-sm">{collection.theme}</p>
+              <span className="mt-4 inline-flex items-center gap-2 text-sm font-black sm:mt-6">
                 {locale === "zh" ? "查看产品" : "View products"} <ArrowRight size={15} />
               </span>
             </div>
@@ -103,32 +103,32 @@ function CollectionsBody({ locale }: { locale: Locale }) {
 function ContactBody({ locale }: { locale: Locale }) {
   const t = dictionary[locale].staticPages.contact;
   return (
-    <section className="mx-auto grid max-w-7xl gap-10 px-5 py-16 lg:grid-cols-[1.08fr_0.92fr]">
-      <div className="relative min-h-[520px] overflow-hidden bg-[#f1eee7]">
+    <section className="mx-auto grid max-w-7xl gap-6 px-4 py-10 sm:px-5 sm:py-16 lg:grid-cols-[1.08fr_0.92fr] lg:gap-10">
+      <div className="relative aspect-[4/3] max-h-[420px] overflow-hidden bg-[#f1eee7] sm:min-h-[520px] sm:max-h-none">
         <img
           alt={locale === "zh" ? "精选中国文化礼品目录" : "Curated Chinese museum gifts catalog"}
-          className="h-full min-h-[520px] w-full object-cover"
+          className="h-full w-full object-cover"
           src={heroImageUrl}
         />
       </div>
       <aside className="lg:sticky lg:top-24 lg:self-start">
         <p className="section-kicker">{t.kicker}</p>
-        <h2 className="mt-4 text-4xl font-black leading-tight">{t.title}</h2>
-        <p className="mt-5 text-lg leading-8 text-[#555]">{t.intro}</p>
-        <div className="mt-8 border-y border-black/10 py-6">
-          <dl className="grid gap-4 text-sm">
-            <div className="grid grid-cols-[150px_1fr] gap-4">
+        <h2 className="mt-4 text-3xl font-black leading-tight sm:text-4xl">{t.title}</h2>
+        <p className="mt-4 text-base leading-7 text-[#555] sm:mt-5 sm:text-lg sm:leading-8">{t.intro}</p>
+        <div className="mt-6 border-y border-black/10 py-5 sm:mt-8 sm:py-6">
+          <dl className="grid gap-3 text-sm sm:gap-4">
+            <div className="grid grid-cols-[110px_1fr] gap-3 sm:grid-cols-[150px_1fr] sm:gap-4">
               <dt className="text-[#555]">{locale === "zh" ? "价格" : "Estimated Price"}</dt>
               <dd className="font-black">$12 - $45 per item</dd>
             </div>
-            <div className="grid grid-cols-[150px_1fr] gap-4">
+            <div className="grid grid-cols-[110px_1fr] gap-3 sm:grid-cols-[150px_1fr] sm:gap-4">
               <dt className="text-[#555]">{locale === "zh" ? "配送" : "Shipping"}</dt>
               <dd>{locale === "zh" ? "国际配送单独报价" : "International shipping quoted separately"}</dd>
             </div>
           </dl>
         </div>
         <a
-          className="mt-8 inline-flex items-center justify-center gap-2 bg-[#2f4650] px-6 py-4 text-base font-black text-white transition hover:bg-[#171717]"
+          className="mt-6 inline-flex items-center justify-center gap-2 bg-[#2f4650] px-5 py-3.5 text-sm font-black text-white transition hover:bg-[#171717] sm:mt-8 sm:px-6 sm:py-4 sm:text-base"
           href="mailto:hello@auctuslab.com?subject=Little%20Treasures%20From%20China%20Order%20Inquiry"
         >
           {t.button} <Mail size={18} />
@@ -144,10 +144,10 @@ function InstitutionsBody({ locale }: { locale: Locale }) {
       ? ["博物馆文创精选组合", "课堂与教育项目礼品", "节日文化礼盒", "地区和博物馆主题目录", "面向海外用户的产品故事", "先咨询、后确认的订购流程"]
       : ["Curated museum gift assortments", "Educational object edits", "Seasonal cultural gift bundles", "Regional and museum-themed catalog requests", "North America-facing product storytelling", "Conversation before checkout"];
   return (
-    <section className="mx-auto grid max-w-7xl gap-10 px-5 py-16 lg:grid-cols-[0.9fr_1.1fr]">
+    <section className="mx-auto grid max-w-7xl gap-6 px-4 py-10 sm:px-5 sm:py-16 lg:grid-cols-[0.9fr_1.1fr] lg:gap-10">
       <div>
         <Building2 className="text-[#2c6f6d]" size={34} />
-        <h2 className="mt-5 text-4xl font-black leading-tight">
+        <h2 className="mt-5 text-3xl font-black leading-tight sm:text-4xl">
           {locale === "zh" ? "先以精选咨询模式服务机构采购。" : "Built for inquiry-based commerce first."}
         </h2>
         <a
@@ -160,7 +160,7 @@ function InstitutionsBody({ locale }: { locale: Locale }) {
       <div className="grid gap-3 sm:grid-cols-2">
         {services.map((service) => (
           <div className="border border-black/10 bg-white p-5" key={service}>
-            <p className="mt-8 text-lg font-black leading-tight">{service}</p>
+            <p className="mt-4 text-base font-black leading-tight sm:mt-8 sm:text-lg">{service}</p>
           </div>
         ))}
       </div>
@@ -170,12 +170,12 @@ function InstitutionsBody({ locale }: { locale: Locale }) {
 
 function MuseumsBody({ locale }: { locale: Locale }) {
   return (
-    <section className="mx-auto max-w-7xl px-5 py-16">
-      <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+    <section className="mx-auto max-w-7xl px-4 py-10 sm:px-5 sm:py-16">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {museums.map((museum) => (
-          <article className="border border-black/10 bg-white p-5" key={museum.slug}>
+          <article className="border border-black/10 bg-white p-4 sm:p-5" key={museum.slug}>
             <Landmark className="text-[#2c6f6d]" size={24} />
-            <h2 className="mt-4 text-2xl font-black leading-tight">{displayName(museum.name, locale)}</h2>
+            <h2 className="mt-4 text-xl font-black leading-tight sm:text-2xl">{displayName(museum.name, locale)}</h2>
             <p className="mt-5 text-sm font-black uppercase tracking-[0.18em] text-[#777]">
               {locale === "zh" ? "镇馆主题" : "Signature Treasure"}
             </p>
@@ -193,12 +193,12 @@ function MuseumsBody({ locale }: { locale: Locale }) {
 
 function RegionsBody({ locale }: { locale: Locale }) {
   return (
-    <section className="mx-auto max-w-7xl px-5 py-16">
-      <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+    <section className="mx-auto max-w-7xl px-4 py-10 sm:px-5 sm:py-16">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {regions.map((region) => (
-          <article className={`min-h-80 bg-gradient-to-br ${region.color} p-6`} key={region.name}>
+          <article className={`min-h-56 bg-gradient-to-br ${region.color} p-4 sm:min-h-80 sm:p-6`} key={region.name}>
             <MapPin size={24} />
-            <h2 className="mt-16 text-3xl font-black">{displayName(region.name, locale)}</h2>
+            <h2 className="mt-10 text-2xl font-black sm:mt-16 sm:text-3xl">{displayName(region.name, locale)}</h2>
             <p className="mt-3 text-base leading-7 text-[#343434]">{region.theme}</p>
             <p className="mt-6 text-sm font-bold text-[#555]">
               {locale === "zh" ? "代表博物馆：" : "Featured museums: "} {region.museums}

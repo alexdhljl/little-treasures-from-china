@@ -45,19 +45,19 @@ export default async function LocalizedHome({ params }: PageProps) {
           />
         </div>
         <div className="absolute inset-0 bg-gradient-to-r from-[#fffdf8] via-[#fffdf8]/92 to-[#fffdf8]/18" />
-        <div className="relative mx-auto grid min-h-[690px] max-w-7xl items-center px-5 py-16 md:grid-cols-[0.92fr_1.08fr]">
+        <div className="relative mx-auto grid min-h-[470px] max-w-7xl items-center px-4 py-12 sm:min-h-[560px] sm:px-5 sm:py-16 lg:min-h-[690px] md:grid-cols-[0.92fr_1.08fr]">
           <div className="max-w-2xl">
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-black/15 bg-white px-4 py-2 text-sm font-bold">
               <Sparkles size={16} className="text-[#f27a5e]" />
               {t.home.tagline}
             </div>
-            <h1 className="max-w-[760px] text-6xl font-black leading-[0.92] sm:text-7xl lg:text-8xl">
+            <h1 className="max-w-[760px] text-4xl font-black leading-[0.96] sm:text-6xl lg:text-8xl">
               {t.brand}
             </h1>
-            <p className="mt-7 max-w-xl text-xl leading-8 text-[#3b3b3b]">
+            <p className="mt-5 max-w-xl text-base leading-7 text-[#3b3b3b] sm:mt-7 sm:text-xl sm:leading-8">
               {t.home.subheadline}
             </p>
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-7 flex flex-col gap-3 sm:mt-9 sm:flex-row">
               <a
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-[#171717] px-6 py-4 text-base font-extrabold text-white transition hover:bg-[#2c6f6d]"
                 href={localizedPath(locale, "/catalog")}
@@ -75,27 +75,27 @@ export default async function LocalizedHome({ params }: PageProps) {
         </div>
       </section>
 
-      <section className="bg-white py-20">
-        <div className="mx-auto max-w-7xl px-5">
+      <section className="bg-white py-12 sm:py-16 lg:py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-5">
           <p className="section-kicker">{t.home.occasionKicker}</p>
           <h2 className="section-title">{t.home.occasionTitle}</h2>
-          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 grid gap-4 sm:mt-10 md:grid-cols-2 lg:grid-cols-3">
             {localizedOccasions[locale].map(([name, note], index) => (
               <a
-                className={`min-h-64 bg-gradient-to-br ${["from-[#f9d95f] to-[#fff2b1]", "from-[#65c6c4] to-[#dcfbf7]", "from-[#f27a5e] to-[#ffe0d8]", "from-[#ffb4cc] to-[#fff0f6]", "from-[#b8a572] to-[#f7efd6]", "from-[#88a8f6] to-[#edf2ff]"][index]} p-6 transition hover:-translate-y-1 hover:shadow-[0_18px_35px_rgba(0,0,0,0.08)]`}
+                className={`min-h-44 bg-gradient-to-br ${["from-[#f9d95f] to-[#fff2b1]", "from-[#65c6c4] to-[#dcfbf7]", "from-[#f27a5e] to-[#ffe0d8]", "from-[#ffb4cc] to-[#fff0f6]", "from-[#b8a572] to-[#f7efd6]", "from-[#88a8f6] to-[#edf2ff]"][index]} p-4 transition hover:-translate-y-1 hover:shadow-[0_18px_35px_rgba(0,0,0,0.08)] sm:min-h-64 sm:p-6`}
                 href={`${localizedPath(locale, "/catalog")}?gift=${encodeURIComponent(name)}`}
                 key={name}
               >
-                <h3 className="text-3xl font-black">{name}</h3>
-                <p className="mt-20 text-base font-bold leading-7 text-[#373737]">{note}</p>
+                <h3 className="text-2xl font-black sm:text-3xl">{name}</h3>
+                <p className="mt-10 text-[15px] font-bold leading-6 text-[#373737] sm:mt-20 sm:text-base sm:leading-7">{note}</p>
               </a>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="border-y border-black/10 bg-[#f6f2ea] py-20">
-        <div className="mx-auto max-w-7xl px-5">
+      <section className="border-y border-black/10 bg-[#f6f2ea] py-12 sm:py-16 lg:py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-5">
           <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
             <div>
               <p className="section-kicker">{t.home.bestKicker}</p>
@@ -105,18 +105,18 @@ export default async function LocalizedHome({ params }: PageProps) {
               {t.home.viewAll} <ArrowRight size={16} />
             </a>
           </div>
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-8 grid gap-4 sm:mt-10 sm:grid-cols-2 lg:grid-cols-4">
             {(bestSellers.length ? bestSellers : liveProducts.slice(0, 4)).map((product) => (
               <a className="bg-white" href={localizedPath(locale, `/products/${product.slug}`)} key={product.id}>
-                <div className="grid aspect-square place-items-center bg-[#fffdf8]">
+                <div className="grid aspect-[4/3] max-h-[320px] place-items-center overflow-hidden bg-[#fffdf8] sm:aspect-square sm:max-h-none">
                   {product.images[0] ? (
                     <img alt={productTitle(product, locale)} className="h-full w-full object-cover" src={product.images[0]} />
                   ) : (
                     <ImageOff className="text-[#888]" size={34} />
                   )}
                 </div>
-                <div className="p-5 text-center">
-                  <h3 className="font-black leading-tight">{productTitle(product, locale)}</h3>
+                <div className="p-4 text-center sm:p-5">
+                  <h3 className="text-lg font-black leading-tight sm:text-base">{productTitle(product, locale)}</h3>
                   <p className="mt-2 text-sm text-[#555]">{formatPriceForLocale(product, locale)}</p>
                 </div>
               </a>
@@ -124,7 +124,7 @@ export default async function LocalizedHome({ params }: PageProps) {
             {!liveProducts.length
               ? ["Teacher gift edit", "Housewarming shelf object", "Dunhuang notebook", "Bronze charm"].map((item, index) => (
                   <div className="bg-white p-5" key={item}>
-                    <div className={["aspect-square", "bg-[#f9d95f]", "bg-[#65c6c4]", "bg-[#f27a5e]", "bg-[#88a8f6]"][index]} />
+                    <div className={["aspect-[4/3]", "bg-[#f9d95f]", "bg-[#65c6c4]", "bg-[#f27a5e]", "bg-[#88a8f6]"][index]} />
                     <h3 className="mt-4 text-center font-black">{locale === "zh" ? ["教师礼物精选", "乔迁家居小物", "敦煌笔记本", "青铜灵感挂饰"][index] : item}</h3>
                     <p className="mt-2 text-center text-sm text-[#555]">{t.home.addInAdmin}</p>
                   </div>
@@ -134,15 +134,15 @@ export default async function LocalizedHome({ params }: PageProps) {
         </div>
       </section>
 
-      <section className="bg-white py-20">
-        <div className="mx-auto max-w-7xl px-5">
+      <section className="bg-white py-12 sm:py-16 lg:py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-5">
           <p className="section-kicker">{t.home.storiesKicker}</p>
           <h2 className="section-title">{t.home.storiesTitle}</h2>
-          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-8 grid gap-4 sm:mt-10 md:grid-cols-2 lg:grid-cols-4">
             {localizedStories[locale].map(([title, description]) => (
               <article className="border border-black/10 bg-[#fffdf8] p-5" key={title}>
                 <p className="text-xs font-black uppercase tracking-[0.18em] text-[#f27a5e]">Story</p>
-                <h3 className="mt-8 text-2xl font-black leading-tight">{title}</h3>
+                <h3 className="mt-6 text-xl font-black leading-tight sm:mt-8 sm:text-2xl">{title}</h3>
                 <p className="mt-4 text-sm leading-6 text-[#555]">{description}</p>
                 <a className="mt-6 inline-flex items-center gap-2 text-sm font-black" href={localizedPath(locale, "/catalog")}>
                   {t.home.relatedGifts} <ArrowRight size={15} />
@@ -153,11 +153,11 @@ export default async function LocalizedHome({ params }: PageProps) {
         </div>
       </section>
 
-      <section className="border-y border-black/10 bg-[#fffdf8] py-20">
-        <div className="mx-auto max-w-7xl px-5">
+      <section className="border-y border-black/10 bg-[#fffdf8] py-12 sm:py-16 lg:py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-5">
           <p className="section-kicker">{t.home.museumKicker}</p>
           <h2 className="section-title">{t.home.museumTitle}</h2>
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 grid gap-4 sm:mt-10 sm:grid-cols-2 lg:grid-cols-3">
             {collections.slice(0, 9).map((collection) => (
               <a className="overflow-hidden border border-black/10 bg-white transition hover:-translate-y-1 hover:shadow-[0_18px_35px_rgba(0,0,0,0.08)]" href={localizedPath(locale, "/collections")} key={collection.name}>
                 <div className={`h-24 ${collection.color}`} />
@@ -171,11 +171,11 @@ export default async function LocalizedHome({ params }: PageProps) {
         </div>
       </section>
 
-      <section className="bg-white py-20">
-        <div className="mx-auto max-w-7xl px-5">
+      <section className="bg-white py-12 sm:py-16 lg:py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-5">
           <p className="section-kicker">{t.home.journalKicker}</p>
           <h2 className="section-title">{t.home.journalTitle}</h2>
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="mt-8 grid gap-4 sm:mt-10 sm:grid-cols-2 lg:grid-cols-5">
             {journalTopicsByLocale[locale].map((topic) => (
               <article className="border-t-4 border-[#171717] bg-[#fffdf8] p-5" key={topic}>
                 <h3 className="text-xl font-black">{topic}</h3>

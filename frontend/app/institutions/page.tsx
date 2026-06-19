@@ -22,9 +22,9 @@ export default function InstitutionsPage() {
     <main className="min-h-screen bg-[#fffdf8] text-[#171717]">
       <SiteHeader />
       <section className="border-b border-black/10 bg-[#171717] text-white">
-        <div className="mx-auto max-w-7xl px-5 py-20">
+        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-5 sm:py-16 lg:py-20">
           <p className="section-kicker text-[#9ee5df]">For Institutions</p>
-          <h1 className="mt-4 max-w-5xl text-6xl font-black leading-[0.92] sm:text-7xl">
+          <h1 className="mt-4 max-w-5xl text-4xl font-black leading-[0.98] sm:text-6xl lg:text-7xl">
             Catalogs for museum shops, cultural programs, and gift buyers.
           </h1>
           <p className="mt-7 max-w-2xl text-xl leading-8 text-white/75">
@@ -34,7 +34,7 @@ export default function InstitutionsPage() {
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-7xl gap-10 px-5 py-16 lg:grid-cols-[0.9fr_1.1fr]">
+      <section className="mx-auto grid max-w-7xl gap-6 px-4 py-10 sm:px-5 sm:py-16 lg:grid-cols-[0.9fr_1.1fr] lg:gap-10">
         <div>
           <Building2 className="text-[#2c6f6d]" size={34} />
           <h2 className="mt-5 text-4xl font-black leading-tight">

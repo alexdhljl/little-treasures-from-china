@@ -28,13 +28,13 @@ export default function AboutPage() {
       <SiteHeader />
 
       <section className="border-b border-black/10 bg-white">
-        <div className="mx-auto grid max-w-6xl gap-10 px-5 py-20 lg:grid-cols-[0.95fr_1.05fr] lg:items-end">
+        <div className="mx-auto grid max-w-6xl gap-6 px-4 py-12 sm:px-5 sm:py-16 lg:grid-cols-[0.95fr_1.05fr] lg:items-end lg:gap-10 lg:py-20">
           <div>
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-black/15 bg-[#fffdf8] px-4 py-2 text-sm font-bold">
               <Sparkles size={16} className="text-[#f27a5e]" />
               About Us
             </div>
-            <h1 className="max-w-3xl text-6xl font-black leading-[0.92] sm:text-7xl">
+            <h1 className="max-w-3xl text-4xl font-black leading-[0.98] sm:text-6xl lg:text-7xl">
               Little Treasures From China
             </h1>
           </div>
@@ -45,7 +45,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-6xl gap-12 px-5 py-20 lg:grid-cols-[280px_1fr]">
+      <section className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:px-5 sm:py-16 lg:grid-cols-[280px_1fr] lg:gap-12 lg:py-20">
         <aside className="lg:sticky lg:top-8 lg:self-start">
           <p className="section-kicker">Our Story</p>
           <div className="mt-6 h-3 w-28 bg-[#f9d95f]" />

@@ -53,7 +53,7 @@ export default function ContactPage() {
     <main className="min-h-screen bg-[#fffdf8] text-[#171717]">
       <SiteHeader />
 
-      <section className="mx-auto max-w-7xl px-5 py-8">
+      <section className="mx-auto max-w-7xl px-4 py-5 sm:px-5 sm:py-8">
         <div className="flex flex-wrap items-center gap-2 text-sm font-semibold text-[#666]">
           <a className="hover:text-[#2c6f6d]" href="/">
             Home
@@ -63,22 +63,22 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-7xl gap-10 px-5 pb-16 lg:grid-cols-[1.08fr_0.92fr]">
+      <section className="mx-auto grid max-w-7xl gap-6 px-4 pb-10 sm:px-5 sm:pb-16 lg:grid-cols-[1.08fr_0.92fr] lg:gap-10">
         <div>
-          <div className="relative min-h-[540px] overflow-hidden bg-[#f1eee7]">
+          <div className="relative aspect-[4/3] max-h-[420px] overflow-hidden bg-[#f1eee7] sm:min-h-[540px] sm:max-h-none">
             <img
               alt="Curated Chinese museum gifts including bookmarks, pins, ceramics, stationery, and gift boxes"
-              className="h-full min-h-[540px] w-full object-cover"
+              className="h-full w-full object-cover"
               src={heroImageUrl}
             />
             <div className="absolute left-5 top-5 rounded-full bg-white px-4 py-2 text-sm font-black">
               Catalog Preview
             </div>
           </div>
-          <div className="mt-4 grid grid-cols-4 gap-3">
+          <div className="mt-3 grid grid-cols-4 gap-2 sm:mt-4 sm:gap-3">
             {relatedItems.map((item) => (
-              <div className="border border-black/10 bg-white p-3" key={item.name}>
-                <div className={`h-20 ${item.color}`} />
+              <div className="border border-black/10 bg-white p-2 sm:p-3" key={item.name}>
+                <div className={`h-12 sm:h-20 ${item.color}`} />
                 <p className="mt-3 text-xs font-black leading-tight">{item.name}</p>
               </div>
             ))}
@@ -104,19 +104,19 @@ export default function ContactPage() {
 
           <div className="mt-7 border-y border-black/10 py-5">
             <dl className="grid gap-4 text-sm">
-              <div className="grid grid-cols-[150px_1fr] gap-4">
+              <div className="grid grid-cols-[112px_1fr] gap-3 sm:grid-cols-[150px_1fr] sm:gap-4">
                 <dt className="text-[#555]">Estimated Price</dt>
                 <dd className="font-black">$12 - $45 per item</dd>
               </div>
-              <div className="grid grid-cols-[150px_1fr] gap-4">
+              <div className="grid grid-cols-[112px_1fr] gap-3 sm:grid-cols-[150px_1fr] sm:gap-4">
                 <dt className="text-[#555]">Shipping</dt>
                 <dd>International shipping quoted separately</dd>
               </div>
-              <div className="grid grid-cols-[150px_1fr] gap-4">
+              <div className="grid grid-cols-[112px_1fr] gap-3 sm:grid-cols-[150px_1fr] sm:gap-4">
                 <dt className="text-[#555]">Origin</dt>
                 <dd>China</dd>
               </div>
-              <div className="grid grid-cols-[150px_1fr] gap-4">
+              <div className="grid grid-cols-[112px_1fr] gap-3 sm:grid-cols-[150px_1fr] sm:gap-4">
                 <dt className="text-[#555]">Order Type</dt>
                 <dd>Catalog request / curated quote</dd>
               </div>
@@ -167,7 +167,7 @@ export default function ContactPage() {
 
           <div className="mt-5 grid gap-2">
             <a
-              className="inline-flex items-center justify-center gap-2 bg-[#2f4650] px-6 py-4 text-base font-black text-white transition hover:bg-[#171717]"
+              className="inline-flex items-center justify-center gap-2 bg-[#2f4650] px-5 py-3.5 text-sm font-black text-white transition hover:bg-[#171717] sm:px-6 sm:py-4 sm:text-base"
               href="mailto:hello@auctuslab.com?subject=Little%20Treasures%20From%20China%20Order%20Inquiry"
             >
               Request Quote <Mail size={18} />
@@ -201,18 +201,18 @@ export default function ContactPage() {
         </aside>
       </section>
 
-      <section className="mx-auto max-w-7xl px-5 py-12">
+      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-5 sm:py-12">
         <div className="border-b border-black/10 pb-4">
           <h2 className="text-xl font-black">Related Treasures</h2>
           <p className="mt-1 text-sm text-[#777]">
             Museum-inspired products that can be included in a starter quote.
           </p>
         </div>
-        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-6 grid gap-4 sm:mt-8 sm:grid-cols-2 lg:grid-cols-4">
           {relatedItems.map((item) => (
             <article className="bg-white" key={item.name}>
-              <div className={`aspect-square ${item.color}`} />
-              <h3 className="mt-4 text-center text-base font-bold leading-tight">
+              <div className={`aspect-[4/3] sm:aspect-square ${item.color}`} />
+              <h3 className="mt-3 text-center text-base font-bold leading-tight sm:mt-4">
                 {item.name}
               </h3>
               <p className="mt-2 text-center text-sm">{item.price}</p>
@@ -221,13 +221,13 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-5 py-16">
+      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-5 sm:py-16">
         <div className="grid border-b border-black/10 text-center text-sm font-bold sm:grid-cols-3">
           <div className="border-b-2 border-[#171717] py-4">Product Details</div>
           <div className="py-4 text-[#777]">Reviews (0)</div>
           <div className="py-4 text-[#777]">Q&amp;A (0)</div>
         </div>
-        <div className="grid gap-5 py-8 md:grid-cols-2">
+        <div className="grid gap-4 py-6 sm:gap-5 sm:py-8 md:grid-cols-2">
           {productDetails.map((detail) => (
             <div className="flex gap-3 border border-black/10 bg-white p-5" key={detail}>
               <PackageCheck className="shrink-0 text-[#2c6f6d]" size={22} />

@@ -33,16 +33,16 @@ export function SiteHeader({ locale = "en", path = "/" }: SiteHeaderProps) {
 
   return (
     <header className="sticky top-0 z-30 border-b border-black/10 bg-[#fffdf8]/95 backdrop-blur">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-6">
-        <a className="flex min-w-0 items-center gap-4" href={localizedPath(locale, "/")}>
-          <span className="grid size-12 shrink-0 place-items-center rounded-full bg-[#171717] text-white">
-            <Gift size={19} />
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-5 sm:py-5 lg:py-6">
+        <a className="flex min-w-0 items-center gap-2.5 sm:gap-4" href={localizedPath(locale, "/")}>
+          <span className="grid size-9 shrink-0 place-items-center rounded-full bg-[#171717] text-white sm:size-12">
+            <Gift className="h-4 w-4 sm:h-[19px] sm:w-[19px]" />
           </span>
           <span className="min-w-0">
-            <span className="block text-2xl font-black leading-none sm:text-4xl">
+            <span className="block max-w-[190px] truncate text-lg font-black leading-none sm:max-w-none sm:text-3xl lg:text-4xl">
               {t.brand}
             </span>
-            <span className="mt-2 block text-xs font-semibold uppercase tracking-[0.22em] text-[#666]">
+            <span className="mt-1 block truncate text-[10px] font-semibold uppercase tracking-[0.18em] text-[#666] sm:mt-2 sm:text-xs sm:tracking-[0.22em]">
               {t.curator}
             </span>
           </span>
@@ -68,15 +68,15 @@ export function SiteHeader({ locale = "en", path = "/" }: SiteHeaderProps) {
           </a>
         </div>
         <a
-          className="inline-flex items-center gap-2 rounded-full bg-[#171717] px-4 py-2 text-sm font-bold text-white transition hover:bg-[#2c6f6d] lg:hidden"
+          className="hidden items-center gap-1.5 rounded-full bg-[#171717] px-3 py-2 text-xs font-bold text-white transition hover:bg-[#2c6f6d] sm:inline-flex lg:hidden"
           href={localizedPath(locale, "/contact")}
         >
-          {t.requestCatalog} <ArrowRight size={16} />
+          {t.requestCatalog} <ArrowRight size={14} />
         </a>
       </div>
 
       <div className="border-t border-black/10 bg-white/80">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-8 px-5 py-4">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-8 px-4 py-2.5 sm:px-5 lg:py-4">
           <nav className="hidden items-center gap-8 text-base font-medium text-[#171717] lg:flex">
             <button aria-label="Open navigation menu" className="grid size-8 place-items-center" type="button">
               <Menu size={24} />
@@ -129,12 +129,47 @@ export function SiteHeader({ locale = "en", path = "/" }: SiteHeaderProps) {
             <UserRound size={22} />
             <Search size={24} />
           </div>
-          <nav className="flex w-full items-center justify-between text-sm font-bold lg:hidden">
-            <a href={localizedPath(locale, "/catalog")}>{t.nav.gifts}</a>
-            <a href={localizedPath(locale, "/collections")}>{t.nav.collections}</a>
-            <a href={localizedPath(locale, "/about")}>{t.nav.about}</a>
-            <a href={languageHref(locale === "en" ? "zh" : "en", path)}>{locale === "en" ? "中文" : "EN"}</a>
-          </nav>
+          <details className="group w-full lg:hidden">
+            <summary className="flex cursor-pointer list-none items-center justify-between text-sm font-black">
+              <span className="inline-flex items-center gap-2">
+                <Menu size={18} />
+                {t.nav.gifts}
+              </span>
+              <a
+                className="rounded-full bg-[#171717] px-3 py-1.5 text-xs font-bold text-white sm:hidden"
+                href={localizedPath(locale, "/contact")}
+              >
+                {t.requestCatalog}
+              </a>
+            </summary>
+            <div className="mt-3 grid gap-3 border-t border-black/10 pt-3 text-sm font-bold">
+              <div className="grid grid-cols-2 gap-2">
+                {categoryOptions[locale].map(([value, label]) => (
+                  <a
+                    className="border border-black/10 bg-white px-3 py-2"
+                    href={`${localizedPath(locale, "/catalog")}?category=${encodeURIComponent(value)}`}
+                    key={value}
+                  >
+                    {label}
+                  </a>
+                ))}
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <a className="border border-black/10 bg-white px-3 py-2" href={localizedPath(locale, "/collections")}>
+                  {t.nav.collections}
+                </a>
+                <a className="border border-black/10 bg-white px-3 py-2" href={localizedPath(locale, "/about")}>
+                  {t.nav.about}
+                </a>
+                <a className="border border-black/10 bg-white px-3 py-2" href={localizedPath(locale, "/contact")}>
+                  {t.nav.contact}
+                </a>
+                <a className="border border-black/10 bg-white px-3 py-2" href={languageHref(locale === "en" ? "zh" : "en", path)}>
+                  {locale === "en" ? "中文" : "EN"}
+                </a>
+              </div>
+            </div>
+          </details>
         </div>
       </div>
     </header>

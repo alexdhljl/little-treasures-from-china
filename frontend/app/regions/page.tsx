@@ -14,9 +14,9 @@ export default function RegionsPage() {
     <main className="min-h-screen bg-[#fffdf8] text-[#171717]">
       <SiteHeader />
       <section className="border-b border-black/10 bg-white">
-        <div className="mx-auto max-w-7xl px-5 py-20">
+        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-5 sm:py-16 lg:py-20">
           <p className="section-kicker">Regions of China</p>
-          <h1 className="mt-4 max-w-5xl text-6xl font-black leading-[0.92] sm:text-7xl">
+          <h1 className="mt-4 max-w-5xl text-4xl font-black leading-[0.98] sm:text-6xl lg:text-7xl">
             China, organized by cultural mood.
           </h1>
           <p className="mt-7 max-w-2xl text-xl leading-8 text-[#4a4a4a]">
@@ -30,7 +30,7 @@ export default function RegionsPage() {
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {regions.map((region) => (
             <article
-              className={`min-h-80 bg-gradient-to-br ${region.color} p-6`}
+              className={`min-h-56 bg-gradient-to-br ${region.color} p-4 sm:min-h-80 sm:p-6`}
               key={region.name}
             >
               <MapPin size={24} />

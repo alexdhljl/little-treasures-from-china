@@ -73,12 +73,12 @@ export default async function LocalizedCatalogPage({ params, searchParams }: Cat
     <main className="min-h-screen bg-[#fffdf8] text-[#171717]">
       <SiteHeader locale={locale} path="/catalog" />
       <section className="border-b border-black/10 bg-white">
-        <div className="mx-auto max-w-7xl px-5 py-20">
+        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-5 sm:py-16 lg:py-20">
           <p className="section-kicker">{t.catalog.kicker}</p>
-          <h1 className="mt-4 max-w-5xl text-6xl font-black leading-[0.92] sm:text-7xl">
+          <h1 className="mt-4 max-w-5xl text-4xl font-black leading-[0.98] sm:text-6xl lg:text-7xl">
             {activeFilterLabel || t.catalog.title}
           </h1>
-          <p className="mt-7 max-w-2xl text-xl leading-8 text-[#4a4a4a]">
+          <p className="mt-5 max-w-2xl text-base leading-7 text-[#4a4a4a] sm:mt-7 sm:text-xl sm:leading-8">
             {t.catalog.intro}
           </p>
           {activeFilter ? (
@@ -89,20 +89,20 @@ export default async function LocalizedCatalogPage({ params, searchParams }: Cat
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-5 py-16">
+      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-5 sm:py-16">
         {!isSupabaseConfigured() ? (
-          <div className="border border-black/10 bg-white p-8">
+          <div className="border border-black/10 bg-white p-5 sm:p-8">
             <h2 className="text-2xl font-black">{t.catalog.notConfigured}</h2>
           </div>
         ) : filteredProducts.length ? (
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
             {filteredProducts.map((product) => (
               <a
                 className="group border border-black/10 bg-white transition hover:-translate-y-1 hover:shadow-[0_18px_35px_rgba(0,0,0,0.08)]"
                 href={localizedPath(locale, `/products/${product.slug}`)}
                 key={product.id}
               >
-                <div className="grid aspect-square place-items-center bg-[#f6f2ea]">
+                <div className="grid aspect-[4/3] max-h-[340px] place-items-center overflow-hidden bg-[#f6f2ea] sm:aspect-square sm:max-h-none">
                   {product.images[0] ? (
                     <img
                       alt={productTitle(product, locale)}
@@ -113,17 +113,17 @@ export default async function LocalizedCatalogPage({ params, searchParams }: Cat
                     <ImageOff className="text-[#888]" size={34} />
                   )}
                 </div>
-                <div className="p-5">
+                <div className="p-4 sm:p-5">
                   <p className="text-xs font-black uppercase tracking-[0.18em] text-[#2c6f6d]">
                     {displayName(product.museum || product.region, locale) || t.catalog.fallbackMuseum}
                   </p>
-                  <h2 className="mt-3 text-xl font-black leading-tight">
+                  <h2 className="mt-2 text-xl font-black leading-tight sm:mt-3">
                     {productTitle(product, locale)}
                   </h2>
-                  <p className="mt-3 line-clamp-3 text-sm leading-6 text-[#555]">
+                  <p className="mt-2 line-clamp-2 text-[15px] leading-6 text-[#555] sm:mt-3 sm:line-clamp-3 sm:text-sm">
                     {product.shortDescription}
                   </p>
-                  <div className="mt-5 flex items-center justify-between gap-4">
+                  <div className="mt-4 flex items-center justify-between gap-4 sm:mt-5">
                     <span className="font-black">{formatPriceForLocale(product, locale)}</span>
                     <span className="inline-flex items-center gap-1 text-sm font-black">
                       {t.catalog.view} <ArrowRight size={15} />
@@ -134,7 +134,7 @@ export default async function LocalizedCatalogPage({ params, searchParams }: Cat
             ))}
           </div>
         ) : (
-          <div className="border border-black/10 bg-white p-8">
+          <div className="border border-black/10 bg-white p-5 sm:p-8">
             <h2 className="text-2xl font-black">
               {products.length ? t.catalog.noMatch : t.catalog.noProducts}
             </h2>

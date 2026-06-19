@@ -14,12 +14,12 @@ export default function CollectionsPage() {
     <main className="min-h-screen bg-[#fffdf8] text-[#171717]">
       <SiteHeader />
       <section className="border-b border-black/10 bg-white">
-        <div className="mx-auto max-w-7xl px-5 py-20">
+        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-5 sm:py-16 lg:py-20">
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-black/15 bg-[#fffdf8] px-4 py-2 text-sm font-bold">
             <Sparkles size={16} className="text-[#f27a5e]" />
             Collections
           </div>
-          <h1 className="max-w-5xl text-6xl font-black leading-[0.92] sm:text-7xl">
+          <h1 className="max-w-5xl text-4xl font-black leading-[0.98] sm:text-6xl lg:text-7xl">
             Curated shelves of museum-inspired gifts.
           </h1>
           <p className="mt-7 max-w-2xl text-xl leading-8 text-[#4a4a4a]">

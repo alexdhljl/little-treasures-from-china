@@ -14,9 +14,9 @@ export default function MuseumsPage() {
     <main className="min-h-screen bg-[#fffdf8] text-[#171717]">
       <SiteHeader />
       <section className="border-b border-black/10 bg-[#f6f2ea]">
-        <div className="mx-auto max-w-7xl px-5 py-20">
+        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-5 sm:py-16 lg:py-20">
           <p className="section-kicker">Museums</p>
-          <h1 className="mt-4 max-w-5xl text-6xl font-black leading-[0.92] sm:text-7xl">
+          <h1 className="mt-4 max-w-5xl text-4xl font-black leading-[0.98] sm:text-6xl lg:text-7xl">
             Cultural treasures, organized by museum.
           </h1>
           <p className="mt-7 max-w-2xl text-xl leading-8 text-[#4a4a4a]">
