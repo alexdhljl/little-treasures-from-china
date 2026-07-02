@@ -11,6 +11,7 @@ import {
   Save,
   Trash2,
 } from "lucide-react";
+import { BrandLogo } from "@/components/BrandLogo";
 import {
   emptyProductInput,
   formatPrice,
@@ -559,8 +560,9 @@ export default function AdminPage() {
     return (
       <main className="grid min-h-screen place-items-center bg-[#fffdf8] px-5 text-[#171717]">
         <form className="w-full max-w-md border border-black/10 bg-white p-8" onSubmit={handleLogin}>
-          <p className="section-kicker">Admin Login</p>
-          <h1 className="mt-4 text-4xl font-black">Little Treasures Admin</h1>
+          <BrandLogo className="w-[220px]" priority />
+          <p className="mt-6 section-kicker">Admin Login</p>
+          <h1 className="mt-3 text-3xl font-black">Product Management</h1>
           <label className="mt-8 grid gap-2">
             <span className={labelClass}>Email</span>
             <input
@@ -594,9 +596,12 @@ export default function AdminPage() {
     <main className="min-h-screen bg-[#fffdf8] text-[#171717]">
       <header className="border-b border-black/10 bg-white">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-5 py-5">
-          <div>
+          <div className="flex items-center gap-5">
+            <BrandLogo className="hidden w-[160px] border-r border-black/10 pr-5 sm:block" />
+            <div>
             <p className="section-kicker">Admin Dashboard</p>
             <h1 className="mt-2 text-3xl font-black">Product Management</h1>
+            </div>
           </div>
           <div className="flex flex-wrap gap-2">
             <a

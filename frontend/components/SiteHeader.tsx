@@ -1,4 +1,5 @@
-import { ArrowRight, Gift, Menu, Search, UserRound } from "lucide-react";
+import { ArrowRight, Menu, Search, UserRound } from "lucide-react";
+import { BrandLogo } from "@/components/BrandLogo";
 import type { Locale } from "@/lib/i18n";
 import { categoryOptions, dictionary, localizedPath } from "@/lib/i18n";
 
@@ -34,18 +35,8 @@ export function SiteHeader({ locale = "en", path = "/" }: SiteHeaderProps) {
   return (
     <header className="sticky top-0 z-30 border-b border-black/10 bg-[#fffdf8]/95 backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-5 sm:py-5 lg:py-6">
-        <a className="flex min-w-0 items-center gap-2.5 sm:gap-4" href={localizedPath(locale, "/")}>
-          <span className="grid size-9 shrink-0 place-items-center rounded-full bg-[#171717] text-white sm:size-12">
-            <Gift className="h-4 w-4 sm:h-[19px] sm:w-[19px]" />
-          </span>
-          <span className="min-w-0">
-            <span className="block max-w-[190px] truncate text-lg font-black leading-none sm:max-w-none sm:text-3xl lg:text-4xl">
-              {t.brand}
-            </span>
-            <span className="mt-1 block truncate text-[10px] font-semibold uppercase tracking-[0.18em] text-[#666] sm:mt-2 sm:text-xs sm:tracking-[0.22em]">
-              {t.curator}
-            </span>
-          </span>
+        <a className="block min-w-0" href={localizedPath(locale, "/")}>
+          <BrandLogo className="w-[152px] sm:w-[210px] lg:w-[238px]" priority />
         </a>
         <div className="hidden items-center gap-5 lg:flex">
           <div className="flex items-center gap-2 text-sm font-bold">

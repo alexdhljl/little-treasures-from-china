@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { ArrowRight, BookOpen, ImageOff, Sparkles } from "lucide-react";
+import { BrandLogo } from "@/components/BrandLogo";
 import { SiteHeader } from "@/components/SiteHeader";
 import { collections, heroImageUrl } from "@/lib/site-data";
 import { fetchPublicProducts, isSupabaseConfigured } from "@/lib/supabase-rest";
@@ -51,9 +52,8 @@ export default async function LocalizedHome({ params }: PageProps) {
               <Sparkles size={16} className="text-[#f27a5e]" />
               {t.home.tagline}
             </div>
-            <h1 className="max-w-[760px] text-4xl font-black leading-[0.96] sm:text-6xl lg:text-8xl">
-              {t.brand}
-            </h1>
+            <h1 className="sr-only">{t.brand}</h1>
+            <BrandLogo className="w-full max-w-[360px] sm:max-w-[520px] lg:max-w-[650px]" priority />
             <p className="mt-5 max-w-xl text-base leading-7 text-[#3b3b3b] sm:mt-7 sm:text-xl sm:leading-8">
               {t.home.subheadline}
             </p>

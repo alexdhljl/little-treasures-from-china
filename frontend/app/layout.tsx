@@ -6,6 +6,10 @@ export const metadata: Metadata = {
   title: "Little Treasures From China | Museum Gifts and Cultural Objects",
   description:
     "A curated museum gift and cultural object platform introducing beautiful products from China to North America.",
+  icons: {
+    icon: "/brand/little-treasures-from-china-logo.png",
+    apple: "/brand/little-treasures-from-china-logo.png",
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
