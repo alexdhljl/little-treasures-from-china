@@ -1,4 +1,5 @@
 import type { Product, ProductInput } from "@/lib/products";
+import type { CmsCategory, CmsCollection, CmsMedia, CmsMuseum, CmsStory, SiteSetting } from "@/lib/cms";
 
 type SupabaseSession = {
   access_token: string;
@@ -16,11 +17,14 @@ type DbProduct = {
   name: string;
   english_name: string;
   museum: string | null;
+  museum_id?: string | null;
   region: string | null;
   province: string | null;
   city: string | null;
   category: string | null;
+  category_id?: string | null;
   collection: string | null;
+  collection_id?: string | null;
   price: number | null;
   currency: string;
   short_description: string | null;
@@ -35,10 +39,14 @@ type DbProduct = {
   gift_recommendations: string[] | null;
   official_collection: string | null;
   inventory_status: Product["inventoryStatus"];
+  status?: Product["status"] | null;
   featured: boolean;
   related_product_ids: string[] | null;
   shipping_note: string | null;
   return_note: string | null;
+  seo_title?: string | null;
+  seo_description?: string | null;
+  alt_text?: string | null;
   created_at: string;
   updated_at: string;
 };
@@ -81,11 +89,14 @@ function dbToProduct(row: DbProduct): Product {
     name: row.name,
     englishName: row.english_name,
     museum: row.museum || "",
+    museumId: row.museum_id || "",
     region: row.region || "",
     province: row.province || "",
     city: row.city || "",
     category: row.category || "",
+    categoryId: row.category_id || "",
     collection: row.collection || "",
+    collectionId: row.collection_id || "",
     price: row.price,
     currency: row.currency,
     shortDescription: row.short_description || "",
@@ -100,10 +111,14 @@ function dbToProduct(row: DbProduct): Product {
     giftRecommendations: row.gift_recommendations || [],
     officialCollection: row.official_collection || "",
     inventoryStatus: row.inventory_status,
+    status: row.status || "published",
     featured: row.featured,
     relatedProductIds: row.related_product_ids || [],
     shippingNote: row.shipping_note || "",
     returnNote: row.return_note || "",
+    seoTitle: row.seo_title || "",
+    seoDescription: row.seo_description || "",
+    altText: row.alt_text || "",
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   };
@@ -115,11 +130,14 @@ function productToDb(input: ProductInput) {
     name: input.name,
     english_name: input.englishName,
     museum: input.museum || null,
+    museum_id: input.museumId || null,
     region: input.region || null,
     province: input.province || null,
     city: input.city || null,
     category: input.category || null,
+    category_id: input.categoryId || null,
     collection: input.collection || null,
+    collection_id: input.collectionId || null,
     price: input.price,
     currency: input.currency || "USD",
     short_description: input.shortDescription || null,
@@ -134,10 +152,14 @@ function productToDb(input: ProductInput) {
     gift_recommendations: input.giftRecommendations || [],
     official_collection: input.officialCollection || null,
     inventory_status: input.inventoryStatus,
+    status: input.status,
     featured: input.featured,
     related_product_ids: input.relatedProductIds || [],
     shipping_note: input.shippingNote || null,
     return_note: input.returnNote || null,
+    seo_title: input.seoTitle || null,
+    seo_description: input.seoDescription || null,
+    alt_text: input.altText || null,
   };
 }
 
@@ -162,9 +184,120 @@ export async function fetchProducts(accessToken?: string) {
   return rows.map(dbToProduct);
 }
 
+type CmsTable = "categories" | "museums" | "collections" | "stories" | "media" | "site_settings";
+
+function snakeToCamelRow(row: Record<string, unknown>) {
+  return Object.fromEntries(
+    Object.entries(row).map(([key, value]) => [key.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase()), value]),
+  );
+}
+
+function camelToSnakeRow(row: Record<string, unknown>) {
+  return Object.fromEntries(
+    Object.entries(row)
+      .filter(([key]) => !["id", "createdAt", "updatedAt"].includes(key))
+      .map(([key, value]) => [key.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`), value === "" ? null : value]),
+  );
+}
+
+async function fetchCmsTable<T>(table: CmsTable, accessToken?: string, query = "") {
+  const { url } = requireConfig();
+  const suffix = query ? `&${query}` : "";
+  const response = await fetch(`${url}/rest/v1/${table}?select=*${suffix}`, {
+    headers: authHeaders(accessToken),
+    cache: "no-store",
+  });
+  const rows = await parseResponse<Array<Record<string, unknown>>>(response);
+  return rows.map((row) => snakeToCamelRow(row) as T);
+}
+
+export async function fetchCategories(accessToken?: string) {
+  return fetchCmsTable<CmsCategory>("categories", accessToken, "order=sort_order.asc,name.asc");
+}
+
+export async function fetchMuseums(accessToken?: string) {
+  return fetchCmsTable<CmsMuseum>("museums", accessToken, "order=sort_order.asc,name.asc");
+}
+
+export async function fetchCollections(accessToken?: string) {
+  return fetchCmsTable<CmsCollection>("collections", accessToken, "order=sort_order.asc,name.asc");
+}
+
+export async function fetchStories(accessToken?: string) {
+  return fetchCmsTable<CmsStory>("stories", accessToken, "order=featured.desc,created_at.desc");
+}
+
+export async function fetchMedia(accessToken?: string) {
+  return fetchCmsTable<CmsMedia>("media", accessToken, "order=created_at.desc");
+}
+
+export async function fetchSiteSettings(accessToken?: string) {
+  return fetchCmsTable<SiteSetting>("site_settings", accessToken, "order=key.asc");
+}
+
+export async function fetchPublicCms() {
+  try {
+    const [categories, museums, collections, stories, settings] = await Promise.all([
+      fetchCategories(),
+      fetchMuseums(),
+      fetchCollections(),
+      fetchStories(),
+      fetchSiteSettings(),
+    ]);
+    return { categories, museums, collections, stories, settings };
+  } catch (error) {
+    console.error("Unable to load public CMS content", error);
+    return { categories: [], museums: [], collections: [], stories: [], settings: [] };
+  }
+}
+
+export async function saveCmsRecord<T extends Record<string, unknown>>(
+  table: CmsTable,
+  value: T,
+  accessToken: string,
+) {
+  const { url } = requireConfig();
+  const id = typeof value.id === "string" ? value.id : "";
+  const endpoint = id ? `${url}/rest/v1/${table}?id=eq.${encodeURIComponent(id)}` : `${url}/rest/v1/${table}`;
+  const response = await fetch(endpoint, {
+    method: id ? "PATCH" : "POST",
+    headers: {
+      ...authHeaders(accessToken),
+      "Content-Type": "application/json",
+      Prefer: "return=representation",
+    },
+    body: JSON.stringify(camelToSnakeRow(value)),
+  });
+  const rows = await parseResponse<Array<Record<string, unknown>>>(response);
+  return snakeToCamelRow(rows[0]) as T;
+}
+
+export async function saveSiteSetting(key: string, value: Record<string, unknown>, accessToken: string) {
+  const { url } = requireConfig();
+  const response = await fetch(`${url}/rest/v1/site_settings?on_conflict=key`, {
+    method: "POST",
+    headers: {
+      ...authHeaders(accessToken),
+      "Content-Type": "application/json",
+      Prefer: "resolution=merge-duplicates,return=representation",
+    },
+    body: JSON.stringify({ key, value }),
+  });
+  return parseResponse<Array<Record<string, unknown>>>(response);
+}
+
+export async function deleteCmsRecord(table: CmsTable, id: string, accessToken: string) {
+  const { url } = requireConfig();
+  const response = await fetch(`${url}/rest/v1/${table}?id=eq.${encodeURIComponent(id)}`, {
+    method: "DELETE",
+    headers: authHeaders(accessToken),
+  });
+  if (!response.ok) throw new Error((await response.text()) || "Delete failed.");
+}
+
 export async function fetchPublicProducts() {
   try {
-    return await fetchProducts();
+    return (await fetchProducts()).filter((product) => product.status === "published");
   } catch (error) {
     console.error("Unable to load public products", error);
     return [];
@@ -325,4 +458,11 @@ export async function uploadProductImage(file: File, accessToken: string) {
     throw new Error(message || `Upload failed with ${response.status}`);
   }
   return `${url}/storage/v1/object/public/${STORAGE_BUCKET}/${path}`;
+}
+
+export async function registerMedia(
+  value: Omit<CmsMedia, "id" | "createdAt">,
+  accessToken: string,
+) {
+  return saveCmsRecord("media", value as unknown as Record<string, unknown>, accessToken);
 }

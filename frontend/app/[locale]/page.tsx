@@ -1,18 +1,12 @@
 import { notFound } from "next/navigation";
 import { ArrowRight, BookOpen, ImageOff, Sparkles } from "lucide-react";
-import { BrandLogo } from "@/components/BrandLogo";
 import { SiteHeader } from "@/components/SiteHeader";
-import { collections, heroImageUrl } from "@/lib/site-data";
-import { fetchPublicProducts, isSupabaseConfigured } from "@/lib/supabase-rest";
+import { fetchPublicCms, fetchPublicProducts, isSupabaseConfigured } from "@/lib/supabase-rest";
 import {
   dictionary,
-  displayName,
   formatPriceForLocale,
   isLocale,
-  journalTopicsByLocale,
-  localizedOccasions,
   localizedPath,
-  localizedStories,
   productTitle,
   type Locale,
 } from "@/lib/i18n";
@@ -31,46 +25,51 @@ export default async function LocalizedHome({ params }: PageProps) {
   const locale: Locale = localeParam;
   const t = dictionary[locale];
   const liveProducts = isSupabaseConfigured() ? await fetchPublicProducts() : [];
+  const cms = isSupabaseConfigured() ? await fetchPublicCms() : { categories: [], museums: [], collections: [], stories: [], settings: [] };
   const bestSellers = liveProducts.filter((product) => product.featured).slice(0, 4);
+  const newArrivals = [...liveProducts].sort((a, b) => +new Date(b.createdAt) - +new Date(a.createdAt)).slice(0, 4);
+  const occasions = cms.categories.filter((item) => item.kind === "occasion" && item.featured).slice(0, 6);
+  const museumCollections = cms.collections.filter((item) => item.featured).slice(0, 8);
+  const aboutStory = cms.stories.find((item) => item.kind === "about" && item.published);
+  const homepage = (cms.settings.find((item) => item.key === "homepage")?.value || {}) as Record<string, string>;
+  const heroTitle = locale === "zh" ? homepage.heroTitleZh : homepage.heroTitle;
+  const heroDescription = locale === "zh" ? homepage.heroDescriptionZh : homepage.heroDescription;
+  const heroImage = homepage.heroImage || liveProducts.find((item) => item.images[0])?.images[0] || "";
 
   return (
     <main className="min-h-screen bg-[#fffdf8] text-[#171717]">
       <SiteHeader locale={locale} path="/" />
 
-      <section className="relative overflow-hidden border-b border-black/10">
-        <div className="absolute inset-y-0 right-0 hidden w-[62%] md:block">
-          <img
-            alt={locale === "zh" ? "中国博物馆文创礼品陈列" : "Curated Chinese museum gift objects"}
-            className="h-full w-full object-cover"
-            src={heroImageUrl}
-          />
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-r from-[#fffdf8] via-[#fffdf8]/92 to-[#fffdf8]/18" />
-        <div className="relative mx-auto grid min-h-[470px] max-w-7xl items-center px-4 py-12 sm:min-h-[560px] sm:px-5 sm:py-16 lg:min-h-[690px] md:grid-cols-[0.92fr_1.08fr]">
-          <div className="max-w-2xl">
+      <section className="border-b border-black/10 bg-white">
+        <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-5 sm:py-14 md:grid-cols-[0.9fr_1.1fr] md:items-center lg:gap-14 lg:py-16">
+          <div className="max-w-xl">
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-black/15 bg-white px-4 py-2 text-sm font-bold">
               <Sparkles size={16} className="text-[#f27a5e]" />
               {t.home.tagline}
             </div>
-            <h1 className="sr-only">{t.brand}</h1>
-            <BrandLogo className="w-full max-w-[360px] sm:max-w-[520px] lg:max-w-[650px]" priority />
-            <p className="mt-5 max-w-xl text-base leading-7 text-[#3b3b3b] sm:mt-7 sm:text-xl sm:leading-8">
-              {t.home.subheadline}
+            <h1 className="text-4xl font-black leading-[0.98] sm:text-5xl lg:text-6xl">
+              {heroTitle || (locale === "zh" ? "来自中国博物馆的有心礼物" : "Thoughtful Gifts Inspired by China's Museums")}
+            </h1>
+            <p className="mt-5 max-w-xl text-base leading-7 text-[#3b3b3b] sm:text-lg sm:leading-8">
+              {heroDescription || t.home.subheadline}
             </p>
             <div className="mt-7 flex flex-col gap-3 sm:mt-9 sm:flex-row">
               <a
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-[#171717] px-6 py-4 text-base font-extrabold text-white transition hover:bg-[#2c6f6d]"
                 href={localizedPath(locale, "/catalog")}
               >
-                {t.home.findGift} <ArrowRight size={18} />
+                {locale === "zh" ? "浏览礼品" : "Browse Gifts"} <ArrowRight size={18} />
               </a>
               <a
                 className="inline-flex items-center justify-center gap-2 rounded-full border border-black/20 bg-white px-6 py-4 text-base font-extrabold transition hover:border-[#2c6f6d] hover:text-[#2c6f6d]"
                 href={localizedPath(locale, "/collections")}
               >
-                {t.home.exploreCollections} <BookOpen size={18} />
+                {locale === "zh" ? "礼品顾问" : "Gift Finder"} <BookOpen size={18} />
               </a>
             </div>
+          </div>
+          <div className="aspect-[4/3] max-h-[560px] overflow-hidden bg-[#f1efe9]">
+            {heroImage ? <img alt={locale === "zh" ? "精选中国博物馆文创礼品" : "Curated museum gifts from China"} className="h-full w-full object-cover" fetchPriority="high" src={heroImage} /> : null}
           </div>
         </div>
       </section>
@@ -80,16 +79,18 @@ export default async function LocalizedHome({ params }: PageProps) {
           <p className="section-kicker">{t.home.occasionKicker}</p>
           <h2 className="section-title">{t.home.occasionTitle}</h2>
           <div className="mt-8 grid gap-4 sm:mt-10 md:grid-cols-2 lg:grid-cols-3">
-            {localizedOccasions[locale].map(([name, note], index) => (
+            {occasions.map((occasion, index) => {
+              const name = locale === "zh" ? occasion.nameZh || occasion.name : occasion.name;
+              return (
               <a
-                className={`min-h-44 bg-gradient-to-br ${["from-[#f9d95f] to-[#fff2b1]", "from-[#65c6c4] to-[#dcfbf7]", "from-[#f27a5e] to-[#ffe0d8]", "from-[#ffb4cc] to-[#fff0f6]", "from-[#b8a572] to-[#f7efd6]", "from-[#88a8f6] to-[#edf2ff]"][index]} p-4 transition hover:-translate-y-1 hover:shadow-[0_18px_35px_rgba(0,0,0,0.08)] sm:min-h-64 sm:p-6`}
+                className={`relative min-h-44 overflow-hidden bg-[#f1efe9] p-4 transition hover:-translate-y-1 hover:shadow-[0_18px_35px_rgba(0,0,0,0.08)] sm:min-h-56 sm:p-6`}
                 href={`${localizedPath(locale, "/catalog")}?gift=${encodeURIComponent(name)}`}
-                key={name}
+                key={occasion.id}
               >
-                <h3 className="text-2xl font-black sm:text-3xl">{name}</h3>
-                <p className="mt-10 text-[15px] font-bold leading-6 text-[#373737] sm:mt-20 sm:text-base sm:leading-7">{note}</p>
+                {occasion.image ? <img alt="" className="absolute inset-0 h-full w-full object-cover opacity-30" loading="lazy" src={occasion.image} /> : null}
+                <div className="relative flex h-full flex-col justify-between"><span className="text-xs font-black uppercase tracking-[0.16em] text-[#555]">0{index + 1}</span><div><h3 className="text-2xl font-black sm:text-3xl">{name}</h3><p className="mt-3 text-sm leading-6 text-[#444]">{occasion.description}</p></div></div>
               </a>
-            ))}
+            )})}
           </div>
         </div>
       </section>
@@ -134,36 +135,19 @@ export default async function LocalizedHome({ params }: PageProps) {
         </div>
       </section>
 
-      <section className="bg-white py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-5">
-          <p className="section-kicker">{t.home.storiesKicker}</p>
-          <h2 className="section-title">{t.home.storiesTitle}</h2>
-          <div className="mt-8 grid gap-4 sm:mt-10 md:grid-cols-2 lg:grid-cols-4">
-            {localizedStories[locale].map(([title, description]) => (
-              <article className="border border-black/10 bg-[#fffdf8] p-5" key={title}>
-                <p className="text-xs font-black uppercase tracking-[0.18em] text-[#f27a5e]">Story</p>
-                <h3 className="mt-6 text-xl font-black leading-tight sm:mt-8 sm:text-2xl">{title}</h3>
-                <p className="mt-4 text-sm leading-6 text-[#555]">{description}</p>
-                <a className="mt-6 inline-flex items-center gap-2 text-sm font-black" href={localizedPath(locale, "/catalog")}>
-                  {t.home.relatedGifts} <ArrowRight size={15} />
-                </a>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
+      <ProductBand kicker={locale === "zh" ? "新品" : "New Arrivals"} locale={locale} products={newArrivals} title={locale === "zh" ? "刚刚抵达的小小珍宝。" : "Newly arrived, thoughtfully selected."} />
 
       <section className="border-y border-black/10 bg-[#fffdf8] py-12 sm:py-16 lg:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-5">
           <p className="section-kicker">{t.home.museumKicker}</p>
           <h2 className="section-title">{t.home.museumTitle}</h2>
           <div className="mt-8 grid gap-4 sm:mt-10 sm:grid-cols-2 lg:grid-cols-3">
-            {collections.slice(0, 9).map((collection) => (
-              <a className="overflow-hidden border border-black/10 bg-white transition hover:-translate-y-1 hover:shadow-[0_18px_35px_rgba(0,0,0,0.08)]" href={localizedPath(locale, "/collections")} key={collection.name}>
-                <div className={`h-24 ${collection.color}`} />
+            {museumCollections.map((collection) => (
+              <a className="overflow-hidden border border-black/10 bg-white transition hover:-translate-y-1 hover:shadow-[0_18px_35px_rgba(0,0,0,0.08)]" href={`${localizedPath(locale, "/catalog")}?collection=${encodeURIComponent(collection.name)}`} key={collection.id}>
+                <div className="h-36 bg-[#ece9e1]">{collection.bannerImage ? <img alt="" className="h-full w-full object-cover" loading="lazy" src={collection.bannerImage} /> : null}</div>
                 <div className="p-5">
-                  <h3 className="text-2xl font-black">{displayName(collection.name, locale)}</h3>
-                  <p className="mt-3 text-sm leading-6 text-[#555]">{collection.theme}</p>
+                  <h3 className="text-2xl font-black">{locale === "zh" ? collection.nameZh || collection.name : collection.name}</h3>
+                  <p className="mt-3 text-sm leading-6 text-[#555]">{collection.description}</p>
                 </div>
               </a>
             ))}
@@ -171,20 +155,14 @@ export default async function LocalizedHome({ params }: PageProps) {
         </div>
       </section>
 
-      <section className="bg-white py-12 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-5">
-          <p className="section-kicker">{t.home.journalKicker}</p>
-          <h2 className="section-title">{t.home.journalTitle}</h2>
-          <div className="mt-8 grid gap-4 sm:mt-10 sm:grid-cols-2 lg:grid-cols-5">
-            {journalTopicsByLocale[locale].map((topic) => (
-              <article className="border-t-4 border-[#171717] bg-[#fffdf8] p-5" key={topic}>
-                <h3 className="text-xl font-black">{topic}</h3>
-                <p className="mt-12 text-sm font-bold text-[#555]">{t.home.comingSoon}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
+      <section className="bg-white py-12 sm:py-16"><div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-5 lg:grid-cols-[0.8fr_1.2fr] lg:items-center"><div className="aspect-[4/3] overflow-hidden bg-[#ece9e1]">{aboutStory?.coverImage ? <img alt="" className="h-full w-full object-cover" loading="lazy" src={aboutStory.coverImage} /> : heroImage ? <img alt="" className="h-full w-full object-cover" loading="lazy" src={heroImage} /> : null}</div><div><p className="section-kicker">{locale === "zh" ? "关于我们" : "About Little Treasures"}</p><h2 className="mt-4 text-3xl font-black leading-tight sm:text-5xl">{locale === "zh" ? aboutStory?.titleZh || "让文化好物进入日常生活。" : aboutStory?.title || "Museum stories, thoughtfully brought into everyday life."}</h2><p className="mt-5 max-w-xl text-base leading-7 text-[#555]">{locale === "zh" ? aboutStory?.excerptZh : aboutStory?.excerpt}</p><a className="mt-6 inline-flex items-center gap-2 text-sm font-black" href={localizedPath(locale, "/about")}>{locale === "zh" ? "了解我们的故事" : "Read our story"}<ArrowRight size={16} /></a></div></div></section>
+
+      <footer className="border-t border-black/10 bg-[#171717] py-10 text-white"><div className="mx-auto flex max-w-7xl flex-col gap-6 px-4 sm:px-5 md:flex-row md:items-end md:justify-between"><div><p className="text-xl font-black">Little Treasures From China</p><p className="mt-2 text-sm text-white/60">Thoughtful Gifts. Beautiful Stories.</p></div><div className="flex flex-wrap gap-5 text-sm font-bold"><a href={localizedPath(locale, "/catalog")}>{locale === "zh" ? "礼品" : "Gifts"}</a><a href={localizedPath(locale, "/collections")}>{locale === "zh" ? "系列" : "Collections"}</a><a href={localizedPath(locale, "/about")}>{locale === "zh" ? "关于" : "About"}</a><a href={localizedPath(locale, "/contact")}>{locale === "zh" ? "联系" : "Contact"}</a></div></div></footer>
     </main>
   );
+}
+
+function ProductBand({ kicker, title, products, locale }: { kicker: string; title: string; products: Awaited<ReturnType<typeof fetchPublicProducts>>; locale: Locale }) {
+  if (!products.length) return null;
+  return <section className="border-y border-black/10 bg-white py-12 sm:py-16"><div className="mx-auto max-w-7xl px-4 sm:px-5"><p className="section-kicker">{kicker}</p><h2 className="section-title">{title}</h2><div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{products.map((product) => <a className="border border-black/10 bg-[#fffdf8]" href={localizedPath(locale, `/products/${product.slug}`)} key={product.id}><div className="aspect-[4/3] overflow-hidden bg-[#f1efe9]">{product.images[0] ? <img alt={product.altText || productTitle(product, locale)} className="h-full w-full object-cover" loading="lazy" src={product.images[0]} /> : <div className="grid h-full place-items-center"><ImageOff /></div>}</div><div className="p-4"><p className="text-xs font-black uppercase tracking-[0.14em] text-[#2c6f6d]">{product.museum || product.category}</p><h3 className="mt-2 text-lg font-black leading-tight">{productTitle(product, locale)}</h3><p className="mt-3 text-sm font-bold">{formatPriceForLocale(product, locale)}</p></div></a>)}</div></div></section>;
 }

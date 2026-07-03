@@ -48,6 +48,24 @@ If you already ran an earlier schema, run `supabase/schema.sql` again after upda
 It uses `add column if not exists` for new product fields such as occasion tags,
 recipient tags, gift recommendations, and official collection.
 
+### Phase 2 CMS migration
+
+Run the latest `supabase/schema.sql` once more in the Supabase SQL Editor before
+opening the upgraded admin. It adds the production CMS tables and policies:
+
+- `categories`
+- `museums`
+- `collections`
+- `stories`
+- `media`
+- `site_settings`
+- product publishing, SEO, alt text, and relational ID fields
+
+The migration is additive and preserves existing products. After it succeeds,
+refresh `/admin`; Categories, Museums, Collections, Stories, Media Library, and
+Settings will become available. Product and CMS changes are read directly from
+Supabase by the storefront without a code deployment.
+
 ## Local Development
 
 ```bash

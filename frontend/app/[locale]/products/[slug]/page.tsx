@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ImageOff, Mail, PackageCheck } from "lucide-react";
 import { SiteHeader } from "@/components/SiteHeader";
+import { ProductUtilityActions } from "@/components/ProductUtilityActions";
 import {
+  fetchPublicProducts,
   fetchPublicProductBySlug,
   fetchPublicRelatedProducts,
   isSupabaseConfigured,
@@ -32,9 +34,9 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   const product = await fetchPublicProductBySlug(slug);
   return {
     title: product
-      ? `${productTitle(product, locale)} | Little Treasures From China`
+      ? `${product.seoTitle || productTitle(product, locale)} | Little Treasures From China`
       : "Product Not Found | Little Treasures From China",
-    description: product?.shortDescription,
+    description: product?.seoDescription || product?.shortDescription,
   };
 }
 
@@ -46,7 +48,11 @@ export default async function LocalizedProductPage({ params }: ProductPageProps)
   const locale: Locale = localeParam;
   const t = dictionary[locale];
   const product = isSupabaseConfigured() ? await fetchPublicProductBySlug(slug) : null;
-  const relatedProducts = product ? await fetchPublicRelatedProducts(product.relatedProductIds) : [];
+  const explicitRelated = product ? await fetchPublicRelatedProducts(product.relatedProductIds) : [];
+  const allProducts = product && explicitRelated.length < 4 ? await fetchPublicProducts() : [];
+  const relatedProducts = explicitRelated.length
+    ? explicitRelated
+    : allProducts.filter((item) => item.id !== product?.id && (item.categoryId === product?.categoryId || item.category === product?.category)).slice(0, 4);
 
   return (
     <main className="min-h-screen bg-[#fffdf8] text-[#171717]">
@@ -66,10 +72,15 @@ export default async function LocalizedProductPage({ params }: ProductPageProps)
         <>
           <section className="mx-auto grid max-w-7xl gap-6 px-4 py-8 sm:px-5 sm:py-12 lg:grid-cols-[1.08fr_0.92fr] lg:gap-10">
             <div className="grid gap-3 sm:gap-4">
+              <nav className="flex flex-wrap items-center gap-2 text-xs font-bold text-[#666] lg:col-span-2">
+                <a href={localizedPath(locale, "/")}>{locale === "zh" ? "首页" : "Home"}</a><span>/</span>
+                <a href={localizedPath(locale, "/catalog")}>{locale === "zh" ? "产品" : "Products"}</a><span>/</span>
+                <span className="text-[#171717]">{productTitle(product, locale)}</span>
+              </nav>
               <div className="grid aspect-[4/3] max-h-[420px] place-items-center overflow-hidden bg-[#f6f2ea] sm:max-h-[620px] lg:min-h-[560px]">
                 {product.images[0] ? (
                   <img
-                    alt={productTitle(product, locale)}
+                    alt={product.altText || productTitle(product, locale)}
                     className="h-full w-full object-cover"
                     src={product.images[0]}
                   />
@@ -80,14 +91,14 @@ export default async function LocalizedProductPage({ params }: ProductPageProps)
               {product.images.length > 1 ? (
                 <div className="grid grid-cols-4 gap-2 sm:gap-3">
                   {product.images.slice(1, 5).map((image) => (
-                    <img alt="" className="aspect-[4/3] w-full bg-white object-cover sm:aspect-square" key={image} src={image} />
+                    <img alt={product.altText} className="aspect-[4/3] w-full bg-white object-cover sm:aspect-square" key={image} loading="lazy" src={image} />
                   ))}
                 </div>
               ) : null}
             </div>
 
             <aside className="lg:sticky lg:top-24 lg:self-start">
-              <p className="section-kicker">{displayFilter(product.category, locale) || t.product.gift}</p>
+              <div className="flex items-center justify-between gap-4"><p className="section-kicker">{displayFilter(product.category, locale) || t.product.gift}</p><ProductUtilityActions title={productTitle(product, locale)} /></div>
               <h1 className="mt-3 text-3xl font-black leading-tight sm:mt-4 sm:text-4xl">
                 {productTitle(product, locale)}
               </h1>
@@ -199,7 +210,7 @@ export default async function LocalizedProductPage({ params }: ProductPageProps)
 
           {relatedProducts.length ? (
             <section className="mx-auto max-w-7xl px-4 py-10 sm:px-5 sm:py-12">
-              <h2 className="text-2xl font-black">{t.product.related}</h2>
+              <h2 className="text-2xl font-black">{explicitRelated.length ? t.product.related : locale === "zh" ? "你可能也喜欢" : "You May Also Like"}</h2>
               <div className="mt-5 grid gap-4 sm:mt-6 sm:grid-cols-2 lg:grid-cols-4">
                 {relatedProducts.map((related) => (
                   <a className="bg-white" href={localizedPath(locale, `/products/${related.slug}`)} key={related.id}>

@@ -1,7 +1,12 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { ArrowRight, Menu, Search, UserRound } from "lucide-react";
 import { BrandLogo } from "@/components/BrandLogo";
+import type { CmsCategory } from "@/lib/cms";
 import type { Locale } from "@/lib/i18n";
-import { categoryOptions, dictionary, localizedPath } from "@/lib/i18n";
+import { dictionary, localizedPath } from "@/lib/i18n";
+import { fetchCategories, isSupabaseConfigured } from "@/lib/supabase-rest";
 
 const secondaryNavItems = [
   { key: "collections", href: "/collections" },
@@ -26,6 +31,11 @@ function languageHref(nextLocale: Locale, path: string) {
 
 export function SiteHeader({ locale = "en", path = "/" }: SiteHeaderProps) {
   const t = dictionary[locale];
+  const [categories, setCategories] = useState<CmsCategory[]>([]);
+  useEffect(() => {
+    if (isSupabaseConfigured()) fetchCategories().then(setCategories).catch(() => setCategories([]));
+  }, []);
+  const productCategories = categories.filter((item) => item.kind === "product").slice(0, 5);
   const giftMenu = [
     [t.giftMenu.occasion, t.giftMenu.occasions],
     [t.giftMenu.recipient, t.giftMenu.recipients],
@@ -97,13 +107,13 @@ export function SiteHeader({ locale = "en", path = "/" }: SiteHeaderProps) {
               ))}
             </div>
           </div>
-          {categoryOptions[locale].map(([value, label]) => (
+          {productCategories.map((category) => (
             <a
               className="transition hover:text-[#2c6f6d]"
-              href={`${localizedPath(locale, "/catalog")}?category=${encodeURIComponent(value)}`}
-              key={value}
+              href={`${localizedPath(locale, "/catalog")}?category=${encodeURIComponent(category.name)}`}
+              key={category.id}
             >
-              {label}
+              {locale === "zh" ? category.nameZh || category.name : category.name}
             </a>
           ))}
           {secondaryNavItems.map((item) => (
@@ -135,13 +145,13 @@ export function SiteHeader({ locale = "en", path = "/" }: SiteHeaderProps) {
             </summary>
             <div className="mt-3 grid gap-3 border-t border-black/10 pt-3 text-sm font-bold">
               <div className="grid grid-cols-2 gap-2">
-                {categoryOptions[locale].map(([value, label]) => (
+                {productCategories.map((category) => (
                   <a
                     className="border border-black/10 bg-white px-3 py-2"
-                    href={`${localizedPath(locale, "/catalog")}?category=${encodeURIComponent(value)}`}
-                    key={value}
+                    href={`${localizedPath(locale, "/catalog")}?category=${encodeURIComponent(category.name)}`}
+                    key={category.id}
                   >
-                    {label}
+                    {locale === "zh" ? category.nameZh || category.name : category.name}
                   </a>
                 ))}
               </div>

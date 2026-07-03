@@ -26,6 +26,7 @@ type CatalogPageProps = {
   searchParams: Promise<{
     gift?: string;
     category?: string;
+    collection?: string;
     sort?: string;
   }>;
 };
@@ -47,7 +48,7 @@ export default async function LocalizedCatalogPage({ params, searchParams }: Cat
   const t = dictionary[locale];
   const query = await searchParams;
   const products = isSupabaseConfigured() ? await fetchPublicProducts() : [];
-  const activeFilter = query.gift || query.category || "";
+  const activeFilter = query.gift || query.category || query.collection || "";
   const activeFilterLabel = displayFilter(activeFilter, locale);
   const activeTerms = activeFilter ? filterTerms(activeFilter) : [];
   const filteredProducts = activeFilter

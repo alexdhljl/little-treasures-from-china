@@ -1,8 +1,9 @@
 import { notFound } from "next/navigation";
 import { ArrowRight, Building2, Landmark, Mail, MapPin, Sparkles } from "lucide-react";
 import { SiteHeader } from "@/components/SiteHeader";
-import { collections, heroImageUrl, museums, regions } from "@/lib/site-data";
+import type { CmsCollection, CmsMuseum, CmsStory } from "@/lib/cms";
 import { dictionary, displayName, isLocale, localizedPath, type Locale } from "@/lib/i18n";
+import { fetchPublicCms, isSupabaseConfigured } from "@/lib/supabase-rest";
 
 const sections = ["about", "collections", "contact", "institutions", "museums", "regions"] as const;
 type Section = (typeof sections)[number];
@@ -22,6 +23,8 @@ export default async function LocalizedSectionPage({ params }: PageProps) {
   }
   const locale: Locale = localeParam;
   const t = dictionary[locale].staticPages[sectionParam];
+  const cms = isSupabaseConfigured() ? await fetchPublicCms() : { categories: [], museums: [], collections: [], stories: [], settings: [] };
+  const homepage = (cms.settings.find((item) => item.key === "homepage")?.value || {}) as Record<string, string>;
 
   return (
     <main className="min-h-screen bg-[#fffdf8] text-[#171717]">
@@ -41,17 +44,17 @@ export default async function LocalizedSectionPage({ params }: PageProps) {
         </div>
       </section>
 
-      {sectionParam === "about" ? <AboutBody locale={locale} /> : null}
-      {sectionParam === "collections" ? <CollectionsBody locale={locale} /> : null}
-      {sectionParam === "contact" ? <ContactBody locale={locale} /> : null}
+      {sectionParam === "about" ? <AboutBody locale={locale} story={cms.stories.find((item) => item.kind === "about" && item.published)} /> : null}
+      {sectionParam === "collections" ? <CollectionsBody collections={cms.collections} locale={locale} /> : null}
+      {sectionParam === "contact" ? <ContactBody heroImage={homepage.heroImage || cms.collections.find((item) => item.bannerImage)?.bannerImage || ""} locale={locale} /> : null}
       {sectionParam === "institutions" ? <InstitutionsBody locale={locale} /> : null}
-      {sectionParam === "museums" ? <MuseumsBody locale={locale} /> : null}
-      {sectionParam === "regions" ? <RegionsBody locale={locale} /> : null}
+      {sectionParam === "museums" ? <MuseumsBody locale={locale} museums={cms.museums} /> : null}
+      {sectionParam === "regions" ? <RegionsBody locale={locale} museums={cms.museums} /> : null}
     </main>
   );
 }
 
-function AboutBody({ locale }: { locale: Locale }) {
+function AboutBody({ locale, story }: { locale: Locale; story?: CmsStory }) {
   const page = dictionary[locale].staticPages.about;
   return (
     <section className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:px-5 sm:py-16 lg:grid-cols-[280px_1fr] lg:gap-12 lg:py-20">
@@ -62,7 +65,7 @@ function AboutBody({ locale }: { locale: Locale }) {
         <div className="mt-3 h-3 w-14 bg-[#f27a5e]" />
       </aside>
       <article className="max-w-3xl">
-        {page.body.map((paragraph, index) => (
+        {(story ? (locale === "zh" ? story.bodyZh : story.body).split(/\n\s*\n/).filter(Boolean) : page.body).map((paragraph, index) => (
           <p
             className={index === 2 || index === 3 ? "mt-8 text-2xl font-black leading-tight sm:mt-10 sm:text-3xl" : "mt-5 text-base leading-8 text-[#3f3f3f] sm:mt-6 sm:text-xl sm:leading-9"}
             key={paragraph}
@@ -75,20 +78,20 @@ function AboutBody({ locale }: { locale: Locale }) {
   );
 }
 
-function CollectionsBody({ locale }: { locale: Locale }) {
+function CollectionsBody({ locale, collections }: { locale: Locale; collections: CmsCollection[] }) {
   return (
     <section className="mx-auto max-w-7xl px-4 py-10 sm:px-5 sm:py-16">
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {collections.map((collection) => (
           <a
             className="overflow-hidden border border-black/10 bg-white transition hover:-translate-y-1 hover:shadow-[0_18px_35px_rgba(0,0,0,0.08)]"
-            href={`${localizedPath(locale, "/catalog")}?category=${encodeURIComponent(collection.name)}`}
-            key={collection.name}
+            href={`${localizedPath(locale, "/catalog")}?collection=${encodeURIComponent(collection.name)}`}
+            key={collection.id}
           >
-            <div className={`h-20 sm:h-32 ${collection.color}`} />
+            <div className="h-28 bg-[#ece9e1] sm:h-40">{collection.bannerImage ? <img alt="" className="h-full w-full object-cover" loading="lazy" src={collection.bannerImage} /> : null}</div>
             <div className="p-4 sm:p-5">
-              <h2 className="text-xl font-black sm:text-2xl">{displayName(collection.name, locale)}</h2>
-              <p className="mt-3 text-[15px] leading-6 text-[#555] sm:min-h-20 sm:text-sm">{collection.theme}</p>
+              <h2 className="text-xl font-black sm:text-2xl">{locale === "zh" ? collection.nameZh || collection.name : collection.name}</h2>
+              <p className="mt-3 text-[15px] leading-6 text-[#555] sm:min-h-20 sm:text-sm">{collection.description}</p>
               <span className="mt-4 inline-flex items-center gap-2 text-sm font-black sm:mt-6">
                 {locale === "zh" ? "查看产品" : "View products"} <ArrowRight size={15} />
               </span>
@@ -100,16 +103,16 @@ function CollectionsBody({ locale }: { locale: Locale }) {
   );
 }
 
-function ContactBody({ locale }: { locale: Locale }) {
+function ContactBody({ locale, heroImage }: { locale: Locale; heroImage: string }) {
   const t = dictionary[locale].staticPages.contact;
   return (
     <section className="mx-auto grid max-w-7xl gap-6 px-4 py-10 sm:px-5 sm:py-16 lg:grid-cols-[1.08fr_0.92fr] lg:gap-10">
       <div className="relative aspect-[4/3] max-h-[420px] overflow-hidden bg-[#f1eee7] sm:min-h-[520px] sm:max-h-none">
-        <img
+        {heroImage ? <img
           alt={locale === "zh" ? "精选中国文化礼品目录" : "Curated Chinese museum gifts catalog"}
           className="h-full w-full object-cover"
-          src={heroImageUrl}
-        />
+          src={heroImage}
+        /> : null}
       </div>
       <aside className="lg:sticky lg:top-24 lg:self-start">
         <p className="section-kicker">{t.kicker}</p>
@@ -168,22 +171,25 @@ function InstitutionsBody({ locale }: { locale: Locale }) {
   );
 }
 
-function MuseumsBody({ locale }: { locale: Locale }) {
+function MuseumsBody({ locale, museums }: { locale: Locale; museums: CmsMuseum[] }) {
   return (
     <section className="mx-auto max-w-7xl px-4 py-10 sm:px-5 sm:py-16">
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {museums.map((museum) => (
-          <article className="border border-black/10 bg-white p-4 sm:p-5" key={museum.slug}>
+          <article className="overflow-hidden border border-black/10 bg-white" key={museum.id}>
+            <div className="h-40 bg-[#ece9e1]">{museum.coverImage ? <img alt="" className="h-full w-full object-cover" loading="lazy" src={museum.coverImage} /> : null}</div>
+            <div className="p-4 sm:p-5">
             <Landmark className="text-[#2c6f6d]" size={24} />
-            <h2 className="mt-4 text-xl font-black leading-tight sm:text-2xl">{displayName(museum.name, locale)}</h2>
+            <h2 className="mt-4 text-xl font-black leading-tight sm:text-2xl">{locale === "zh" ? museum.nameZh || museum.name : museum.name}</h2>
             <p className="mt-5 text-sm font-black uppercase tracking-[0.18em] text-[#777]">
               {locale === "zh" ? "镇馆主题" : "Signature Treasure"}
             </p>
-            <p className="mt-2 text-base font-bold leading-7">{museum.treasure}</p>
+            <p className="mt-2 text-base font-bold leading-7">{museum.description}</p>
             <p className="mt-5 text-sm font-black uppercase tracking-[0.18em] text-[#777]">
               {locale === "zh" ? "文创方向" : "Cultural Gift Edit"}
             </p>
-            <p className="mt-2 text-base leading-7 text-[#444]">{museum.products}</p>
+            <p className="mt-2 line-clamp-4 text-base leading-7 text-[#444]">{museum.story}</p>
+            </div>
           </article>
         ))}
       </div>
@@ -191,17 +197,22 @@ function MuseumsBody({ locale }: { locale: Locale }) {
   );
 }
 
-function RegionsBody({ locale }: { locale: Locale }) {
+function RegionsBody({ locale, museums }: { locale: Locale; museums: CmsMuseum[] }) {
+  const regions = Object.entries(museums.reduce<Record<string, CmsMuseum[]>>((groups, museum) => {
+    const region = museum.province || (locale === "zh" ? "其他" : "Other");
+    groups[region] = [...(groups[region] || []), museum];
+    return groups;
+  }, {}));
   return (
     <section className="mx-auto max-w-7xl px-4 py-10 sm:px-5 sm:py-16">
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {regions.map((region) => (
-          <article className={`min-h-56 bg-gradient-to-br ${region.color} p-4 sm:min-h-80 sm:p-6`} key={region.name}>
+        {regions.map(([region, regionMuseums]) => (
+          <article className="min-h-56 bg-[#ece9e1] p-4 sm:min-h-72 sm:p-6" key={region}>
             <MapPin size={24} />
-            <h2 className="mt-10 text-2xl font-black sm:mt-16 sm:text-3xl">{displayName(region.name, locale)}</h2>
-            <p className="mt-3 text-base leading-7 text-[#343434]">{region.theme}</p>
+            <h2 className="mt-10 text-2xl font-black sm:mt-16 sm:text-3xl">{displayName(region, locale)}</h2>
+            <p className="mt-3 text-base leading-7 text-[#343434]">{regionMuseums.map((museum) => locale === "zh" ? museum.nameZh || museum.name : museum.name).join(" · ")}</p>
             <p className="mt-6 text-sm font-bold text-[#555]">
-              {locale === "zh" ? "代表博物馆：" : "Featured museums: "} {region.museums}
+              {regionMuseums.length} {locale === "zh" ? "家博物馆" : regionMuseums.length === 1 ? "museum" : "museums"}
             </p>
           </article>
         ))}
