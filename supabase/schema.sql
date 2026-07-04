@@ -148,13 +148,16 @@ create table if not exists public.site_settings (
 );
 
 alter table public.products
-  drop constraint if exists products_museum_id_fkey,
+  drop constraint if exists products_museum_id_fkey;
+alter table public.products
   add constraint products_museum_id_fkey foreign key (museum_id) references public.museums(id) on delete set null;
 alter table public.products
-  drop constraint if exists products_category_id_fkey,
+  drop constraint if exists products_category_id_fkey;
+alter table public.products
   add constraint products_category_id_fkey foreign key (category_id) references public.categories(id) on delete set null;
 alter table public.products
-  drop constraint if exists products_collection_id_fkey,
+  drop constraint if exists products_collection_id_fkey;
+alter table public.products
   add constraint products_collection_id_fkey foreign key (collection_id) references public.collections(id) on delete set null;
 
 create index if not exists products_slug_idx on public.products(slug);

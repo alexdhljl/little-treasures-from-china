@@ -71,65 +71,58 @@ export default async function LocalizedCatalogPage({ params, searchParams }: Cat
     : products;
 
   return (
-    <main className="min-h-screen bg-[#fffdf8] text-[#171717]">
+    <main className="min-h-screen bg-white text-[#171717]">
       <SiteHeader locale={locale} path="/catalog" />
       <section className="border-b border-black/10 bg-white">
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-5 sm:py-16 lg:py-20">
-          <p className="section-kicker">{t.catalog.kicker}</p>
-          <h1 className="mt-4 max-w-5xl text-4xl font-black leading-[0.98] sm:text-6xl lg:text-7xl">
+        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
+          <p className="commerce-kicker">{t.catalog.kicker}</p>
+          <h1 className="mt-2 max-w-5xl text-[30px] font-black leading-tight sm:text-[38px]">
             {activeFilterLabel || t.catalog.title}
           </h1>
-          <p className="mt-5 max-w-2xl text-base leading-7 text-[#4a4a4a] sm:mt-7 sm:text-xl sm:leading-8">
+          <p className="mt-3 max-w-2xl text-[15px] leading-6 text-[#555]">
             {t.catalog.intro}
           </p>
           {activeFilter ? (
-            <a className="mt-7 inline-flex items-center gap-2 text-sm font-black" href={localizedPath(locale, "/catalog")}>
+            <a className="mt-4 inline-flex items-center gap-2 text-sm font-black" href={localizedPath(locale, "/catalog")}>
               {t.catalog.clear} <ArrowRight size={15} />
             </a>
           ) : null}
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-5 sm:py-16">
+      <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12">
         {!isSupabaseConfigured() ? (
           <div className="border border-black/10 bg-white p-5 sm:p-8">
             <h2 className="text-2xl font-black">{t.catalog.notConfigured}</h2>
           </div>
         ) : filteredProducts.length ? (
-          <div className="grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid grid-cols-2 gap-x-3 gap-y-7 sm:grid-cols-3 sm:gap-x-5 lg:grid-cols-4">
             {filteredProducts.map((product) => (
               <a
-                className="group border border-black/10 bg-white transition hover:-translate-y-1 hover:shadow-[0_18px_35px_rgba(0,0,0,0.08)]"
+                className="group min-w-0 bg-white"
                 href={localizedPath(locale, `/products/${product.slug}`)}
                 key={product.id}
               >
-                <div className="grid aspect-[4/3] max-h-[340px] place-items-center overflow-hidden bg-[#f6f2ea] sm:aspect-square sm:max-h-none">
+                <div className="grid aspect-[4/5] place-items-center overflow-hidden bg-[#f1efe9]">
                   {product.images[0] ? (
                     <img
                       alt={productTitle(product, locale)}
-                      className="h-full w-full object-cover"
+                      className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.025]"
+                      loading="lazy"
                       src={product.images[0]}
                     />
                   ) : (
                     <ImageOff className="text-[#888]" size={34} />
                   )}
                 </div>
-                <div className="p-4 sm:p-5">
-                  <p className="text-xs font-black uppercase tracking-[0.18em] text-[#2c6f6d]">
+                <div className="pt-3">
+                  <p className="truncate text-[11px] font-bold uppercase text-[#777]">
                     {displayName(product.museum || product.region, locale) || t.catalog.fallbackMuseum}
                   </p>
-                  <h2 className="mt-2 text-xl font-black leading-tight sm:mt-3">
+                  <h2 className="mt-1 line-clamp-2 text-[15px] font-bold leading-[1.35] sm:text-base">
                     {productTitle(product, locale)}
                   </h2>
-                  <p className="mt-2 line-clamp-2 text-[15px] leading-6 text-[#555] sm:mt-3 sm:line-clamp-3 sm:text-sm">
-                    {product.shortDescription}
-                  </p>
-                  <div className="mt-4 flex items-center justify-between gap-4 sm:mt-5">
-                    <span className="font-black">{formatPriceForLocale(product, locale)}</span>
-                    <span className="inline-flex items-center gap-1 text-sm font-black">
-                      {t.catalog.view} <ArrowRight size={15} />
-                    </span>
-                  </div>
+                  <p className="mt-1.5 text-sm text-[#555]">{formatPriceForLocale(product, locale)}</p>
                 </div>
               </a>
             ))}

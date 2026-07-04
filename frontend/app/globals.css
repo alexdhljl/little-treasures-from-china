@@ -50,6 +50,41 @@ a {
   line-height: 1;
 }
 
+.commerce-section {
+  padding: 2.5rem 1rem;
+}
+
+.commerce-section > * {
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.commerce-kicker {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #2c6f6d;
+}
+
+.commerce-button {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.1rem;
+  font-size: 0.875rem;
+  font-weight: 800;
+}
+
+@media (min-width: 640px) {
+  .commerce-section {
+    padding: 3.5rem 1.5rem;
+  }
+}
+
 @media (max-width: 640px) {
   html,
   body {

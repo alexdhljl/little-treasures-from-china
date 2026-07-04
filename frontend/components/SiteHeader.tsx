@@ -43,10 +43,10 @@ export function SiteHeader({ locale = "en", path = "/" }: SiteHeaderProps) {
   ] as const;
 
   return (
-    <header className="sticky top-0 z-30 border-b border-black/10 bg-[#fffdf8]/95 backdrop-blur">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-5 sm:py-5 lg:py-6">
+    <header className="sticky top-0 z-30 border-b border-black/10 bg-white/95 backdrop-blur">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-2.5 sm:px-6 sm:py-3 lg:py-4">
         <a className="block min-w-0" href={localizedPath(locale, "/")}>
-          <BrandLogo className="w-[152px] sm:w-[210px] lg:w-[238px]" priority />
+          <BrandLogo className="w-[108px] sm:w-[160px] lg:w-[205px]" priority />
         </a>
         <div className="hidden items-center gap-5 lg:flex">
           <div className="flex items-center gap-2 text-sm font-bold">
@@ -62,14 +62,14 @@ export function SiteHeader({ locale = "en", path = "/" }: SiteHeaderProps) {
             {t.nav.contact}
           </a>
           <a
-            className="inline-flex items-center gap-2 rounded-full bg-[#171717] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#2c6f6d]"
+            className="inline-flex items-center gap-2 bg-[#171717] px-4 py-2.5 text-sm font-bold text-white transition hover:bg-[#2c6f6d]"
             href={localizedPath(locale, "/contact")}
           >
             {t.requestCatalog} <ArrowRight size={16} />
           </a>
         </div>
         <a
-          className="hidden items-center gap-1.5 rounded-full bg-[#171717] px-3 py-2 text-xs font-bold text-white transition hover:bg-[#2c6f6d] sm:inline-flex lg:hidden"
+          className="hidden items-center gap-1.5 bg-[#171717] px-3 py-2 text-xs font-bold text-white transition hover:bg-[#2c6f6d] sm:inline-flex lg:hidden"
           href={localizedPath(locale, "/contact")}
         >
           {t.requestCatalog} <ArrowRight size={14} />
@@ -77,8 +77,8 @@ export function SiteHeader({ locale = "en", path = "/" }: SiteHeaderProps) {
       </div>
 
       <div className="border-t border-black/10 bg-white/80">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-8 px-4 py-2.5 sm:px-5 lg:py-4">
-          <nav className="hidden items-center gap-8 text-base font-medium text-[#171717] lg:flex">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-8 px-4 py-2 sm:px-6 lg:py-2.5">
+          <nav className="hidden items-center gap-7 text-sm font-medium text-[#171717] lg:flex">
             <button aria-label="Open navigation menu" className="grid size-8 place-items-center" type="button">
               <Menu size={24} />
             </button>

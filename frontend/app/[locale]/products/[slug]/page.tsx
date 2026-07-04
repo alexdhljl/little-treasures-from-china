@@ -1,235 +1,94 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ImageOff, Mail, PackageCheck } from "lucide-react";
-import { SiteHeader } from "@/components/SiteHeader";
+import { ArrowRight, ImageOff, Mail } from "lucide-react";
 import { ProductUtilityActions } from "@/components/ProductUtilityActions";
-import {
-  fetchPublicProducts,
-  fetchPublicProductBySlug,
-  fetchPublicRelatedProducts,
-  isSupabaseConfigured,
-} from "@/lib/supabase-rest";
-import {
-  dictionary,
-  displayFilter,
-  displayName,
-  formatPriceForLocale,
-  inventoryLabel,
-  isLocale,
-  localizedPath,
-  productSubtitle,
-  productTitle,
-  type Locale,
-} from "@/lib/i18n";
+import { SiteHeader } from "@/components/SiteHeader";
+import { fetchPublicProductBySlug, fetchPublicProducts, fetchPublicRelatedProducts, isSupabaseConfigured } from "@/lib/supabase-rest";
+import { displayFilter, displayName, formatPriceForLocale, inventoryLabel, isLocale, localizedPath, productSubtitle, productTitle, type Locale } from "@/lib/i18n";
+import type { Product } from "@/lib/products";
 
-type ProductPageProps = {
-  params: Promise<{ locale: string; slug: string }>;
-};
+type ProductPageProps = { params: Promise<{ locale: string; slug: string }> };
 
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
   const { locale, slug } = await params;
-  if (!isLocale(locale) || !isSupabaseConfigured()) {
-    return { title: "Product | Little Treasures From China" };
-  }
+  if (!isLocale(locale) || !isSupabaseConfigured()) return { title: "Product | Little Treasures From China" };
   const product = await fetchPublicProductBySlug(slug);
-  return {
-    title: product
-      ? `${product.seoTitle || productTitle(product, locale)} | Little Treasures From China`
-      : "Product Not Found | Little Treasures From China",
-    description: product?.seoDescription || product?.shortDescription,
-  };
+  return { title: product ? `${product.seoTitle || productTitle(product, locale)} | Little Treasures From China` : "Product Not Found", description: product?.seoDescription || product?.shortDescription };
 }
 
 export default async function LocalizedProductPage({ params }: ProductPageProps) {
   const { locale: localeParam, slug } = await params;
-  if (!isLocale(localeParam)) {
-    notFound();
-  }
+  if (!isLocale(localeParam)) notFound();
   const locale: Locale = localeParam;
-  const t = dictionary[locale];
   const product = isSupabaseConfigured() ? await fetchPublicProductBySlug(slug) : null;
-  const explicitRelated = product ? await fetchPublicRelatedProducts(product.relatedProductIds) : [];
-  const allProducts = product && explicitRelated.length < 4 ? await fetchPublicProducts() : [];
-  const relatedProducts = explicitRelated.length
-    ? explicitRelated
-    : allProducts.filter((item) => item.id !== product?.id && (item.categoryId === product?.categoryId || item.category === product?.category)).slice(0, 4);
+  if (!product) return <main className="min-h-screen bg-white"><SiteHeader locale={locale} path={`/products/${slug}`} /><section className="mx-auto max-w-5xl px-4 py-20"><h1 className="text-3xl font-black">{locale === "zh" ? "没有找到这个产品" : "Product not found"}</h1><a className="mt-6 inline-flex font-bold" href={localizedPath(locale, "/catalog")}>{locale === "zh" ? "返回产品目录" : "Back to products"}</a></section></main>;
+
+  const explicitRelated = await fetchPublicRelatedProducts(product.relatedProductIds);
+  const allProducts = explicitRelated.length ? [] : await fetchPublicProducts();
+  const related = explicitRelated.length ? explicitRelated : allProducts.filter((item) => item.id !== product.id && (item.categoryId === product.categoryId || item.category === product.category)).slice(0, 4);
+  const title = productTitle(product, locale);
+  const origin = [product.city, displayName(product.province, locale) || product.province].filter(Boolean).join(", ") || (locale === "zh" ? "中国" : "China");
 
   return (
-    <main className="min-h-screen bg-[#fffdf8] text-[#171717]">
+    <main className="min-h-screen bg-white text-[#171717]">
       <SiteHeader locale={locale} path={`/products/${slug}`} />
-      {!product ? (
-        <section className="mx-auto max-w-4xl px-4 py-14 sm:px-5 sm:py-24">
-          <h1 className="text-3xl font-black sm:text-5xl">{t.product.notFound}</h1>
-          <p className="mt-5 text-lg text-[#555]">{t.product.notFoundNote}</p>
-          <a
-            className="mt-8 inline-flex rounded-full bg-[#171717] px-6 py-3 font-black text-white"
-            href={localizedPath(locale, "/catalog")}
-          >
-            {t.product.backCatalog}
-          </a>
-        </section>
-      ) : (
-        <>
-          <section className="mx-auto grid max-w-7xl gap-6 px-4 py-8 sm:px-5 sm:py-12 lg:grid-cols-[1.08fr_0.92fr] lg:gap-10">
-            <div className="grid gap-3 sm:gap-4">
-              <nav className="flex flex-wrap items-center gap-2 text-xs font-bold text-[#666] lg:col-span-2">
-                <a href={localizedPath(locale, "/")}>{locale === "zh" ? "首页" : "Home"}</a><span>/</span>
-                <a href={localizedPath(locale, "/catalog")}>{locale === "zh" ? "产品" : "Products"}</a><span>/</span>
-                <span className="text-[#171717]">{productTitle(product, locale)}</span>
-              </nav>
-              <div className="grid aspect-[4/3] max-h-[420px] place-items-center overflow-hidden bg-[#f6f2ea] sm:max-h-[620px] lg:min-h-[560px]">
-                {product.images[0] ? (
-                  <img
-                    alt={product.altText || productTitle(product, locale)}
-                    className="h-full w-full object-cover"
-                    src={product.images[0]}
-                  />
-                ) : (
-                  <ImageOff className="text-[#888]" size={42} />
-                )}
-              </div>
-              {product.images.length > 1 ? (
-                <div className="grid grid-cols-4 gap-2 sm:gap-3">
-                  {product.images.slice(1, 5).map((image) => (
-                    <img alt={product.altText} className="aspect-[4/3] w-full bg-white object-cover sm:aspect-square" key={image} loading="lazy" src={image} />
-                  ))}
-                </div>
-              ) : null}
-            </div>
+      <nav className="mx-auto flex max-w-7xl flex-wrap items-center gap-2 px-4 py-4 text-xs text-[#777] sm:px-6">
+        <a href={localizedPath(locale, "/")}>{locale === "zh" ? "首页" : "Home"}</a><span>/</span><a href={localizedPath(locale, "/catalog")}>{locale === "zh" ? "全部产品" : "All Products"}</a><span>/</span><span className="max-w-[240px] truncate text-[#222]">{title}</span>
+      </nav>
 
-            <aside className="lg:sticky lg:top-24 lg:self-start">
-              <div className="flex items-center justify-between gap-4"><p className="section-kicker">{displayFilter(product.category, locale) || t.product.gift}</p><ProductUtilityActions title={productTitle(product, locale)} /></div>
-              <h1 className="mt-3 text-3xl font-black leading-tight sm:mt-4 sm:text-4xl">
-                {productTitle(product, locale)}
-              </h1>
-              {productSubtitle(product, locale) ? (
-                <p className="mt-2 text-lg font-bold text-[#555] sm:text-xl">{productSubtitle(product, locale)}</p>
-              ) : null}
-              <p className="mt-4 text-base leading-7 text-[#555] sm:mt-5 sm:text-lg sm:leading-8">{product.shortDescription}</p>
+      <section className="mx-auto grid max-w-7xl gap-7 px-4 pb-10 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:pb-16">
+        <div className="lg:sticky lg:top-24 lg:self-start">
+          <div className="grid aspect-[4/5] max-h-[720px] place-items-center overflow-hidden bg-[#f2f0eb]">
+            {product.images[0] ? <img alt={product.altText || title} className="h-full w-full object-cover" src={product.images[0]} /> : <ImageOff className="text-[#999]" size={40} />}
+          </div>
+          {product.images.length > 1 ? <div className="mt-3 grid grid-cols-5 gap-2">{product.images.slice(0, 5).map((image, index) => <div className="aspect-[4/5] overflow-hidden bg-[#f2f0eb]" key={image}><img alt={`${product.altText || title} ${index + 1}`} className="h-full w-full object-cover" loading="lazy" src={image} /></div>)}</div> : null}
+        </div>
 
-              <div className="mt-5 border-y border-black/10 py-4 sm:mt-7 sm:py-5">
-                <dl className="grid gap-4 text-sm">
-                  {[
-                    [t.product.price, formatPriceForLocale(product, locale)],
-                    [t.product.inventory, inventoryLabel(product.inventoryStatus, locale)],
-                    [t.product.museumSource, displayName(product.museum, locale) || t.product.curated],
-                    [
-                      t.product.location,
-                      [product.city, product.province, displayName(product.region, locale)].filter(Boolean).join(", ") ||
-                        t.product.confirm,
-                    ],
-                  ].map(([label, value]) => (
-                    <div className="grid grid-cols-[112px_1fr] gap-3 sm:grid-cols-[140px_1fr] sm:gap-4" key={label}>
-                      <dt className="text-[#555]">{label}</dt>
-                      <dd className="font-bold capitalize">{value}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </div>
+        <aside className="pt-1 lg:pt-3">
+          <div className="flex items-start justify-between gap-5"><div><p className="commerce-kicker">{displayFilter(product.category, locale) || (locale === "zh" ? "博物馆文创" : "Museum Gift")}</p><h1 className="mt-2 text-[26px] font-black leading-[1.15] sm:text-[32px]">{title}</h1>{productSubtitle(product, locale) ? <p className="mt-2 text-sm text-[#666]">{productSubtitle(product, locale)}</p> : null}</div><ProductUtilityActions title={title} /></div>
+          <p className="mt-5 text-xl font-bold">{formatPriceForLocale(product, locale)}</p>
+          <p className="mt-5 text-[15px] leading-6 text-[#555]">{product.shortDescription}</p>
 
-              <div className="mt-5 grid gap-2 sm:mt-6">
-                <a
-                  className="inline-flex items-center justify-center gap-2 bg-[#2f4650] px-5 py-3.5 text-sm font-black text-white transition hover:bg-[#171717] sm:px-6 sm:py-4 sm:text-base"
-                  href={`mailto:hello@auctuslab.com?subject=${encodeURIComponent(`${t.product.requestPrice} - ${productTitle(product, locale)}`)}`}
-                >
-                  {t.product.requestPrice} <Mail size={18} />
-                </a>
-                <a
-                  className="inline-flex items-center justify-center gap-2 border border-black/15 bg-white px-5 py-3.5 text-sm font-black transition hover:border-[#2c6f6d] hover:text-[#2c6f6d] sm:px-6 sm:py-4 sm:text-base"
-                  href={`mailto:hello@auctuslab.com?subject=${encodeURIComponent(`${t.product.ask} - ${productTitle(product, locale)}`)}`}
-                >
-                  {t.product.ask}
-                </a>
-                <a
-                  className="inline-flex items-center justify-center gap-2 border border-black/15 bg-white px-5 py-3.5 text-sm font-black transition hover:border-[#2c6f6d] hover:text-[#2c6f6d] sm:px-6 sm:py-4 sm:text-base"
-                  href={localizedPath(locale, "/contact")}
-                >
-                  {t.requestCatalog}
-                </a>
-              </div>
-            </aside>
-          </section>
+          <dl className="mt-6 border-t border-black/15 text-sm">
+            <InfoRow label={locale === "zh" ? "博物馆" : "Museum"} value={displayName(product.museum, locale) || (locale === "zh" ? "精选合作机构" : "Curated partner")} />
+            <InfoRow label={locale === "zh" ? "系列" : "Collection"} value={product.collection || product.officialCollection || (locale === "zh" ? "待确认" : "To be confirmed")} />
+            <InfoRow label="MOQ" value={locale === "zh" ? "请询价确认" : "Confirm with quote"} />
+            <InfoRow label={locale === "zh" ? "材质" : "Material"} value={product.materials || (locale === "zh" ? "待确认" : "To be confirmed")} />
+            <InfoRow label={locale === "zh" ? "尺寸" : "Dimensions"} value={product.dimensions || (locale === "zh" ? "待确认" : "To be confirmed")} />
+            <InfoRow label={locale === "zh" ? "产地" : "Origin"} value={origin} />
+            <InfoRow label={locale === "zh" ? "交付周期" : "Lead Time"} value={product.shippingNote || (locale === "zh" ? "询价时确认" : "Confirmed with quote")} />
+            <InfoRow label={locale === "zh" ? "库存" : "Availability"} value={inventoryLabel(product.inventoryStatus, locale)} />
+          </dl>
 
-          <section className="mx-auto max-w-7xl px-4 py-10 sm:px-5 sm:py-12">
-            <div className="grid gap-4 lg:grid-cols-[1fr_0.9fr] lg:gap-5">
-              <article className="border border-black/10 bg-white p-4 sm:p-6">
-                <h2 className="text-2xl font-black sm:text-3xl">{t.product.storyTitle}</h2>
-                <p className="mt-4 whitespace-pre-line text-base leading-7 text-[#444] sm:mt-5 sm:text-lg sm:leading-8">
-                  {product.story || t.product.storyPending}
-                </p>
-              </article>
-              <div className="grid gap-3">
-                <div className="border border-black/10 bg-white p-4 sm:p-5">
-                  <p className="text-sm font-black uppercase tracking-[0.16em] text-[#2c6f6d]">
-                    {t.product.museumSource}
-                  </p>
-                  <h3 className="mt-3 text-xl font-black sm:text-2xl">{displayName(product.museum, locale) || t.product.curated}</h3>
-                  <dl className="mt-5 grid gap-3 text-sm">
-                    {[
-                      [locale === "zh" ? "省份" : "Province", displayName(product.province, locale) || product.province || t.product.confirm],
-                      [locale === "zh" ? "城市" : "City", product.city || t.product.confirm],
-                      [t.product.officialCollection, product.officialCollection || product.collection || t.product.confirm],
-                    ].map(([label, value]) => (
-                      <div className="flex justify-between gap-5 border-t border-black/10 pt-3" key={label}>
-                        <dt className="text-[#666]">{label}</dt>
-                        <dd className="font-bold">{value}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                </div>
-                <div className="border border-black/10 bg-white p-4 sm:p-5">
-                  <p className="text-sm font-black uppercase tracking-[0.16em] text-[#f27a5e]">
-                    {t.product.perfectFor}
-                  </p>
-                  <div className="mt-3 flex flex-wrap gap-2 sm:mt-4">
-                    {(product.giftRecommendations.length ? product.giftRecommendations : [...t.product.perfectDefaults]).map((item) => (
-                      <span className="rounded-full border border-black/10 bg-[#fffdf8] px-3 py-2 text-sm font-bold" key={item}>
-                        {item}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                {[
-                  [t.product.materials, product.materials],
-                  [t.product.dimensions, product.dimensions],
-                  [t.product.weight, product.weight],
-                  [t.product.shipping, product.shippingNote],
-                  [t.product.returns, product.returnNote],
-                ].map(([label, value]) => (
-                  <div className="flex gap-3 border border-black/10 bg-white p-4 sm:p-5" key={label}>
-                    <PackageCheck className="shrink-0 text-[#2c6f6d]" size={22} />
-                    <div>
-                      <p className="text-sm font-black uppercase tracking-[0.16em] text-[#777]">{label}</p>
-                      <p className="mt-2 font-bold">{value || t.product.confirm}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
+          <a className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 bg-[#273f48] px-5 text-sm font-black text-white transition hover:bg-[#171717]" href={`mailto:hello@auctuslab.com?subject=${encodeURIComponent(`${locale === "zh" ? "产品询价" : "Request Quote"} - ${title}`)}`}>{locale === "zh" ? "获取报价" : "Request Quote"}<Mail size={17} /></a>
+          <a className="mt-2 inline-flex min-h-11 w-full items-center justify-center border border-black/20 px-5 text-sm font-bold" href={localizedPath(locale, "/contact")}>{locale === "zh" ? "获取产品目录" : "Request Catalog"}</a>
+          <p className="mt-3 text-center text-xs leading-5 text-[#777]">{locale === "zh" ? "价格、起订量、国际运输与交付时间将在报价中确认。" : "Pricing, MOQ, international shipping, and lead time are confirmed in your quote."}</p>
+        </aside>
+      </section>
 
-          {relatedProducts.length ? (
-            <section className="mx-auto max-w-7xl px-4 py-10 sm:px-5 sm:py-12">
-              <h2 className="text-2xl font-black">{explicitRelated.length ? t.product.related : locale === "zh" ? "你可能也喜欢" : "You May Also Like"}</h2>
-              <div className="mt-5 grid gap-4 sm:mt-6 sm:grid-cols-2 lg:grid-cols-4">
-                {relatedProducts.map((related) => (
-                  <a className="bg-white" href={localizedPath(locale, `/products/${related.slug}`)} key={related.id}>
-                    <div className="grid aspect-[4/3] max-h-[320px] place-items-center overflow-hidden bg-[#f6f2ea] sm:aspect-square sm:max-h-none">
-                      {related.images[0] ? (
-                        <img alt={productTitle(related, locale)} className="h-full w-full object-cover" src={related.images[0]} />
-                      ) : (
-                        <ImageOff className="text-[#888]" size={30} />
-                      )}
-                    </div>
-                    <h3 className="mt-4 text-center font-bold leading-tight">{productTitle(related, locale)}</h3>
-                    <p className="mt-2 text-center text-sm">{formatPriceForLocale(related, locale)}</p>
-                  </a>
-                ))}
-              </div>
-            </section>
-          ) : null}
-        </>
-      )}
+      <section className="border-t border-black/10 py-10 sm:py-14">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6">
+          <ContentBlock body={product.shortDescription} title={locale === "zh" ? "产品介绍" : "Description"} />
+          <ContentBlock body={product.story || (locale === "zh" ? "产品故事正在整理中。" : "The product story is being prepared.")} title={locale === "zh" ? "产品故事" : "Product Story"} />
+          <div className="mt-10 border-t border-black/10 pt-8"><h2 className="text-2xl font-black">{locale === "zh" ? "博物馆来源" : "Museum Source"}</h2><p className="mt-4 text-[15px] leading-7 text-[#555]">{displayName(product.museum, locale) || (locale === "zh" ? "精选文化机构" : "Curated cultural institution")} · {origin}{product.officialCollection ? ` · ${product.officialCollection}` : ""}</p></div>
+        </div>
+      </section>
+
+      {product.images.length > 1 ? <section className="mx-auto max-w-5xl px-4 pb-12 sm:px-6 sm:pb-16"><h2 className="mb-5 text-2xl font-black">{locale === "zh" ? "产品图片" : "Product Gallery"}</h2><div className="grid gap-4">{product.images.slice(1).map((image, index) => <div className="overflow-hidden bg-[#f2f0eb]" key={image}><img alt={`${product.altText || title} ${index + 2}`} className="h-auto max-h-[900px] w-full object-contain" loading="lazy" src={image} /></div>)}</div></section> : null}
+
+      {related.length ? <RelatedProducts locale={locale} products={related} /> : null}
     </main>
   );
+}
+
+function InfoRow({ label, value }: { label: string; value: string }) {
+  return <div className="grid grid-cols-[110px_1fr] gap-4 border-b border-black/10 py-3"><dt className="text-[#666]">{label}</dt><dd className="font-medium">{value}</dd></div>;
+}
+
+function ContentBlock({ title, body }: { title: string; body?: string | null }) {
+  return <article className="border-t border-black/10 py-8 first:border-0 first:pt-0"><h2 className="text-2xl font-black">{title}</h2><p className="mt-4 whitespace-pre-line text-[15px] leading-7 text-[#4d4d4d]">{body}</p></article>;
+}
+
+function RelatedProducts({ products, locale }: { products: Product[]; locale: Locale }) {
+  return <section className="border-t border-black/10 bg-[#f7f5f0] py-10 sm:py-14"><div className="mx-auto max-w-7xl px-4 sm:px-6"><div className="flex items-end justify-between"><h2 className="text-[26px] font-black">{locale === "zh" ? "相关推荐" : "Related Products"}</h2><a className="inline-flex items-center gap-1 text-sm font-bold" href={localizedPath(locale, "/catalog")}>{locale === "zh" ? "查看全部" : "View All"}<ArrowRight size={15} /></a></div><div className="mt-5 grid grid-cols-2 gap-x-3 gap-y-6 sm:grid-cols-4 sm:gap-5">{products.map((item) => <a className="group" href={localizedPath(locale, `/products/${item.slug}`)} key={item.id}><div className="grid aspect-[4/5] place-items-center overflow-hidden bg-white">{item.images[0] ? <img alt={productTitle(item, locale)} className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.025]" loading="lazy" src={item.images[0]} /> : <ImageOff className="text-[#999]" />}</div><h3 className="mt-3 line-clamp-2 text-[15px] font-bold leading-snug">{productTitle(item, locale)}</h3><p className="mt-1 text-sm text-[#555]">{formatPriceForLocale(item, locale)}</p></a>)}</div></div></section>;
 }
