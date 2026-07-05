@@ -13,6 +13,7 @@ type SupabaseSession = {
 
 type DbProduct = {
   id: string;
+  sku?: string | null;
   slug: string;
   name: string;
   english_name: string;
@@ -47,6 +48,51 @@ type DbProduct = {
   seo_title?: string | null;
   seo_description?: string | null;
   alt_text?: string | null;
+  product_name_en?: string | null;
+  product_name_zh?: string | null;
+  brand?: string | null;
+  supplier?: string | null;
+  series?: string | null;
+  subcategory?: string | null;
+  target_audience?: string[] | null;
+  short_description_en?: string | null;
+  short_description_zh?: string | null;
+  long_description_en?: string | null;
+  long_description_zh?: string | null;
+  story_en?: string | null;
+  story_zh?: string | null;
+  features?: string[] | null;
+  whats_included?: string[] | null;
+  colors?: string[] | null;
+  package_size?: string | null;
+  package_weight?: string | null;
+  estimated_retail_price_min?: number | null;
+  estimated_retail_price_max?: number | null;
+  wholesale_price?: number | null;
+  moq?: number | null;
+  lead_time?: string | null;
+  inventory_quantity?: number | null;
+  origin?: string | null;
+  cover_image?: string | null;
+  gallery_images?: string[] | null;
+  packaging_images?: string[] | null;
+  lifestyle_images?: string[] | null;
+  image_alt_en?: string | null;
+  image_alt_zh?: string | null;
+  seo_title_en?: string | null;
+  seo_title_zh?: string | null;
+  seo_description_en?: string | null;
+  seo_description_zh?: string | null;
+  seo_keywords?: string[] | null;
+  needs_review?: boolean | null;
+  ai_generated?: boolean | null;
+  translation_checked?: boolean | null;
+  photo_checked?: boolean | null;
+  source_folder?: string | null;
+  original_file_names?: string[] | null;
+  countries_available?: string[] | null;
+  languages?: string[] | null;
+  ltps_version?: string | null;
   created_at: string;
   updated_at: string;
 };
@@ -83,11 +129,17 @@ function authHeaders(accessToken?: string) {
 }
 
 function dbToProduct(row: DbProduct): Product {
+  const gallery = row.gallery_images?.length ? row.gallery_images : row.images || [];
+  const cover = row.cover_image || gallery[0] || row.images?.[0] || "";
+  const images = Array.from(new Set([cover, ...gallery, ...(row.packaging_images || []), ...(row.lifestyle_images || [])].filter(Boolean)));
   return {
     id: row.id,
+    sku: row.sku || "",
     slug: row.slug,
-    name: row.name,
-    englishName: row.english_name,
+    name: row.product_name_zh || row.name,
+    englishName: row.product_name_en || row.english_name,
+    brand: row.brand || "",
+    supplier: row.supplier || "",
     museum: row.museum || "",
     museumId: row.museum_id || "",
     region: row.region || "",
@@ -95,19 +147,42 @@ function dbToProduct(row: DbProduct): Product {
     city: row.city || "",
     category: row.category || "",
     categoryId: row.category_id || "",
+    subcategory: row.subcategory || "",
     collection: row.collection || "",
     collectionId: row.collection_id || "",
+    series: row.series || "",
     price: row.price,
+    estimatedPriceMin: row.estimated_retail_price_min ?? row.price,
+    estimatedPriceMax: row.estimated_retail_price_max ?? row.price,
+    wholesalePrice: row.wholesale_price ?? null,
     currency: row.currency,
-    shortDescription: row.short_description || "",
-    story: row.story || "",
+    shortDescription: row.short_description_en || row.short_description || "",
+    shortDescriptionZh: row.short_description_zh || "",
+    longDescription: row.long_description_en || "",
+    longDescriptionZh: row.long_description_zh || "",
+    story: row.story_en || row.story || "",
+    storyZh: row.story_zh || "",
+    features: row.features || [],
+    whatsIncluded: row.whats_included || [],
     materials: row.materials || "",
+    colors: row.colors || [],
     dimensions: row.dimensions || "",
     weight: row.weight || "",
-    images: row.images || [],
+    packageSize: row.package_size || "",
+    packageWeight: row.package_weight || "",
+    moq: row.moq ?? 1,
+    leadTime: row.lead_time || "",
+    inventoryQuantity: row.inventory_quantity ?? null,
+    origin: row.origin || "China",
+    images,
+    coverImage: cover,
+    galleryImages: gallery,
+    packagingImages: row.packaging_images || [],
+    lifestyleImages: row.lifestyle_images || [],
     tags: row.tags || [],
     occasionTags: row.occasion_tags || [],
     recipientTags: row.recipient_tags || [],
+    targetAudience: row.target_audience || [],
     giftRecommendations: row.gift_recommendations || [],
     officialCollection: row.official_collection || "",
     inventoryStatus: row.inventory_status,
@@ -116,19 +191,39 @@ function dbToProduct(row: DbProduct): Product {
     relatedProductIds: row.related_product_ids || [],
     shippingNote: row.shipping_note || "",
     returnNote: row.return_note || "",
-    seoTitle: row.seo_title || "",
-    seoDescription: row.seo_description || "",
-    altText: row.alt_text || "",
+    seoTitle: row.seo_title_en || row.seo_title || "",
+    seoTitleZh: row.seo_title_zh || "",
+    seoDescription: row.seo_description_en || row.seo_description || "",
+    seoDescriptionZh: row.seo_description_zh || "",
+    seoKeywords: row.seo_keywords || [],
+    altText: row.image_alt_en || row.alt_text || "",
+    altTextZh: row.image_alt_zh || "",
+    needsReview: row.needs_review ?? false,
+    aiGenerated: row.ai_generated ?? false,
+    translationChecked: row.translation_checked ?? false,
+    photoChecked: row.photo_checked ?? false,
+    sourceFolder: row.source_folder || "",
+    originalFileNames: row.original_file_names || [],
+    countriesAvailable: row.countries_available || ["US"],
+    languages: row.languages || ["en", "zh"],
+    ltpsVersion: row.ltps_version || "1.0",
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   };
 }
 
 function productToDb(input: ProductInput) {
+  const cover = input.coverImage || input.images[0] || "";
+  const gallery = input.galleryImages.length ? input.galleryImages : input.images;
   return {
+    sku: input.sku || null,
     slug: input.slug,
     name: input.name,
     english_name: input.englishName,
+    product_name_en: input.englishName,
+    product_name_zh: input.name,
+    brand: input.brand || null,
+    supplier: input.supplier || null,
     museum: input.museum || null,
     museum_id: input.museumId || null,
     region: input.region || null,
@@ -136,19 +231,44 @@ function productToDb(input: ProductInput) {
     city: input.city || null,
     category: input.category || null,
     category_id: input.categoryId || null,
+    subcategory: input.subcategory || null,
     collection: input.collection || null,
     collection_id: input.collectionId || null,
+    series: input.series || null,
     price: input.price,
+    estimated_retail_price_min: input.estimatedPriceMin,
+    estimated_retail_price_max: input.estimatedPriceMax,
+    wholesale_price: input.wholesalePrice,
     currency: input.currency || "USD",
     short_description: input.shortDescription || null,
     story: input.story || null,
+    short_description_en: input.shortDescription || null,
+    short_description_zh: input.shortDescriptionZh || null,
+    long_description_en: input.longDescription || null,
+    long_description_zh: input.longDescriptionZh || null,
+    story_en: input.story || null,
+    story_zh: input.storyZh || null,
+    features: input.features || [],
+    whats_included: input.whatsIncluded || [],
     materials: input.materials || null,
+    colors: input.colors || [],
     dimensions: input.dimensions || null,
     weight: input.weight || null,
+    package_size: input.packageSize || null,
+    package_weight: input.packageWeight || null,
+    moq: input.moq || 1,
+    lead_time: input.leadTime || null,
+    inventory_quantity: input.inventoryQuantity,
+    origin: input.origin || "China",
     images: input.images || [],
+    cover_image: cover || null,
+    gallery_images: gallery || [],
+    packaging_images: input.packagingImages || [],
+    lifestyle_images: input.lifestyleImages || [],
     tags: input.tags || [],
     occasion_tags: input.occasionTags || [],
     recipient_tags: input.recipientTags || [],
+    target_audience: input.targetAudience || [],
     gift_recommendations: input.giftRecommendations || [],
     official_collection: input.officialCollection || null,
     inventory_status: input.inventoryStatus,
@@ -160,6 +280,22 @@ function productToDb(input: ProductInput) {
     seo_title: input.seoTitle || null,
     seo_description: input.seoDescription || null,
     alt_text: input.altText || null,
+    seo_title_en: input.seoTitle || null,
+    seo_title_zh: input.seoTitleZh || null,
+    seo_description_en: input.seoDescription || null,
+    seo_description_zh: input.seoDescriptionZh || null,
+    seo_keywords: input.seoKeywords || [],
+    image_alt_en: input.altText || null,
+    image_alt_zh: input.altTextZh || null,
+    needs_review: input.needsReview,
+    ai_generated: input.aiGenerated,
+    translation_checked: input.translationChecked,
+    photo_checked: input.photoChecked,
+    source_folder: input.sourceFolder || null,
+    original_file_names: input.originalFileNames || [],
+    countries_available: input.countriesAvailable || ["US"],
+    languages: input.languages || ["en", "zh"],
+    ltps_version: "1.0",
   };
 }
 
@@ -297,7 +433,7 @@ export async function deleteCmsRecord(table: CmsTable, id: string, accessToken: 
 
 export async function fetchPublicProducts() {
   try {
-    return (await fetchProducts()).filter((product) => product.status === "published");
+    return (await fetchProducts()).filter((product) => product.status === "active" || product.status === "published");
   } catch (error) {
     console.error("Unable to load public products", error);
     return [];

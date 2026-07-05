@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   const { locale, slug } = await params;
   if (!isLocale(locale) || !isSupabaseConfigured()) return { title: "Product | Little Treasures From China" };
   const product = await fetchPublicProductBySlug(slug);
-  return { title: product ? `${product.seoTitle || productTitle(product, locale)} | Little Treasures From China` : "Product Not Found", description: product?.seoDescription || product?.shortDescription };
+  return { title: product ? `${(locale === "zh" ? product.seoTitleZh : product.seoTitle) || productTitle(product, locale)} | Little Treasures From China` : "Product Not Found", description: product ? ((locale === "zh" ? product.seoDescriptionZh : product.seoDescription) || (locale === "zh" ? product.shortDescriptionZh : product.shortDescription)) : undefined };
 }
 
 export default async function LocalizedProductPage({ params }: ProductPageProps) {
@@ -27,6 +27,10 @@ export default async function LocalizedProductPage({ params }: ProductPageProps)
   const allProducts = explicitRelated.length ? [] : await fetchPublicProducts();
   const related = explicitRelated.length ? explicitRelated : allProducts.filter((item) => item.id !== product.id && (item.categoryId === product.categoryId || item.category === product.category)).slice(0, 4);
   const title = productTitle(product, locale);
+  const shortDescription = locale === "zh" ? product.shortDescriptionZh || product.shortDescription : product.shortDescription;
+  const longDescription = locale === "zh" ? product.longDescriptionZh || shortDescription : product.longDescription || shortDescription;
+  const story = locale === "zh" ? product.storyZh || product.story : product.story;
+  const imageAlt = locale === "zh" ? product.altTextZh || product.altText : product.altText;
   const origin = [product.city, displayName(product.province, locale) || product.province].filter(Boolean).join(", ") || (locale === "zh" ? "中国" : "China");
 
   return (
@@ -39,7 +43,7 @@ export default async function LocalizedProductPage({ params }: ProductPageProps)
       <section className="mx-auto grid max-w-7xl gap-7 px-4 pb-10 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:pb-16">
         <div className="lg:sticky lg:top-24 lg:self-start">
           <div className="grid aspect-[4/5] max-h-[720px] place-items-center overflow-hidden bg-[#f2f0eb]">
-            {product.images[0] ? <img alt={product.altText || title} className="h-full w-full object-cover" src={product.images[0]} /> : <ImageOff className="text-[#999]" size={40} />}
+            {product.images[0] ? <img alt={imageAlt || title} className="h-full w-full object-cover" src={product.images[0]} /> : <ImageOff className="text-[#999]" size={40} />}
           </div>
           {product.images.length > 1 ? <div className="mt-3 grid grid-cols-5 gap-2">{product.images.slice(0, 5).map((image, index) => <div className="aspect-[4/5] overflow-hidden bg-[#f2f0eb]" key={image}><img alt={`${product.altText || title} ${index + 1}`} className="h-full w-full object-cover" loading="lazy" src={image} /></div>)}</div> : null}
         </div>
@@ -47,16 +51,16 @@ export default async function LocalizedProductPage({ params }: ProductPageProps)
         <aside className="pt-1 lg:pt-3">
           <div className="flex items-start justify-between gap-5"><div><p className="commerce-kicker">{displayFilter(product.category, locale) || (locale === "zh" ? "博物馆文创" : "Museum Gift")}</p><h1 className="mt-2 text-[26px] font-black leading-[1.15] sm:text-[32px]">{title}</h1>{productSubtitle(product, locale) ? <p className="mt-2 text-sm text-[#666]">{productSubtitle(product, locale)}</p> : null}</div><ProductUtilityActions title={title} /></div>
           <p className="mt-5 text-xl font-bold">{formatPriceForLocale(product, locale)}</p>
-          <p className="mt-5 text-[15px] leading-6 text-[#555]">{product.shortDescription}</p>
+          <p className="mt-5 text-[15px] leading-6 text-[#555]">{shortDescription}</p>
 
           <dl className="mt-6 border-t border-black/15 text-sm">
             <InfoRow label={locale === "zh" ? "博物馆" : "Museum"} value={displayName(product.museum, locale) || (locale === "zh" ? "精选合作机构" : "Curated partner")} />
             <InfoRow label={locale === "zh" ? "系列" : "Collection"} value={product.collection || product.officialCollection || (locale === "zh" ? "待确认" : "To be confirmed")} />
-            <InfoRow label="MOQ" value={locale === "zh" ? "请询价确认" : "Confirm with quote"} />
+            <InfoRow label="MOQ" value={String(product.moq || 1)} />
             <InfoRow label={locale === "zh" ? "材质" : "Material"} value={product.materials || (locale === "zh" ? "待确认" : "To be confirmed")} />
             <InfoRow label={locale === "zh" ? "尺寸" : "Dimensions"} value={product.dimensions || (locale === "zh" ? "待确认" : "To be confirmed")} />
-            <InfoRow label={locale === "zh" ? "产地" : "Origin"} value={origin} />
-            <InfoRow label={locale === "zh" ? "交付周期" : "Lead Time"} value={product.shippingNote || (locale === "zh" ? "询价时确认" : "Confirmed with quote")} />
+            <InfoRow label={locale === "zh" ? "产地" : "Origin"} value={product.origin || origin} />
+            <InfoRow label={locale === "zh" ? "交付周期" : "Lead Time"} value={product.leadTime || product.shippingNote || (locale === "zh" ? "询价时确认" : "Confirmed with quote")} />
             <InfoRow label={locale === "zh" ? "库存" : "Availability"} value={inventoryLabel(product.inventoryStatus, locale)} />
           </dl>
 
@@ -68,8 +72,8 @@ export default async function LocalizedProductPage({ params }: ProductPageProps)
 
       <section className="border-t border-black/10 py-10 sm:py-14">
         <div className="mx-auto max-w-4xl px-4 sm:px-6">
-          <ContentBlock body={product.shortDescription} title={locale === "zh" ? "产品介绍" : "Description"} />
-          <ContentBlock body={product.story || (locale === "zh" ? "产品故事正在整理中。" : "The product story is being prepared.")} title={locale === "zh" ? "产品故事" : "Product Story"} />
+          <ContentBlock body={longDescription} title={locale === "zh" ? "产品介绍" : "Description"} />
+          <ContentBlock body={story || (locale === "zh" ? "产品故事正在整理中。" : "The product story is being prepared.")} title={locale === "zh" ? "产品故事" : "Product Story"} />
           <div className="mt-10 border-t border-black/10 pt-8"><h2 className="text-2xl font-black">{locale === "zh" ? "博物馆来源" : "Museum Source"}</h2><p className="mt-4 text-[15px] leading-7 text-[#555]">{displayName(product.museum, locale) || (locale === "zh" ? "精选文化机构" : "Curated cultural institution")} · {origin}{product.officialCollection ? ` · ${product.officialCollection}` : ""}</p></div>
         </div>
       </section>

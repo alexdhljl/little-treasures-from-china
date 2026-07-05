@@ -27,6 +27,8 @@ The service role key is included for trusted server/setup use. Do not expose it 
 1. Create a Supabase project.
 2. Open the SQL editor.
 3. Run `supabase/schema.sql`.
+
+For an existing database, also run `supabase/migrations/20260704_ltps_v1.sql` once. This upgrades products, museums, and collections to the bilingual Little Treasures Product Standard without deleting existing records, slugs, or images. See `docs/LTPS-v1.md` for field rules, image structure, and the review-first import workflow.
 4. Create an Auth user for yourself in Supabase Authentication.
 5. Register that user as an admin:
 

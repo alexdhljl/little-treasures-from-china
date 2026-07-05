@@ -16,12 +16,16 @@ export type CmsMuseum = {
   slug: string;
   name: string;
   nameZh: string;
+  country: string;
   province: string;
   city: string;
+  website: string;
   logo: string;
   coverImage: string;
   description: string;
+  descriptionZh: string;
   story: string;
+  storyZh: string;
   featured: boolean;
   sortOrder: number;
   createdAt: string;
@@ -35,7 +39,10 @@ export type CmsCollection = {
   museumId: string;
   bannerImage: string;
   description: string;
+  descriptionZh: string;
   story: string;
+  storyZh: string;
+  series: string[];
   featured: boolean;
   sortOrder: number;
   createdAt: string;
