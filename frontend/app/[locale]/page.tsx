@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { ArrowRight, ImageOff } from "lucide-react";
 import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
 import { fetchPublicCms, fetchPublicProducts, isSupabaseConfigured } from "@/lib/supabase-rest";
 import { formatPriceForLocale, isLocale, localizedPath, productTitle, type Locale } from "@/lib/i18n";
 import type { Product } from "@/lib/products";
@@ -81,7 +82,7 @@ export default async function LocalizedHome({ params }: PageProps) {
         </div>
       </section>
 
-      <footer className="border-t border-black/10 bg-[#171717] py-8 text-white"><div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 sm:px-6 md:flex-row md:items-end md:justify-between"><div><p className="text-lg font-black">Little Treasures From China</p><p className="mt-1 text-xs text-white/60">Thoughtful Gifts. Beautiful Stories.</p></div><div className="flex flex-wrap gap-5 text-sm font-bold"><a href={localizedPath(locale, "/catalog")}>{locale === "zh" ? "产品" : "Products"}</a><a href={localizedPath(locale, "/collections")}>{locale === "zh" ? "系列" : "Collections"}</a><a href={localizedPath(locale, "/about")}>{locale === "zh" ? "关于" : "About"}</a><a href={localizedPath(locale, "/contact")}>{locale === "zh" ? "联系" : "Contact"}</a></div></div></footer>
+      <SiteFooter locale={locale} />
     </main>
   );
 }

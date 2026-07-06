@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ArrowRight, ImageOff } from "lucide-react";
 import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
 import { fetchPublicProducts, isSupabaseConfigured } from "@/lib/supabase-rest";
 import {
   dictionary,
@@ -135,6 +136,7 @@ export default async function LocalizedCatalogPage({ params, searchParams }: Cat
           </div>
         )}
       </section>
+      <SiteFooter locale={locale} />
     </main>
   );
 }

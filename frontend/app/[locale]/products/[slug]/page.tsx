@@ -5,6 +5,7 @@ import { AddToInquiryButton } from "@/components/AddToInquiryButton";
 import { ProductGallery } from "@/components/ProductGallery";
 import { ProductUtilityActions } from "@/components/ProductUtilityActions";
 import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
 import { fetchPublicProductBySlug, fetchPublicProducts, fetchPublicRelatedProducts, isSupabaseConfigured } from "@/lib/supabase-rest";
 import { displayFilter, displayName, formatPriceForLocale, inventoryLabel, isLocale, localizedPath, productSubtitle, productTitle, type Locale } from "@/lib/i18n";
 import type { Product } from "@/lib/products";
@@ -53,6 +54,7 @@ export default async function LocalizedProductPage({ params }: ProductPageProps)
     <section className="border-t border-black/10 py-10 sm:py-14"><div className="mx-auto max-w-4xl px-4 sm:px-6"><ContentBlock body={longDescription} title={locale === "zh" ? "产品介绍" : "Description"} /><ContentBlock body={story || (locale === "zh" ? "产品故事正在整理中。" : "The product story is being prepared.")} title={locale === "zh" ? "产品故事" : "Product Story"} /><div className="mt-10 border-t border-black/10 pt-8"><h2 className="text-2xl font-black">{locale === "zh" ? "文化来源" : "Museum Source"}</h2><p className="mt-4 text-[15px] leading-7 text-[#555]">{displayName(product.museum, locale) || (locale === "zh" ? "精选文化机构" : "Curated cultural institution")} · {origin}{product.officialCollection ? ` · ${product.officialCollection}` : ""}</p></div></div></section>
     {product.images.length > 1 ? <section className="mx-auto max-w-5xl px-4 pb-12 sm:px-6 sm:pb-16"><h2 className="mb-5 text-2xl font-black">{locale === "zh" ? "产品图片" : "Product Gallery"}</h2><div className="grid gap-4">{product.images.map((image, index) => <div className="overflow-hidden bg-[#f2f0eb]" key={`${image}-${index}`}><img alt={`${imageAlt || title} ${index + 1}`} className="h-auto max-h-[900px] w-full object-contain" loading="lazy" src={image} /></div>)}</div></section> : null}
     {related.length ? <RelatedProducts locale={locale} products={related} /> : null}
+    <SiteFooter locale={locale} />
   </main>;
 }
 

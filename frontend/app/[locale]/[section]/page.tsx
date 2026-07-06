@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 import { ArrowRight, Building2, Landmark, Mail, MapPin, Sparkles } from "lucide-react";
 import { ContactInquiryPanel } from "@/components/ContactInquiryPanel";
+import { AboutCompany } from "@/components/AboutCompany";
+import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import type { CmsCollection, CmsMuseum, CmsStory } from "@/lib/cms";
 import { dictionary, displayName, isLocale, localizedPath, type Locale } from "@/lib/i18n";
@@ -45,12 +47,13 @@ export default async function LocalizedSectionPage({ params }: PageProps) {
         </div>
       </section>
 
-      {sectionParam === "about" ? <AboutBody locale={locale} story={cms.stories.find((item) => item.kind === "about" && item.published)} /> : null}
+      {sectionParam === "about" ? <AboutCompany locale={locale} /> : null}
       {sectionParam === "collections" ? <CollectionsBody collections={cms.collections} locale={locale} /> : null}
       {sectionParam === "contact" ? <ContactInquiryBody heroImage={homepage.heroImage || cms.collections.find((item) => item.bannerImage)?.bannerImage || ""} locale={locale} /> : null}
       {sectionParam === "institutions" ? <InstitutionsBody locale={locale} /> : null}
       {sectionParam === "museums" ? <MuseumsBody locale={locale} museums={cms.museums} /> : null}
       {sectionParam === "regions" ? <RegionsBody locale={locale} museums={cms.museums} /> : null}
+      <SiteFooter locale={locale} />
     </main>
   );
 }
