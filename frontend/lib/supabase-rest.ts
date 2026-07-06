@@ -602,3 +602,20 @@ export async function registerMedia(
 ) {
   return saveCmsRecord("media", value as unknown as Record<string, unknown>, accessToken);
 }
+
+export type InquiryStatus = "new" | "contacted" | "quoted" | "negotiating" | "won" | "lost" | "archived";
+export type InquiryItemRecord = { id: string; product_id: string | null; product_slug: string | null; product_name: string; quantity: number; notes: string | null; image_url: string | null };
+export type InquiryRecord = { id: string; name: string; email: string; company: string | null; role: string | null; country: string; phone: string | null; estimated_quantity: string | null; message: string | null; status: InquiryStatus; source: string; locale: string; created_at: string; inquiry_items: InquiryItemRecord[] };
+
+export async function fetchInquiries(accessToken: string) {
+  const { url } = requireConfig();
+  const response = await fetch(`${url}/rest/v1/inquiries?select=*,inquiry_items(*)&order=created_at.desc`, { headers: authHeaders(accessToken), cache: "no-store" });
+  return parseResponse<InquiryRecord[]>(response);
+}
+
+export async function updateInquiryStatus(id: string, status: InquiryStatus, accessToken: string) {
+  const { url } = requireConfig();
+  const response = await fetch(`${url}/rest/v1/inquiries?id=eq.${encodeURIComponent(id)}`, { method: "PATCH", headers: { ...authHeaders(accessToken), "Content-Type": "application/json", Prefer: "return=representation" }, body: JSON.stringify({ status }) });
+  const rows = await parseResponse<InquiryRecord[]>(response);
+  return rows[0];
+}

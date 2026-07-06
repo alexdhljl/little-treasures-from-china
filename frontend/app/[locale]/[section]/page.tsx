@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { ArrowRight, Building2, Landmark, Mail, MapPin, Sparkles } from "lucide-react";
+import { ContactInquiryPanel } from "@/components/ContactInquiryPanel";
 import { SiteHeader } from "@/components/SiteHeader";
 import type { CmsCollection, CmsMuseum, CmsStory } from "@/lib/cms";
 import { dictionary, displayName, isLocale, localizedPath, type Locale } from "@/lib/i18n";
@@ -46,7 +47,7 @@ export default async function LocalizedSectionPage({ params }: PageProps) {
 
       {sectionParam === "about" ? <AboutBody locale={locale} story={cms.stories.find((item) => item.kind === "about" && item.published)} /> : null}
       {sectionParam === "collections" ? <CollectionsBody collections={cms.collections} locale={locale} /> : null}
-      {sectionParam === "contact" ? <ContactBody heroImage={homepage.heroImage || cms.collections.find((item) => item.bannerImage)?.bannerImage || ""} locale={locale} /> : null}
+      {sectionParam === "contact" ? <ContactInquiryBody heroImage={homepage.heroImage || cms.collections.find((item) => item.bannerImage)?.bannerImage || ""} locale={locale} /> : null}
       {sectionParam === "institutions" ? <InstitutionsBody locale={locale} /> : null}
       {sectionParam === "museums" ? <MuseumsBody locale={locale} museums={cms.museums} /> : null}
       {sectionParam === "regions" ? <RegionsBody locale={locale} museums={cms.museums} /> : null}
@@ -101,6 +102,10 @@ function CollectionsBody({ locale, collections }: { locale: Locale; collections:
       </div>
     </section>
   );
+}
+
+function ContactInquiryBody({ locale, heroImage }: { locale: Locale; heroImage: string }) {
+  return <section className="mx-auto grid max-w-7xl gap-6 px-4 py-10 sm:px-5 sm:py-16 lg:grid-cols-[1.08fr_0.92fr] lg:gap-10"><div className="relative aspect-[4/3] max-h-[420px] overflow-hidden bg-[#f1eee7] sm:min-h-[520px] sm:max-h-none">{heroImage ? <img alt={locale === "zh" ? "精选文化礼品目录" : "Curated cultural gifts catalog"} className="h-full w-full object-cover" src={heroImage} /> : null}</div><aside className="lg:sticky lg:top-24 lg:self-start"><ContactInquiryPanel locale={locale} /></aside></section>;
 }
 
 function ContactBody({ locale, heroImage }: { locale: Locale; heroImage: string }) {

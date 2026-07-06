@@ -193,6 +193,39 @@ create table if not exists public.site_settings (
   updated_at timestamptz not null default now()
 );
 
+create table if not exists public.inquiries (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  email text not null,
+  company text,
+  role text,
+  country text not null,
+  phone text,
+  estimated_quantity text,
+  message text,
+  status text not null default 'new' check (status in ('new','contacted','quoted','negotiating','won','lost','archived')),
+  source text not null default 'website',
+  locale text not null default 'en' check (locale in ('en','zh')),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table if not exists public.inquiry_items (
+  id uuid primary key default gen_random_uuid(),
+  inquiry_id uuid not null references public.inquiries(id) on delete cascade,
+  product_id text,
+  product_slug text,
+  product_name text not null,
+  quantity integer not null default 1 check (quantity > 0),
+  notes text,
+  image_url text,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists inquiries_created_at_idx on public.inquiries(created_at desc);
+create index if not exists inquiries_status_idx on public.inquiries(status);
+create index if not exists inquiry_items_inquiry_id_idx on public.inquiry_items(inquiry_id);
+
 alter table public.museums add column if not exists country text not null default 'China';
 alter table public.museums add column if not exists website text;
 alter table public.museums add column if not exists description_zh text;

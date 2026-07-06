@@ -18,6 +18,9 @@ Create `frontend/.env.local`:
 NEXT_PUBLIC_SUPABASE_URL=your-supabase-project-url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
 SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
+RESEND_API_KEY=your-resend-api-key
+INQUIRY_NOTIFICATION_EMAIL=hello@auctuslab.com
+INQUIRY_FROM_EMAIL=Little Treasures <onboarding@resend.dev>
 ```
 
 The service role key is included for trusted server/setup use. Do not expose it in browser code.
@@ -29,6 +32,8 @@ The service role key is included for trusted server/setup use. Do not expose it 
 3. Run `supabase/schema.sql`.
 
 For an existing database, also run `supabase/migrations/20260704_ltps_v1.sql` once. This upgrades products, museums, and collections to the bilingual Little Treasures Product Standard without deleting existing records, slugs, or images. See `docs/LTPS-v1.md` for field rules, image structure, and the review-first import workflow.
+
+Run `supabase/migrations/20260706_inquiry_workflow.sql` to enable inquiry storage and the admin inquiry dashboard. It creates `inquiries` and `inquiry_items` without changing product data.
 4. Create an Auth user for yourself in Supabase Authentication.
 5. Register that user as an admin:
 
@@ -87,6 +92,21 @@ Admin dashboard:
 ```text
 http://localhost:3000/admin
 ```
+
+Admin inquiries:
+
+```text
+http://localhost:3000/admin/inquiries
+```
+
+## Inquiry Workflow
+
+- Product pages support an image carousel, fullscreen preview, and Add to Inquiry.
+- Inquiry cart data stays in the visitor's browser until submission.
+- `/en/inquiry` and `/zh/inquiry` save customer and product details to Supabase.
+- Contact and catalog requests use the same tracked inquiry workflow.
+- Email notifications are sent through Resend when `RESEND_API_KEY` is configured.
+- If Resend is not configured, the inquiry is still saved successfully in Supabase.
 
 Product catalog:
 

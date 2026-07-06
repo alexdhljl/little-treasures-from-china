@@ -1,0 +1,16 @@
+"use client";
+
+import { Minus, Plus, Trash2 } from "lucide-react";
+import { InquiryForm } from "@/components/InquiryForm";
+import type { Locale } from "@/lib/i18n";
+import { useInquiryCart } from "@/lib/inquiry-cart";
+
+export function InquiryPage({ locale }: { locale: Locale }) {
+  const { items, updateItem, removeItem, clear } = useInquiryCart();
+  return <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 sm:py-14 lg:grid-cols-[1.08fr_0.92fr] lg:gap-12">
+    <section><p className="commerce-kicker">{locale === "zh" ? "询价清单" : "Inquiry List"}</p><h1 className="mt-2 text-3xl font-black sm:text-4xl">{locale === "zh" ? "申请报价" : "Request a Quote"}</h1><p className="mt-3 max-w-2xl text-[15px] leading-7 text-[#555]">{locale === "zh" ? "将产品加入询价清单并告诉我们您的需求。我们将准备价格、起订量、运输和交付周期。" : "Add products to your inquiry list and tell us what you are looking for. We will prepare pricing, MOQ, shipping, and lead time."}</p>
+      <div className="mt-7 grid gap-3">{items.length ? items.map((item) => <article className="grid grid-cols-[86px_1fr] gap-4 border border-black/10 p-3 sm:grid-cols-[110px_1fr]" key={item.slug}><div className="aspect-[4/5] overflow-hidden bg-[#f1efe9]">{item.image ? <img alt="" className="h-full w-full object-cover" src={item.image} /> : null}</div><div className="min-w-0"><div className="flex items-start justify-between gap-3"><h2 className="text-base font-black leading-snug">{item.name}</h2><button aria-label="Remove item" className="grid size-9 shrink-0 place-items-center" onClick={() => removeItem(item.slug)} type="button"><Trash2 size={17} /></button></div><div className="mt-3 flex items-center gap-2"><button aria-label="Decrease quantity" className="grid size-9 place-items-center border border-black/15" onClick={() => updateItem(item.slug, { quantity: item.quantity - 1 })} type="button"><Minus size={14} /></button><span className="w-9 text-center text-sm font-black">{item.quantity}</span><button aria-label="Increase quantity" className="grid size-9 place-items-center border border-black/15" onClick={() => updateItem(item.slug, { quantity: item.quantity + 1 })} type="button"><Plus size={14} /></button></div><textarea aria-label={`Notes for ${item.name}`} className="mt-3 w-full border border-black/15 px-3 py-2 text-sm outline-none focus:border-[#2c6f6d]" onChange={(event) => updateItem(item.slug, { notes: event.target.value })} placeholder={locale === "zh" ? "颜色、包装或其他说明" : "Color, packaging, or other notes"} rows={2} value={item.notes} /></div></article>) : <div className="border border-dashed border-black/20 bg-[#f7f5f0] p-6 text-sm text-[#555]">{locale === "zh" ? "询价清单目前为空。您仍可以提交一般目录或批发咨询。" : "Your inquiry list is empty. You can still submit a general catalog or wholesale request."}</div>}</div>
+    </section>
+    <aside className="lg:sticky lg:top-28 lg:self-start"><div className="border border-black/10 bg-[#f7f5f0] p-5 sm:p-6"><h2 className="text-xl font-black">{locale === "zh" ? "您的联系方式" : "Your Details"}</h2><p className="mt-2 text-sm leading-6 text-[#666]">{locale === "zh" ? "带 * 的字段为必填项。" : "Fields marked * are required."}</p><div className="mt-5"><InquiryForm items={items} locale={locale} source="inquiry-cart" onSuccess={clear} /></div></div></aside>
+  </div>;
+}
