@@ -6,6 +6,8 @@ export type InquiryCartItem = {
   productId: string;
   slug: string;
   name: string;
+  nameEn?: string;
+  nameZh?: string;
   image: string;
   quantity: number;
   notes: string;

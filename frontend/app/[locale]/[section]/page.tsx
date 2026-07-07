@@ -5,7 +5,7 @@ import { AboutCompany } from "@/components/AboutCompany";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import type { CmsCollection, CmsMuseum, CmsStory } from "@/lib/cms";
-import { dictionary, displayName, isLocale, localizedPath, type Locale } from "@/lib/i18n";
+import { dictionary, displayFilter, displayName, isLocale, localizedPath, type Locale } from "@/lib/i18n";
 import { fetchPublicCms, isSupabaseConfigured } from "@/lib/supabase-rest";
 
 const sections = ["about", "collections", "contact", "institutions", "museums", "regions"] as const;
@@ -94,8 +94,8 @@ function CollectionsBody({ locale, collections }: { locale: Locale; collections:
           >
             <div className="h-28 bg-[#ece9e1] sm:h-40">{collection.bannerImage ? <img alt="" className="h-full w-full object-cover" loading="lazy" src={collection.bannerImage} /> : null}</div>
             <div className="p-4 sm:p-5">
-              <h2 className="text-xl font-black sm:text-2xl">{locale === "zh" ? collection.nameZh || collection.name : collection.name}</h2>
-              <p className="mt-3 text-[15px] leading-6 text-[#555] sm:min-h-20 sm:text-sm">{collection.description}</p>
+              <h2 className="text-xl font-black sm:text-2xl">{locale === "zh" ? collection.nameZh || displayFilter(collection.name, locale) : collection.name}</h2>
+              <p className="mt-3 text-[15px] leading-6 text-[#555] sm:min-h-20 sm:text-sm">{locale === "zh" ? collection.descriptionZh || "系列介绍正在整理中。" : collection.description}</p>
               <span className="mt-4 inline-flex items-center gap-2 text-sm font-black sm:mt-6">
                 {locale === "zh" ? "查看产品" : "View products"} <ArrowRight size={15} />
               </span>
@@ -188,15 +188,15 @@ function MuseumsBody({ locale, museums }: { locale: Locale; museums: CmsMuseum[]
             <div className="h-40 bg-[#ece9e1]">{museum.coverImage ? <img alt="" className="h-full w-full object-cover" loading="lazy" src={museum.coverImage} /> : null}</div>
             <div className="p-4 sm:p-5">
             <Landmark className="text-[#2c6f6d]" size={24} />
-            <h2 className="mt-4 text-xl font-black leading-tight sm:text-2xl">{locale === "zh" ? museum.nameZh || museum.name : museum.name}</h2>
+            <h2 className="mt-4 text-xl font-black leading-tight sm:text-2xl">{locale === "zh" ? museum.nameZh || displayName(museum.name, locale) : museum.name}</h2>
             <p className="mt-5 text-sm font-black uppercase tracking-[0.18em] text-[#777]">
               {locale === "zh" ? "镇馆主题" : "Signature Treasure"}
             </p>
-            <p className="mt-2 text-base font-bold leading-7">{museum.description}</p>
+            <p className="mt-2 text-base font-bold leading-7">{locale === "zh" ? museum.descriptionZh || "博物馆介绍正在整理中。" : museum.description}</p>
             <p className="mt-5 text-sm font-black uppercase tracking-[0.18em] text-[#777]">
               {locale === "zh" ? "文创方向" : "Cultural Gift Edit"}
             </p>
-            <p className="mt-2 line-clamp-4 text-base leading-7 text-[#444]">{museum.story}</p>
+            <p className="mt-2 line-clamp-4 text-base leading-7 text-[#444]">{locale === "zh" ? museum.storyZh || "文创故事正在整理中。" : museum.story}</p>
             </div>
           </article>
         ))}
@@ -218,7 +218,7 @@ function RegionsBody({ locale, museums }: { locale: Locale; museums: CmsMuseum[]
           <article className="min-h-56 bg-[#ece9e1] p-4 sm:min-h-72 sm:p-6" key={region}>
             <MapPin size={24} />
             <h2 className="mt-10 text-2xl font-black sm:mt-16 sm:text-3xl">{displayName(region, locale)}</h2>
-            <p className="mt-3 text-base leading-7 text-[#343434]">{regionMuseums.map((museum) => locale === "zh" ? museum.nameZh || museum.name : museum.name).join(" · ")}</p>
+            <p className="mt-3 text-base leading-7 text-[#343434]">{regionMuseums.map((museum) => locale === "zh" ? museum.nameZh || displayName(museum.name, locale) : museum.name).join(" · ")}</p>
             <p className="mt-6 text-sm font-bold text-[#555]">
               {regionMuseums.length} {locale === "zh" ? "家博物馆" : regionMuseums.length === 1 ? "museum" : "museums"}
             </p>

@@ -52,11 +52,27 @@ export const localizedFilterLabels: Record<Locale, Record<string, string>> = {
     "Stationery & Office": "文具办公",
     "Kids & Family": "亲子儿童",
     "Wear & Accessories": "穿戴配饰",
+    Stationery: "文具办公",
+    Accessories: "配饰",
+    Jewelry: "首饰",
+    "Tea & Lifestyle": "茶与生活",
+    "Desk Accessories": "桌面用品",
+    "Maya Cultural Gifts": "玛雅文化礼品",
+    "Sports Gifts": "运动礼品",
+    "Panda Gifts": "熊猫礼品",
+    "Curated Selection": "精选系列",
+    "Chinese Heritage Collection": "中国文化遗产系列",
+    "Bronze Age": "青铜文明",
+    "Chinese Characters": "汉字文化",
+    "Forbidden City": "故宫系列",
+    Sanxingdui: "三星堆系列",
     "Teacher Gifts": "教师礼物",
     Housewarming: "乔迁礼物",
     "Housewarming Gifts": "乔迁礼物",
     "Thank You Gifts": "感谢礼物",
     "Birthday Gifts": "生日礼物",
+    Birthday: "生日礼物",
+    "Colleague Gifts": "同事礼物",
     "New Baby & Family": "新生儿与家庭",
     "Host & Hostess Gifts": "主人礼",
     "Holiday Gifts": "节日礼物",
@@ -80,6 +96,32 @@ export function displayFilter(value: string, locale: Locale) {
   return localizedFilterLabels[locale][value] || value;
 }
 
+const productAttributeLabels: Record<string, string> = {
+  "Plastic, metal, and silicone": "塑料、金属与硅胶",
+  "Metal alloy and magnet": "金属合金与磁体",
+  "Resin and magnet": "树脂与磁体",
+  "Paper, board, and metal ornament": "纸张、纸板与金属装饰",
+  "Paper and board": "纸张与纸板",
+  "Cotton blend": "棉混纺",
+  "Metal alloy, acrylic, textile loop, and faux leather": "金属合金、亚克力、织物挂绳与人造皮革",
+  "PVC, resin, and magnet": "PVC、树脂与磁体",
+  "Metal alloy, enamel, and magnet": "金属合金、珐琅与磁体",
+  "Plastic, silicone, and ink": "塑料、硅胶与墨水",
+  "Rubber eraser": "橡皮材质",
+  "Metal, enamel, paper gift box": "金属、珐琅与纸质礼盒",
+  TBD: "待确认",
+  China: "中国",
+  "International shipping quoted separately.": "国际运输费用另行报价。",
+  "Returns and exchanges are reviewed case by case before order confirmation.": "订单确认前将逐案审核退换货安排。",
+  "Confirmed with quote": "报价时确认",
+  "To be confirmed": "待确认",
+};
+
+export function displayProductAttribute(value: string | null | undefined, locale: Locale, fallback = "") {
+  if (!value) return fallback;
+  return locale === "zh" ? productAttributeLabels[value] || value : value;
+}
+
 export const museumLabels: Record<Locale, Record<string, string>> = {
   en: {},
   zh: {
@@ -98,6 +140,9 @@ export const museumLabels: Record<Locale, Record<string, string>> = {
     "Guangdong Museum": "广东省博物馆",
     "Yunnan Museum": "云南省博物馆",
     "Fujian Museum": "福建博物院",
+    "Baoji Bronze Museum": "宝鸡青铜器博物院",
+    "Yinxu Museum": "殷墟博物馆",
+    "Curated Selection": "精选策划",
     Dunhuang: "敦煌",
     Sanxingdui: "三星堆",
     Kids: "儿童",

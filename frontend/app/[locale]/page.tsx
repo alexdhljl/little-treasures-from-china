@@ -3,7 +3,7 @@ import { ArrowRight, ImageOff } from "lucide-react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { fetchPublicCms, fetchPublicProducts, isSupabaseConfigured } from "@/lib/supabase-rest";
-import { formatPriceForLocale, isLocale, localizedPath, productTitle, type Locale } from "@/lib/i18n";
+import { displayFilter, formatPriceForLocale, isLocale, localizedPath, productTitle, type Locale } from "@/lib/i18n";
 import type { Product } from "@/lib/products";
 
 export const dynamic = "force-dynamic";
@@ -59,7 +59,7 @@ export default async function LocalizedHome({ params }: PageProps) {
           {collections.map((collection) => (
             <a className="group" href={`${localizedPath(locale, "/catalog")}?collection=${encodeURIComponent(collection.name)}`} key={collection.id}>
               <div className="aspect-[4/3] overflow-hidden bg-[#efede7]">{collection.bannerImage ? <img alt="" className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.02]" loading="lazy" src={collection.bannerImage} /> : null}</div>
-              <h3 className="mt-3 text-[16px] font-bold leading-tight sm:text-lg">{locale === "zh" ? collection.nameZh || collection.name : collection.name}</h3>
+              <h3 className="mt-3 text-[16px] font-bold leading-tight sm:text-lg">{locale === "zh" ? collection.nameZh || displayFilter(collection.name, locale) : collection.name}</h3>
             </a>
           ))}
         </div>
@@ -69,7 +69,7 @@ export default async function LocalizedHome({ params }: PageProps) {
         <SectionHeader href={localizedPath(locale, "/catalog")} label={locale === "zh" ? "按送礼场景选购" : "Shop by Occasion"} locale={locale} />
         <div className="mt-5 grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:grid-cols-6">
           {occasions.map((occasion) => {
-            const name = locale === "zh" ? occasion.nameZh || occasion.name : occasion.name;
+            const name = locale === "zh" ? occasion.nameZh || displayFilter(occasion.name, locale) : occasion.name;
             return <a className="group border border-black/10 bg-white" href={`${localizedPath(locale, "/catalog")}?gift=${encodeURIComponent(name)}`} key={occasion.id}><div className="aspect-[4/3] overflow-hidden bg-[#e9e6df]">{occasion.image ? <img alt="" className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]" loading="lazy" src={occasion.image} /> : null}</div><p className="px-3 py-3 text-sm font-bold">{name}</p></a>;
           })}
         </div>

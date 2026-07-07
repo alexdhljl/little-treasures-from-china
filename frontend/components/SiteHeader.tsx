@@ -5,7 +5,7 @@ import { ArrowRight, ClipboardList, Menu, Search, X } from "lucide-react";
 import { BrandLogo } from "@/components/BrandLogo";
 import type { CmsCategory } from "@/lib/cms";
 import type { Locale } from "@/lib/i18n";
-import { dictionary, localizedPath } from "@/lib/i18n";
+import { dictionary, displayFilter, localizedPath } from "@/lib/i18n";
 import { useInquiryCart } from "@/lib/inquiry-cart";
 import { fetchCategories, isSupabaseConfigured } from "@/lib/supabase-rest";
 
@@ -36,12 +36,20 @@ export function SiteHeader({ locale = "en", path = "/" }: SiteHeaderProps) {
 
   const productCategories = categories.filter((item) => item.kind === "product").slice(0, 5);
   const close = () => setOpen(false);
-  const drawerCategories = [
+  const drawerCategories = locale === "zh" ? [
+    ["全部礼品", "/catalog"], ["家居生活", "/catalog?category=Home%20%26%20Living"],
+    ["文具办公", "/catalog?category=Stationery%20%26%20Office"], ["亲子儿童", "/catalog?category=Kids%20%26%20Family"],
+    ["穿戴配饰", "/catalog?category=Wear%20%26%20Accessories"], ["首饰", "/catalog?category=Jewelry"],
+    ["茶与生活", "/catalog?category=Tea%20%26%20Lifestyle"], ["配饰", "/catalog?category=Accessories"],
+  ] : [
     ["Gifts", "/catalog"], ["Home & Living", "/catalog?category=Home%20%26%20Living"],
     ["Stationery", "/catalog?category=Stationery%20%26%20Office"], ["Kids", "/catalog?category=Kids%20%26%20Family"],
     ["Wear", "/catalog?category=Wear%20%26%20Accessories"], ["Jewelry", "/catalog?category=Jewelry"],
     ["Tea & Lifestyle", "/catalog?category=Tea%20%26%20Lifestyle"], ["Accessories", "/catalog?category=Accessories"],
   ];
+  const drawerBrowse = locale === "zh" ? [["首页", "/"], ["新品", "/catalog?sort=new"], ["畅销产品", "/catalog?featured=true"], ["全部产品", "/catalog"], ["博物馆系列", "/collections"]] : [["Home", "/"], ["New Arrivals", "/catalog?sort=new"], ["Best Sellers", "/catalog?featured=true"], ["All Products", "/catalog"], ["Museum Collections", "/collections"]];
+  const drawerBusiness = locale === "zh" ? [["索取目录", "/inquiry"], ["申请报价", "/inquiry"], ["批发咨询", "/institutions"]] : [["Request Catalog", "/inquiry"], ["Request Quote", "/inquiry"], ["Wholesale Inquiry", "/institutions"]];
+  const drawerAbout = locale === "zh" ? [["关于我们", "/about"], ["联系我们", "/contact"]] : [["About", "/about"], ["Contact", "/contact"]];
 
   return <>
     <header className="sticky top-0 z-30 border-b border-black/10 bg-white/95 backdrop-blur">
@@ -59,7 +67,7 @@ export function SiteHeader({ locale = "en", path = "/" }: SiteHeaderProps) {
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-8 px-4 py-2 sm:px-6 lg:py-2.5">
           <nav className="hidden items-center gap-7 text-sm font-medium text-[#171717] lg:flex">
             <a className="font-black uppercase tracking-[0.12em] hover:text-[#2c6f6d]" href={localizedPath(locale, "/catalog")}>{t.nav.gifts}</a>
-            {productCategories.map((category) => <a className="hover:text-[#2c6f6d]" href={`${localizedPath(locale, "/catalog")}?category=${encodeURIComponent(category.name)}`} key={category.id}>{locale === "zh" ? category.nameZh || category.name : category.name}</a>)}
+            {productCategories.map((category) => <a className="hover:text-[#2c6f6d]" href={`${localizedPath(locale, "/catalog")}?category=${encodeURIComponent(category.name)}`} key={category.id}>{locale === "zh" ? category.nameZh || displayFilter(category.name, locale) : category.name}</a>)}
             <a className="hover:text-[#2c6f6d]" href={localizedPath(locale, "/collections")}>{t.nav.collections}</a><a className="hover:text-[#2c6f6d]" href={withLocale(locale, "/catalog?sort=new")}>{t.nav.new}</a><a className="hover:text-[#2c6f6d]" href={localizedPath(locale, "/about")}>{t.nav.about}</a>
           </nav>
           <div className="ml-auto hidden items-center gap-5 lg:flex"><Search size={22} /></div>
@@ -73,10 +81,10 @@ export function SiteHeader({ locale = "en", path = "/" }: SiteHeaderProps) {
       <div className="flex items-center justify-between border-b border-black/10 px-5 py-4"><BrandLogo className="w-[165px]" /><button aria-label="Close navigation menu" className="grid size-10 place-items-center" onClick={close} type="button"><X size={22} /></button></div>
       <div className="px-5 py-5">
         <DrawerSection title={locale === "zh" ? "语言" : "Language"}><div className="flex gap-4 text-sm font-bold"><a href={languageHref("en", path)} onClick={close}>English</a><span className="text-[#bbb]">/</span><a href={languageHref("zh", path)} onClick={close}>中文</a></div></DrawerSection>
-        <DrawerSection title={locale === "zh" ? "浏览" : "Browse"}><DrawerLinks close={close} locale={locale} links={[["Home", "/"], ["New Arrivals", "/catalog?sort=new"], ["Best Sellers", "/catalog?featured=true"], ["All Products", "/catalog"], ["Museum Collections", "/collections"]]} /></DrawerSection>
+        <DrawerSection title={locale === "zh" ? "浏览" : "Browse"}><DrawerLinks close={close} locale={locale} links={drawerBrowse} /></DrawerSection>
         <DrawerSection title={locale === "zh" ? "分类" : "Categories"}><DrawerLinks close={close} locale={locale} links={drawerCategories} /></DrawerSection>
-        <DrawerSection title={locale === "zh" ? "商务" : "Business"}><DrawerLinks close={close} locale={locale} links={[["Request Catalog", "/inquiry"], ["Request Quote", "/inquiry"], ["Wholesale Inquiry", "/institutions"]]} /></DrawerSection>
-        <DrawerSection title={locale === "zh" ? "关于" : "About"}><DrawerLinks close={close} locale={locale} links={[["About", "/about"], ["Contact", "/contact"]]} /></DrawerSection>
+        <DrawerSection title={locale === "zh" ? "商务" : "Business"}><DrawerLinks close={close} locale={locale} links={drawerBusiness} /></DrawerSection>
+        <DrawerSection title={locale === "zh" ? "关于" : "About"}><DrawerLinks close={close} locale={locale} links={drawerAbout} /></DrawerSection>
       </div>
       <div className="border-t border-black/10 bg-[#f5f3ed] px-5 py-5"><p className="text-sm font-black">Auctus Lab</p><a className="mt-1 block text-sm text-[#555]" href="mailto:hello@auctuslab.com">hello@auctuslab.com</a></div>
     </aside>
