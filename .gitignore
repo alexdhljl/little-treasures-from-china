@@ -24,3 +24,6 @@ frontend/scripts/render-leaderboard-image.py
 frontend/scripts/render-opportunity-section-image.py
 frontend/scripts/inline-export-css.cjs
 frontend/public/images/little-treasures-hero.png
+
+.vercel
+.env*
