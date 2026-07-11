@@ -19,7 +19,7 @@ export default async function LocalizedHome({ params }: PageProps) {
   const bestSellers = (products.filter((item) => item.featured).length ? products.filter((item) => item.featured) : products).slice(0, 8);
   const newArrivals = [...products].sort((a, b) => +new Date(b.createdAt) - +new Date(a.createdAt)).slice(0, 8);
   const collections = cms.collections.filter((item) => item.featured).slice(0, 6);
-  const occasions = cms.categories.filter((item) => item.kind === "occasion" && item.featured).slice(0, 6);
+  const occasions = cms.categories.filter((item) => item.kind === "occasion" && item.featured).slice(0, 10);
   const about = cms.stories.find((item) => item.kind === "about" && item.published);
   const settings = (cms.settings.find((item) => item.key === "homepage")?.value || {}) as Record<string, string>;
   const heroImage = settings.heroImage || products.find((item) => item.images[0])?.images[0] || "";
@@ -67,7 +67,7 @@ export default async function LocalizedHome({ params }: PageProps) {
 
       <section className="commerce-section border-t border-black/10 bg-[#f7f5f0]">
         <SectionHeader href={localizedPath(locale, "/catalog")} label={locale === "zh" ? "按送礼场景选购" : "Shop by Occasion"} locale={locale} />
-        <div className="mt-5 grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:grid-cols-6">
+        <div className="mt-5 grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:grid-cols-5">
           {occasions.map((occasion) => {
             const name = locale === "zh" ? occasion.nameZh || displayFilter(occasion.name, locale) : occasion.name;
             return <a className="group border border-black/10 bg-white" href={`${localizedPath(locale, "/catalog")}?gift=${encodeURIComponent(name)}`} key={occasion.id}><div className="aspect-[4/3] overflow-hidden bg-[#e9e6df]">{occasion.image ? <img alt="" className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]" loading="lazy" src={occasion.image} /> : null}</div><p className="px-3 py-3 text-sm font-bold">{name}</p></a>;
