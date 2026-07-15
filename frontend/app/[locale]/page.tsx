@@ -75,10 +75,10 @@ export default async function LocalizedHome({ params }: PageProps) {
         </div>
       </section>
 
-      <section className="border-t border-black/10 bg-white py-8 sm:py-10">
-        <div className="mx-auto grid max-w-7xl items-center gap-5 px-4 sm:px-6 md:grid-cols-[1.2fr_1fr]">
-          <div className="aspect-[16/7] max-h-64 overflow-hidden bg-[#ece9e1]">{about?.coverImage || heroImage ? <img alt="" className="h-full w-full object-cover" loading="lazy" src={about?.coverImage || heroImage} /> : null}</div>
-          <div><p className="commerce-kicker">{locale === "zh" ? "关于 Auctus Heritage" : "About Auctus Heritage"}</p><h2 className="mt-2 text-2xl font-black leading-tight sm:text-[28px]">{locale === "zh" ? about?.titleZh || "把文化故事带进日常生活" : about?.title || "Cultural stories for everyday life"}</h2><p className="mt-3 line-clamp-3 text-[15px] leading-6 text-[#555]">{locale === "zh" ? about?.excerptZh : about?.excerpt}</p><a className="mt-4 inline-flex items-center gap-2 text-sm font-bold" href={localizedPath(locale, "/about")}>{locale === "zh" ? "了解更多" : "Learn More"}<ArrowRight size={15} /></a></div>
+      <section className="border-t border-black/10 bg-white py-10 sm:py-14">
+        <div className="mx-auto grid max-w-7xl items-center gap-7 px-4 sm:px-6 md:grid-cols-[1.05fr_0.95fr]">
+          <div className="aspect-[5/3] max-h-[360px] overflow-hidden bg-[#ece9e1]">{about?.coverImage || heroImage ? <img alt="" className="h-full w-full object-cover" loading="lazy" src={about?.coverImage || heroImage} /> : null}</div>
+          <div className="max-w-xl"><p className="commerce-kicker">{locale === "zh" ? "关于 Auctus Heritage" : "About Auctus Heritage"}</p><h2 className="mt-3 text-[28px] font-black leading-tight sm:text-[34px]">{locale === "zh" ? about?.titleZh || "把文化故事带进日常生活" : about?.title || "Cultural stories for everyday life"}</h2><p className="mt-4 line-clamp-4 text-[15px] leading-7 text-[#555]">{locale === "zh" ? about?.excerptZh : about?.excerpt}</p><a className="mt-5 inline-flex items-center gap-2 text-sm font-bold" href={localizedPath(locale, "/about")}>{locale === "zh" ? "了解更多" : "Learn More"}<ArrowRight size={15} /></a></div>
         </div>
       </section>
 

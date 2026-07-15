@@ -3,9 +3,73 @@ import { siteConfig } from "@/lib/site";
 
 export function AboutCompany({ locale }: { locale: Locale }) {
   const isZh = locale === "zh";
-  return <section className="bg-[#fffdf8]"><div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-5 sm:py-16 lg:grid-cols-[220px_1fr] lg:gap-16 lg:py-20"><aside><p className="section-kicker">{isZh ? "品牌故事" : "Our Story"}</p><div className="mt-6 h-2 w-24 bg-[#f9d95f]" /><div className="mt-2 h-2 w-16 bg-[#65c6c4]" /><div className="mt-2 h-2 w-10 bg-[#f27a5e]" /></aside><div className="max-w-3xl space-y-5 text-[15px] leading-7 text-[#464646] sm:text-base sm:leading-8"><p>{isZh ? "Auctus Heritage 是由 Auctus Lab LLC 运营的文化礼品与博物馆灵感设计平台。Auctus Lab LLC 是一家在美国纽约州注册的公司。" : "Auctus Heritage is a New York-based cultural gift and museum-inspired design platform operated by Auctus Lab LLC."}</p><p>{isZh ? "我们开发并甄选博物馆灵感产品、教育用品、家居好物、文具、收藏品与文化礼品，让艺术、历史、考古、工艺与文化故事进入当代生活。" : "We curate thoughtfully designed objects that bring art, history, archaeology, craftsmanship, and cultural stories into contemporary life."}</p><p>{isZh ? "当前系列重点关注中国博物馆、文化遗产与传统工艺启发的产品。未来，Auctus Heritage 也会拓展更多文化地区与博物馆收藏主题。" : "Our current focus includes cultural products inspired by Chinese museums, heritage, art, archaeology, and traditional craftsmanship. Over time, the platform may expand to additional cultural regions and museum collections."}</p></div></div><div className="border-y border-black/10 bg-white"><div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:px-5 sm:py-16 md:grid-cols-2 md:gap-14"><article><p className="section-kicker">{isZh ? "关于 Auctus Lab" : "About Auctus Lab"}</p><h2 className="mt-4 text-2xl font-black sm:text-3xl">{siteConfig.legalName}</h2><p className="mt-4 max-w-xl text-[15px] leading-7 text-[#555]">{isZh ? "Auctus Lab 是一家位于纽约的产品创新与全球电子商务公司，专注于连接文化内容、优质设计与国际市场。" : "Auctus Lab is a New York-based product innovation and global e-commerce company connecting cultural content, thoughtful design, and international markets."}</p></article><article><p className="section-kicker">{isZh ? "公司信息" : "Company Information"}</p><dl className="mt-4 divide-y divide-black/10 border-y border-black/10 text-sm"><CompanyRow label={isZh ? "公司" : "Company"} value={siteConfig.legalName} /><CompanyRow label={isZh ? "所在地" : "Location"} value={siteConfig.location} /><CompanyRow label={isZh ? "业务" : "Focus"} value="Product Innovation & Global E-commerce" /></dl></article></div></div><div className="mx-auto flex max-w-6xl justify-center px-4 py-10 sm:px-5"><span className="inline-flex border border-black/20 px-4 py-2 text-[11px] font-black uppercase tracking-[0.14em] text-[#555]">A Brand by Auctus Lab LLC · New York, USA</span></div></section>;
+  const paragraphs = isZh
+    ? [
+        "Auctus Heritage 是由 Auctus Lab LLC 运营的文化礼品与博物馆灵感设计平台。Auctus Lab LLC 是一家在美国纽约州注册的公司。",
+        "我们开发并甄选博物馆灵感产品、教育用品、家居好物、文具、收藏品与文化礼品，让艺术、历史、考古、工艺与文化故事进入当代生活。",
+        "当前系列重点关注中国博物馆、文化遗产与传统工艺启发的产品。未来，Auctus Heritage 也会拓展更多文化地区与博物馆收藏主题。",
+      ]
+    : [
+        "Auctus Heritage is a New York-based cultural gift and museum-inspired design platform operated by Auctus Lab LLC.",
+        "We curate thoughtfully designed objects that bring art, history, archaeology, craftsmanship, and cultural stories into contemporary life.",
+        "Our current focus includes cultural products inspired by Chinese museums, heritage, art, archaeology, and traditional craftsmanship. Over time, the platform may expand to additional cultural regions and museum collections.",
+      ];
+
+  return (
+    <section className="bg-[#fffdf8]">
+      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-5 sm:py-18 lg:grid-cols-[240px_1fr] lg:gap-16 lg:py-20">
+        <aside>
+          <p className="section-kicker">{isZh ? "品牌故事" : "Our Story"}</p>
+          <h2 className="mt-5 max-w-[12rem] text-3xl font-black leading-tight">
+            {isZh ? "文化产品，进入当代生活。" : "Cultural objects for contemporary life."}
+          </h2>
+          <div className="mt-7 h-2 w-24 bg-[#f9d95f]" />
+          <div className="mt-2 h-2 w-16 bg-[#65c6c4]" />
+          <div className="mt-2 h-2 w-10 bg-[#f27a5e]" />
+        </aside>
+        <div className="max-w-2xl space-y-7 text-[16px] leading-8 text-[#464646] sm:text-[17px] sm:leading-9">
+          {paragraphs.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
+        </div>
+      </div>
+
+      <div className="border-y border-black/10 bg-white">
+        <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:px-5 sm:py-16 md:grid-cols-2 md:gap-14">
+          <article>
+            <p className="section-kicker">{isZh ? "关于 Auctus Lab" : "About Auctus Lab"}</p>
+            <h2 className="mt-4 text-2xl font-black sm:text-3xl">{siteConfig.legalName}</h2>
+            <p className="mt-4 max-w-xl text-[15px] leading-7 text-[#555]">
+              {isZh
+                ? "Auctus Lab 是一家位于纽约的产品创新与全球电子商务公司，专注于连接文化内容、优质设计与国际市场。"
+                : "Auctus Lab is a New York-based product innovation and global e-commerce company connecting cultural content, thoughtful design, and international markets."}
+            </p>
+          </article>
+          <article>
+            <p className="section-kicker">{isZh ? "公司信息" : "Company Information"}</p>
+            <dl className="mt-4 divide-y divide-black/10 border-y border-black/10 text-sm">
+              <CompanyRow label={isZh ? "公司" : "Company"} value={siteConfig.legalName} />
+              <CompanyRow label={isZh ? "所在地" : "Location"} value={siteConfig.location} />
+              <CompanyRow label={isZh ? "业务" : "Focus"} value="Product Innovation & Global E-commerce" />
+            </dl>
+          </article>
+        </div>
+      </div>
+
+      <div className="mx-auto flex max-w-6xl justify-center px-4 py-10 sm:px-5">
+        <span className="inline-flex border border-black/20 px-4 py-2 text-[11px] font-black uppercase tracking-[0.14em] text-[#555]">
+          A Brand by Auctus Lab LLC · New York, USA
+        </span>
+      </div>
+    </section>
+  );
 }
 
 function CompanyRow({ label, value }: { label: string; value: string }) {
-  return <div className="grid grid-cols-[100px_1fr] gap-4 py-4"><dt className="text-[#777]">{label}</dt><dd className="font-bold">{value}</dd></div>;
+  return (
+    <div className="grid grid-cols-[100px_1fr] gap-4 py-4">
+      <dt className="text-[#777]">{label}</dt>
+      <dd className="font-bold">{value}</dd>
+    </div>
+  );
 }
