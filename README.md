@@ -250,10 +250,13 @@ Add the same Supabase environment variables in Vercel Project Settings.
 The production domain is `auctusheritage.com`. `www.auctusheritage.com` and old
 Vercel project URLs should redirect permanently to the apex domain.
 
-If DNS is hosted at GoDaddy, the website A record must point to Vercel:
+If DNS is hosted at GoDaddy, remove any old website parking A records for `@`
+and point the website records to Vercel:
 
 ```text
-A  @    76.76.21.21
+A      @      216.198.79.1
+A      @      64.29.17.1
+CNAME  www    afa30be75b79ffae.vercel-dns-017.com.
 ```
 
 Email DNS records are managed separately from the website domain records.
