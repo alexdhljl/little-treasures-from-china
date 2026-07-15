@@ -1,4 +1,4 @@
--- Little Treasures Product Standard (LTPS) v1.0
+-- Auctus Heritage Product Standard v1.0
 -- Safe, additive migration. Existing products, slugs and images are preserved.
 
 alter table public.products add column if not exists sku text;
@@ -87,10 +87,10 @@ alter table public.collections add column if not exists series text[] not null d
 alter table public.collections add column if not exists ltps_version text not null default '1.0';
 
 insert into public.site_settings (key, value)
-values ('ltps', '{"name":"Little Treasures Product Standard","version":"1.0","languages":["en","zh"],"defaultLanguage":"en","defaultOrigin":"China","defaultCurrency":"USD"}'::jsonb)
+values ('ltps', '{"name":"Auctus Heritage Product Standard","version":"1.0","languages":["en","zh"],"defaultLanguage":"en","defaultOrigin":"China","defaultCurrency":"USD"}'::jsonb)
 on conflict (key) do update set value = excluded.value, updated_at = now();
 
-comment on table public.products is 'Little Treasures Product Standard (LTPS) v1.0 product master';
+comment on table public.products is 'Auctus Heritage Product Standard v1.0 product master';
 comment on column public.products.product_name_en is 'Canonical English display name';
 comment on column public.products.product_name_zh is 'Canonical Chinese display name';
 comment on column public.products.status is 'draft, review, active, hidden, archived; published retained for backward compatibility';

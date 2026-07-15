@@ -97,7 +97,7 @@ type DbProduct = {
   updated_at: string;
 };
 
-const SESSION_KEY = "ltfc-admin-session";
+const SESSION_KEY = "ah-admin-session";
 const STORAGE_BUCKET = "product-images";
 
 export function getSupabaseConfig() {
@@ -507,7 +507,7 @@ export async function signInAdmin(email: string, password: string) {
   );
   const admins = await parseResponse<Array<{ user_id: string }>>(adminResponse);
   if (!admins.length) {
-    throw new Error("This user is not registered as a Little Treasures admin.");
+    throw new Error("This user is not registered as an Auctus Heritage admin.");
   }
 
   window.localStorage.setItem(SESSION_KEY, JSON.stringify(session));

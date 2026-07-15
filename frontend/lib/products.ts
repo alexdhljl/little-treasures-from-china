@@ -83,7 +83,7 @@ export type Product = {
 export type ProductInput = Omit<Product, "id" | "createdAt" | "updatedAt"> & { id?: string };
 
 export const emptyProductInput: ProductInput = {
-  sku: "", slug: "", name: "", englishName: "", brand: "Little Treasures From China", supplier: "",
+  sku: "", slug: "", name: "", englishName: "", brand: "Auctus Heritage", supplier: "",
   museum: "", museumId: "", region: "", province: "", city: "", category: "", categoryId: "",
   subcategory: "", collection: "", collectionId: "", series: "", price: null, estimatedPriceMin: null,
   estimatedPriceMax: null, wholesalePrice: null, currency: "USD", shortDescription: "", shortDescriptionZh: "",

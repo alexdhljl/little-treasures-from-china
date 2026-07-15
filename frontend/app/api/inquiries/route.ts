@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { siteConfig } from "@/lib/site";
 
 export const runtime = "nodejs";
 
@@ -85,10 +86,10 @@ export async function POST(request: Request) {
 async function sendNotification(payload: InquiryPayload & { name: string; email: string; country: string; items: InquiryItem[] }, id: string) {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) return { sent: false, reason: "RESEND_API_KEY is not configured" };
-  const to = process.env.INQUIRY_NOTIFICATION_EMAIL || "hello@auctuslab.com";
+  const to = process.env.INQUIRY_NOTIFICATION_EMAIL || siteConfig.contactEmail;
   const products = payload.items.length ? payload.items.map((item) => `${clean(item.name || item.product_name)} x ${item.quantity || 1}${item.notes ? ` - ${clean(item.notes)}` : ""}`).join("\n") : "General inquiry / catalog request";
-  const text = `New Little Treasures inquiry\n\nName: ${payload.name}\nEmail: ${payload.email}\nCompany: ${clean(payload.company) || "Not provided"}\nCountry: ${payload.country}\nMessage: ${clean(payload.message) || "Not provided"}\n\nProducts:\n${products}\n\nAdmin: /admin/inquiries?id=${id}`;
-  const response = await fetch("https://api.resend.com/emails", { method: "POST", headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" }, body: JSON.stringify({ from: process.env.INQUIRY_FROM_EMAIL || "Little Treasures <onboarding@resend.dev>", to: [to], subject: `New Little Treasures Inquiry - ${payload.name}`, text }) });
+  const text = `New Auctus Heritage inquiry\n\nName: ${payload.name}\nEmail: ${payload.email}\nCompany: ${clean(payload.company) || "Not provided"}\nCountry: ${payload.country}\nMessage: ${clean(payload.message) || "Not provided"}\n\nProducts:\n${products}\n\nAdmin: /admin/inquiries?id=${id}\n\nAuctus Heritage\nOperated by Auctus Lab LLC\nNew York, USA\n${siteConfig.contactEmail}`;
+  const response = await fetch("https://api.resend.com/emails", { method: "POST", headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" }, body: JSON.stringify({ from: process.env.INQUIRY_FROM_EMAIL || "Auctus Heritage <onboarding@resend.dev>", to: [to], subject: `New Auctus Heritage Inquiry - ${payload.name}`, text }) });
   if (!response.ok) throw new Error(await readError(response));
   return { sent: true };
 }

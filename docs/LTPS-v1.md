@@ -1,6 +1,6 @@
-# Little Treasures Product Standard (LTPS) v1.0
+# Auctus Heritage Product Standard v1.0
 
-LTPS is the canonical product data standard for Little Treasures From China and downstream channels such as Amazon, Etsy, Faire, Shopify, TikTok Shop, PDF catalogs, and AI content workflows.
+This is the canonical product data standard for Auctus Heritage and downstream channels such as Amazon, Etsy, Faire, Shopify, TikTok Shop, PDF catalogs, and AI content workflows.
 
 ## Canonical rules
 

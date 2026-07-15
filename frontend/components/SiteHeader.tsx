@@ -7,6 +7,7 @@ import type { CmsCategory } from "@/lib/cms";
 import type { Locale } from "@/lib/i18n";
 import { dictionary, displayFilter, localizedPath } from "@/lib/i18n";
 import { useInquiryCart } from "@/lib/inquiry-cart";
+import { siteConfig } from "@/lib/site";
 import { fetchCategories, isSupabaseConfigured } from "@/lib/supabase-rest";
 
 type SiteHeaderProps = { locale?: Locale; path?: string };
@@ -48,14 +49,14 @@ export function SiteHeader({ locale = "en", path = "/" }: SiteHeaderProps) {
     ["Tea & Lifestyle", "/catalog?category=Tea%20%26%20Lifestyle"], ["Accessories", "/catalog?category=Accessories"],
   ];
   const drawerBrowse = locale === "zh" ? [["首页", "/"], ["新品", "/catalog?sort=new"], ["畅销产品", "/catalog?featured=true"], ["全部产品", "/catalog"], ["博物馆系列", "/collections"]] : [["Home", "/"], ["New Arrivals", "/catalog?sort=new"], ["Best Sellers", "/catalog?featured=true"], ["All Products", "/catalog"], ["Museum Collections", "/collections"]];
-  const drawerBusiness = locale === "zh" ? [["索取目录", "/inquiry"], ["申请报价", "/inquiry"], ["批发咨询", "/institutions"]] : [["Request Catalog", "/inquiry"], ["Request Quote", "/inquiry"], ["Wholesale Inquiry", "/institutions"]];
+  const drawerBusiness = locale === "zh" ? [["索取目录", "/inquiry"], ["申请报价", "/inquiry"], ["批发合作", "/institutions"]] : [["Request Catalog", "/inquiry"], ["Request Quote", "/inquiry"], ["Wholesale", "/institutions"]];
   const drawerAbout = locale === "zh" ? [["关于我们", "/about"], ["联系我们", "/contact"]] : [["About", "/about"], ["Contact", "/contact"]];
 
   return <>
     <header className="sticky top-0 z-30 border-b border-black/10 bg-white/95 backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-2.5 sm:px-6 sm:py-3 lg:py-4">
         <button aria-label="Open navigation menu" className="grid size-9 shrink-0 place-items-center" onClick={() => setOpen(true)} type="button"><Menu size={22} /></button>
-        <a className="block min-w-0" href={localizedPath(locale, "/")}><BrandLogo className="w-[104px] sm:w-[154px] lg:w-[198px]" priority /></a>
+        <a className="block min-w-0" href={localizedPath(locale, "/")}><BrandLogo className="w-[112px] sm:w-[154px] lg:w-[190px]" priority /></a>
         <div className="ml-auto hidden items-center gap-5 lg:flex">
           <div className="flex items-center gap-2 text-sm font-bold"><a className={locale === "en" ? "text-[#171717]" : "text-[#777]"} href={languageHref("en", path)}>EN</a><span className="text-[#bbb]">/</span><a className={locale === "zh" ? "text-[#171717]" : "text-[#777]"} href={languageHref("zh", path)}>中文</a></div>
           <a className="text-sm font-bold text-[#333] hover:text-[#2c6f6d]" href={localizedPath(locale, "/contact")}>{t.nav.contact}</a>
@@ -78,7 +79,7 @@ export function SiteHeader({ locale = "en", path = "/" }: SiteHeaderProps) {
 
     <div aria-hidden={!open} className={`fixed inset-0 z-[60] bg-black/45 transition ${open ? "visible opacity-100" : "invisible opacity-0"}`} onClick={close} />
     <aside aria-label="Main navigation" className={`fixed inset-y-0 left-0 z-[70] w-[min(88vw,390px)] overflow-y-auto bg-white shadow-2xl transition-transform duration-300 ${open ? "translate-x-0" : "-translate-x-full"}`}>
-      <div className="flex items-center justify-between border-b border-black/10 px-5 py-4"><BrandLogo className="w-[165px]" /><button aria-label="Close navigation menu" className="grid size-10 place-items-center" onClick={close} type="button"><X size={22} /></button></div>
+      <div className="flex items-center justify-between border-b border-black/10 px-5 py-4"><BrandLogo className="w-[168px]" /><button aria-label="Close navigation menu" className="grid size-10 place-items-center" onClick={close} type="button"><X size={22} /></button></div>
       <div className="px-5 py-5">
         <DrawerSection title={locale === "zh" ? "语言" : "Language"}><div className="flex gap-4 text-sm font-bold"><a href={languageHref("en", path)} onClick={close}>English</a><span className="text-[#bbb]">/</span><a href={languageHref("zh", path)} onClick={close}>中文</a></div></DrawerSection>
         <DrawerSection title={locale === "zh" ? "浏览" : "Browse"}><DrawerLinks close={close} locale={locale} links={drawerBrowse} /></DrawerSection>
@@ -86,7 +87,7 @@ export function SiteHeader({ locale = "en", path = "/" }: SiteHeaderProps) {
         <DrawerSection title={locale === "zh" ? "商务" : "Business"}><DrawerLinks close={close} locale={locale} links={drawerBusiness} /></DrawerSection>
         <DrawerSection title={locale === "zh" ? "关于" : "About"}><DrawerLinks close={close} locale={locale} links={drawerAbout} /></DrawerSection>
       </div>
-      <div className="border-t border-black/10 bg-[#f5f3ed] px-5 py-5"><p className="text-sm font-black">Auctus Lab</p><a className="mt-1 block text-sm text-[#555]" href="mailto:hello@auctuslab.com">hello@auctuslab.com</a></div>
+      <div className="border-t border-black/10 bg-[#f5f3ed] px-5 py-5"><p className="text-sm font-black">{siteConfig.name}</p><p className="mt-1 text-xs text-[#666]">Operated by {siteConfig.legalName}</p><a className="mt-1 block text-sm text-[#555]" href={`mailto:${siteConfig.contactEmail}`}>{siteConfig.contactEmail}</a></div>
     </aside>
   </>;
 }

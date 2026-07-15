@@ -184,7 +184,7 @@ function toDbRow(product: PreviewProduct, imageUrls: string[], originalFiles: st
     ...legacyRow,
     product_name_en: product.product_name,
     product_name_zh: null,
-    brand: "Little Treasures From China",
+    brand: "Auctus Heritage",
     supplier: null,
     subcategory: categoryParts.slice(1).join(" / ") || null,
     estimated_retail_price_min: price.min,

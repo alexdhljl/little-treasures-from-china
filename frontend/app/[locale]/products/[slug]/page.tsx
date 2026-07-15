@@ -14,9 +14,9 @@ type ProductPageProps = { params: Promise<{ locale: string; slug: string }> };
 
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
   const { locale, slug } = await params;
-  if (!isLocale(locale) || !isSupabaseConfigured()) return { title: "Product | Little Treasures From China" };
+  if (!isLocale(locale) || !isSupabaseConfigured()) return { title: "Product | Auctus Heritage" };
   const product = await fetchPublicProductBySlug(slug);
-  return { title: product ? `${(locale === "zh" ? product.seoTitleZh : product.seoTitle) || productTitle(product, locale)} | Little Treasures From China` : "Product Not Found", description: product ? ((locale === "zh" ? product.seoDescriptionZh : product.seoDescription) || (locale === "zh" ? product.shortDescriptionZh : product.shortDescription)) : undefined };
+  return { title: product ? `${(locale === "zh" ? product.seoTitleZh : product.seoTitle) || productTitle(product, locale)} | Auctus Heritage` : "Product Not Found", description: product ? ((locale === "zh" ? product.seoDescriptionZh : product.seoDescription) || (locale === "zh" ? product.shortDescriptionZh : product.shortDescription)) : undefined };
 }
 
 export default async function LocalizedProductPage({ params }: ProductPageProps) {

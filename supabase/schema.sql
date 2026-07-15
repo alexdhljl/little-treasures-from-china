@@ -1,4 +1,4 @@
--- Little Treasures From China Supabase schema
+-- Auctus Heritage Supabase schema
 -- Run this in the Supabase SQL editor.
 
 create extension if not exists pgcrypto;
@@ -374,8 +374,8 @@ on conflict (slug) do nothing;
 insert into public.site_settings (key, value)
 values
   ('homepage', '{"heroTitle":"Thoughtful Gifts Inspired by China''s Museums","heroTitleZh":"来自中国博物馆的有心礼物","heroDescription":"Discover museum gifts curated for everyday life, thoughtful gifting, and meaningful cultural stories.","heroDescriptionZh":"发现适合日常生活、用心赠礼与文化分享的博物馆灵感好物。"}'::jsonb),
-  ('brand', '{"name":"Little Treasures From China","email":"hello@auctuslab.com"}'::jsonb),
-  ('ltps', '{"name":"Little Treasures Product Standard","version":"1.0","languages":["en","zh"],"defaultLanguage":"en","defaultOrigin":"China","defaultCurrency":"USD"}'::jsonb)
+  ('brand', '{"name":"Auctus Heritage","email":"hello@auctusheritage.com"}'::jsonb),
+  ('ltps', '{"name":"Auctus Heritage Product Standard","version":"1.0","languages":["en","zh"],"defaultLanguage":"en","defaultOrigin":"China","defaultCurrency":"USD"}'::jsonb)
 on conflict (key) do nothing;
 
 drop policy if exists "Admins can insert products" on public.products;

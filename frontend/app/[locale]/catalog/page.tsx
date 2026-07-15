@@ -17,7 +17,7 @@ import {
 } from "@/lib/i18n";
 
 export const metadata: Metadata = {
-  title: "Product Catalog | Little Treasures From China",
+  title: "Product Catalog | Auctus Heritage",
 };
 
 export const dynamic = "force-dynamic";

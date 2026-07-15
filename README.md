@@ -1,4 +1,4 @@
-# Little Treasures From China
+# Auctus Heritage
 
 Independent catalog and admin dashboard for curated Chinese museum gifts and cultural objects.
 
@@ -19,8 +19,8 @@ NEXT_PUBLIC_SUPABASE_URL=your-supabase-project-url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
 SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
 RESEND_API_KEY=your-resend-api-key
-INQUIRY_NOTIFICATION_EMAIL=hello@auctuslab.com
-INQUIRY_FROM_EMAIL=Little Treasures <onboarding@resend.dev>
+INQUIRY_NOTIFICATION_EMAIL=hello@auctusheritage.com
+INQUIRY_FROM_EMAIL=Auctus Heritage <onboarding@resend.dev>
 ```
 
 The service role key is included for trusted server/setup use. Do not expose it in browser code.
@@ -31,7 +31,7 @@ The service role key is included for trusted server/setup use. Do not expose it 
 2. Open the SQL editor.
 3. Run `supabase/schema.sql`.
 
-For an existing database, also run `supabase/migrations/20260704_ltps_v1.sql` once. This upgrades products, museums, and collections to the bilingual Little Treasures Product Standard without deleting existing records, slugs, or images. See `docs/LTPS-v1.md` for field rules, image structure, and the review-first import workflow.
+For an existing database, also run `supabase/migrations/20260704_ltps_v1.sql` once. This upgrades products, museums, and collections to the bilingual Auctus Heritage Product Standard without deleting existing records, slugs, or images. See `docs/LTPS-v1.md` for field rules, image structure, and the review-first import workflow.
 
 Run `supabase/migrations/20260706_inquiry_workflow.sql` to enable inquiry storage and the admin inquiry dashboard. It creates `inquiries` and `inquiry_items` without changing product data.
 4. Create an Auth user for yourself in Supabase Authentication.

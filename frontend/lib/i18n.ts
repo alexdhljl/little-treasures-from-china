@@ -203,7 +203,7 @@ export function inventoryLabel(value: Product["inventoryStatus"], locale: Locale
 
 export const dictionary = {
   en: {
-    brand: "Little Treasures From China",
+    brand: "Auctus Heritage",
     curator: "Curated by Auctus Lab",
     requestCatalog: "Request Catalog",
     nav: {
@@ -248,14 +248,14 @@ export const dictionary = {
       occasionKicker: "Shop by Occasion",
       occasionTitle: "Start with the person, not the museum.",
       bestKicker: "Best Sellers",
-      bestTitle: "Most requested little treasures.",
+      bestTitle: "Most requested cultural gifts.",
       viewAll: "View all products",
       storiesKicker: "Stories Behind the Gifts",
       storiesTitle: "A beautiful gift with a meaningful story.",
       relatedGifts: "Find related gifts",
       museumKicker: "Museum Collections",
       museumTitle: "Museums as inspiration, not a maze.",
-      journalKicker: "Little Treasures Journal",
+      journalKicker: "Auctus Heritage Journal",
       journalTitle: "Gift guides, culture notes, and museum stories.",
       comingSoon: "Coming soon",
       addInAdmin: "Add in Admin",
@@ -270,7 +270,7 @@ export const dictionary = {
       noMatch: "No products match this filter yet.",
       noProducts: "No products yet.",
       view: "View",
-      fallbackMuseum: "Little Treasures",
+      fallbackMuseum: "Auctus Heritage",
     },
     product: {
       notFound: "Product not found.",
@@ -300,12 +300,12 @@ export const dictionary = {
     staticPages: {
       about: {
         kicker: "About Us",
-        title: "Little Treasures From China",
+        title: "Auctus Heritage",
         intro:
           "Our story begins with a simple feeling: beautiful cultural objects should not stay hidden on a quiet museum shelf.",
         body: [
           "We are a group of people who love Chinese culture, museum collections, thoughtful design, and meaningful gifts.",
-          "Little Treasures From China was created to share museum-inspired objects, heritage designs, educational gifts, and collectible keepsakes with friends, families, educators, collectors, and cultural enthusiasts around the world.",
+          "Auctus Heritage was created to share museum-inspired objects, heritage designs, educational gifts, and collectible keepsakes with friends, families, educators, collectors, and cultural enthusiasts around the world.",
           "We believe a small object can carry a story. A bookmark can inspire curiosity about history. A gift can become a bridge between cultures.",
           "Our mission is simple: to curate beautiful cultural treasures from China and help them find a place in everyday life.",
         ],
@@ -318,7 +318,7 @@ export const dictionary = {
       },
       contact: {
         kicker: "Order Inquiry",
-        title: "Little Treasures From China Starter Catalog",
+        title: "Auctus Heritage Starter Catalog",
         intro:
           "Tell us what you are looking for and we will prepare a curated quote or catalog conversation.",
         button: "Request Quote",
@@ -344,7 +344,7 @@ export const dictionary = {
     },
   },
   zh: {
-    brand: "Little Treasures From China",
+    brand: "Auctus Heritage",
     curator: "Auctus Lab 精选策划",
     requestCatalog: "索取目录",
     nav: {
@@ -381,7 +381,7 @@ export const dictionary = {
       relatedGifts: "查看相关礼品",
       museumKicker: "博物馆系列",
       museumTitle: "以博物馆为灵感，而不是让人迷路的目录。",
-      journalKicker: "Little Treasures 日志",
+      journalKicker: "Auctus Heritage 日志",
       journalTitle: "礼品指南、文化笔记与博物馆故事。",
       comingSoon: "即将上线",
       addInAdmin: "在后台添加",
@@ -425,11 +425,11 @@ export const dictionary = {
     staticPages: {
       about: {
         kicker: "关于我们",
-        title: "Little Treasures From China",
+        title: "Auctus Heritage",
         intro: "我们的故事，开始于一个简单的想法：美好的中国文化小物，不应该只停留在安静的博物馆货架上。",
         body: [
           "我们是一群热爱中国文化、博物馆收藏、文创设计和有意义礼物的人。",
-          "Little Treasures From China 希望把来自中国博物馆、传统工艺、历史建筑、文学节庆和日常故事的美好小物，分享给世界各地的朋友、家庭、教育者、收藏者和文化爱好者。",
+          "Auctus Heritage 希望把来自中国博物馆、传统工艺、历史建筑、文学节庆和日常故事的美好小物，分享给世界各地的朋友、家庭、教育者、收藏者和文化爱好者。",
           "我们相信，一件小物也可以承载故事。一个书签可以唤起对历史的好奇，一件礼物也可以成为文化之间的桥梁。",
           "我们的使命很简单：精选来自中国的文化珍宝，让它们进入日常生活，成为可以被使用、被赠送、被记住的美好礼物。",
         ],
@@ -441,7 +441,7 @@ export const dictionary = {
       },
       contact: {
         kicker: "订购咨询",
-        title: "Little Treasures From China 精选目录",
+        title: "Auctus Heritage 精选目录",
         intro: "告诉我们你的需求，我们会为你准备精选报价或产品目录沟通。",
         button: "发送咨询",
       },

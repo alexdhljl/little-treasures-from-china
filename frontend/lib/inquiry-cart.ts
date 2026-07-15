@@ -13,8 +13,8 @@ export type InquiryCartItem = {
   notes: string;
 };
 
-const STORAGE_KEY = "ltfc-inquiry-cart";
-const CHANGE_EVENT = "ltfc-inquiry-cart-change";
+const STORAGE_KEY = "ah-inquiry-cart";
+const CHANGE_EVENT = "ah-inquiry-cart-change";
 
 function readCart(): InquiryCartItem[] {
   if (typeof window === "undefined") return [];

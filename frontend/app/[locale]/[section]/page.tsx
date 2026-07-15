@@ -6,6 +6,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import type { CmsCollection, CmsMuseum, CmsStory } from "@/lib/cms";
 import { dictionary, displayFilter, displayName, isLocale, localizedPath, type Locale } from "@/lib/i18n";
+import { siteConfig } from "@/lib/site";
 import { fetchPublicCms, isSupabaseConfigured } from "@/lib/supabase-rest";
 
 const sections = ["about", "collections", "contact", "institutions", "museums", "regions"] as const;
@@ -140,7 +141,7 @@ function ContactBody({ locale, heroImage }: { locale: Locale; heroImage: string 
         </div>
         <a
           className="mt-6 inline-flex items-center justify-center gap-2 bg-[#2f4650] px-5 py-3.5 text-sm font-black text-white transition hover:bg-[#171717] sm:mt-8 sm:px-6 sm:py-4 sm:text-base"
-          href="mailto:hello@auctuslab.com?subject=Little%20Treasures%20From%20China%20Order%20Inquiry"
+          href={`mailto:${siteConfig.contactEmail}?subject=Auctus%20Heritage%20Order%20Inquiry`}
         >
           {t.button} <Mail size={18} />
         </a>

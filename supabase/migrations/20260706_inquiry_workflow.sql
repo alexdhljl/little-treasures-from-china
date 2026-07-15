@@ -1,4 +1,4 @@
--- Little Treasures V1.1 inquiry workflow
+-- Auctus Heritage inquiry workflow
 -- Additive only: does not modify products or existing CMS records.
 
 create table if not exists public.inquiries (
@@ -48,4 +48,3 @@ drop policy if exists "Admins can update inquiries" on public.inquiries;
 create policy "Admins can update inquiries" on public.inquiries for update to authenticated using (public.is_admin()) with check (public.is_admin());
 drop policy if exists "Admins can read inquiry items" on public.inquiry_items;
 create policy "Admins can read inquiry items" on public.inquiry_items for select to authenticated using (public.is_admin());
-

@@ -1,3 +1,5 @@
+import { siteConfig } from "@/lib/site";
+
 type BrandLogoProps = {
   className?: string;
   priority?: boolean;
@@ -6,17 +8,17 @@ type BrandLogoProps = {
 export function BrandLogo({ className = "", priority = false }: BrandLogoProps) {
   return (
     <span
-      aria-label="Little Treasures From China"
-      className={`relative block aspect-[2.15/1] overflow-hidden ${className}`}
+      aria-label={siteConfig.name}
+      className={`relative block aspect-[2.63/1] overflow-hidden ${className}`}
       role="img"
     >
       <img
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute left-[-30%] top-[-64%] h-auto w-[161%] max-w-none select-none"
+        className="pointer-events-none h-full w-full select-none object-contain"
         decoding="async"
         fetchPriority={priority ? "high" : "auto"}
-        src="/brand/little-treasures-from-china-logo.png"
+        src={siteConfig.logoPath}
       />
     </span>
   );
