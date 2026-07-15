@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { ArrowRight, Building2, Landmark, Mail, MapPin, Sparkles } from "lucide-react";
 import { ContactInquiryPanel } from "@/components/ContactInquiryPanel";
 import { AboutCompany } from "@/components/AboutCompany";
@@ -18,6 +19,36 @@ type PageProps = {
 
 function isSection(value: string): value is Section {
   return sections.includes(value as Section);
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { locale: localeParam, section: sectionParam } = await params;
+  if (!isLocale(localeParam) || !isSection(sectionParam)) {
+    return { title: "Auctus Heritage" };
+  }
+
+  const locale: Locale = localeParam;
+  const page = dictionary[locale].staticPages[sectionParam];
+  const path = `${siteConfig.domain}/${locale}/${sectionParam}`;
+
+  return {
+    title: `${page.title} | Auctus Heritage`,
+    description: page.intro,
+    alternates: {
+      canonical: path,
+      languages: {
+        en: `${siteConfig.domain}/en/${sectionParam}`,
+        zh: `${siteConfig.domain}/zh/${sectionParam}`,
+      },
+    },
+    openGraph: {
+      title: `${page.title} | Auctus Heritage`,
+      description: page.intro,
+      url: path,
+      siteName: siteConfig.name,
+      type: "website",
+    },
+  };
 }
 
 export default async function LocalizedSectionPage({ params }: PageProps) {

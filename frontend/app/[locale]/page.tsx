@@ -1,14 +1,46 @@
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { ArrowRight, ImageOff } from "lucide-react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { fetchPublicCms, fetchPublicProducts, isSupabaseConfigured } from "@/lib/supabase-rest";
 import { displayFilter, formatPriceForLocale, isLocale, localizedPath, productTitle, type Locale } from "@/lib/i18n";
+import { siteConfig } from "@/lib/site";
 import type { Product } from "@/lib/products";
 
 export const dynamic = "force-dynamic";
 
 type PageProps = { params: Promise<{ locale: string }> };
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { locale: localeParam } = await params;
+  const locale = isLocale(localeParam) ? localeParam : "en";
+  const url = `${siteConfig.domain}/${locale}`;
+  const title = locale === "zh" ? "Auctus Heritage | 来自中国博物馆的有心礼物" : "Auctus Heritage | Museum Gifts from China";
+  const description =
+    locale === "zh"
+      ? "发现适合日常生活、用心赠礼与文化分享的中国博物馆灵感好物。"
+      : "Discover museum-inspired cultural gifts from China for everyday life, thoughtful gifting, and cultural discovery.";
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: url,
+      languages: {
+        en: `${siteConfig.domain}/en`,
+        zh: `${siteConfig.domain}/zh`,
+      },
+    },
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: siteConfig.name,
+      type: "website",
+    },
+  };
+}
 
 export default async function LocalizedHome({ params }: PageProps) {
   const { locale: localeParam } = await params;

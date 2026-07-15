@@ -2,6 +2,18 @@
 
 Independent catalog and admin dashboard for curated Chinese museum gifts and cultural objects.
 
+Production domain:
+
+```text
+https://auctusheritage.com
+```
+
+Public contact email:
+
+```text
+hello@auctusheritage.com
+```
+
 ## Stack
 
 - Next.js App Router
@@ -19,6 +31,7 @@ NEXT_PUBLIC_SUPABASE_URL=your-supabase-project-url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
 SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
 RESEND_API_KEY=your-resend-api-key
+NEXT_PUBLIC_CONTACT_EMAIL=hello@auctusheritage.com
 INQUIRY_NOTIFICATION_EMAIL=hello@auctusheritage.com
 INQUIRY_FROM_EMAIL=Auctus Heritage <onboarding@resend.dev>
 ```
@@ -233,6 +246,17 @@ There is no checkout yet. Product pages keep these inquiry-first actions:
 For Vercel, set the project root to `frontend`, or keep the root `vercel.json` build commands as configured.
 
 Add the same Supabase environment variables in Vercel Project Settings.
+
+The production domain is `auctusheritage.com`. `www.auctusheritage.com` and old
+Vercel project URLs should redirect permanently to the apex domain.
+
+If DNS is hosted at GoDaddy, the website A record must point to Vercel:
+
+```text
+A  @    76.76.21.21
+```
+
+Email DNS records are managed separately from the website domain records.
 
 ## Build Check
 

@@ -8,6 +8,7 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { fetchPublicProductBySlug, fetchPublicProducts, fetchPublicRelatedProducts, isSupabaseConfigured } from "@/lib/supabase-rest";
 import { displayFilter, displayName, displayProductAttribute, formatPriceForLocale, inventoryLabel, isLocale, localizedPath, productSubtitle, productTitle, type Locale } from "@/lib/i18n";
+import { siteConfig } from "@/lib/site";
 import type { Product } from "@/lib/products";
 
 type ProductPageProps = { params: Promise<{ locale: string; slug: string }> };
@@ -16,7 +17,36 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   const { locale, slug } = await params;
   if (!isLocale(locale) || !isSupabaseConfigured()) return { title: "Product | Auctus Heritage" };
   const product = await fetchPublicProductBySlug(slug);
-  return { title: product ? `${(locale === "zh" ? product.seoTitleZh : product.seoTitle) || productTitle(product, locale)} | Auctus Heritage` : "Product Not Found", description: product ? ((locale === "zh" ? product.seoDescriptionZh : product.seoDescription) || (locale === "zh" ? product.shortDescriptionZh : product.shortDescription)) : undefined };
+  const title = product ? `${(locale === "zh" ? product.seoTitleZh : product.seoTitle) || productTitle(product, locale)} | Auctus Heritage` : "Product Not Found";
+  const description = product ? ((locale === "zh" ? product.seoDescriptionZh : product.seoDescription) || (locale === "zh" ? product.shortDescriptionZh : product.shortDescription)) : undefined;
+  const url = `${siteConfig.domain}/${locale}/products/${slug}`;
+  const image = product?.images[0];
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: url,
+      languages: {
+        en: `${siteConfig.domain}/en/products/${slug}`,
+        zh: `${siteConfig.domain}/zh/products/${slug}`,
+      },
+    },
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: siteConfig.name,
+      type: "website",
+      images: image ? [{ url: image, alt: productTitle(product, locale) }] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: image ? [image] : undefined,
+    },
+  };
 }
 
 export default async function LocalizedProductPage({ params }: ProductPageProps) {

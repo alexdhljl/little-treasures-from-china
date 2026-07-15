@@ -15,10 +15,7 @@ import {
   productTitle,
   type Locale,
 } from "@/lib/i18n";
-
-export const metadata: Metadata = {
-  title: "Product Catalog | Auctus Heritage",
-};
+import { siteConfig } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
@@ -31,6 +28,36 @@ type CatalogPageProps = {
     sort?: string;
   }>;
 };
+
+export async function generateMetadata({ params }: Pick<CatalogPageProps, "params">): Promise<Metadata> {
+  const { locale: localeParam } = await params;
+  const locale = isLocale(localeParam) ? localeParam : "en";
+  const path = `${siteConfig.domain}/${locale}/catalog`;
+  const title = locale === "zh" ? "产品目录 | Auctus Heritage" : "Product Catalog | Auctus Heritage";
+  const description =
+    locale === "zh"
+      ? "浏览由 Auctus Heritage 精选的博物馆灵感礼品、文具、家居物件、收藏品与文化产品。"
+      : "Browse museum-inspired cultural gifts, stationery, home objects, collectibles, and heritage products curated by Auctus Heritage.";
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: path,
+      languages: {
+        en: `${siteConfig.domain}/en/catalog`,
+        zh: `${siteConfig.domain}/zh/catalog`,
+      },
+    },
+    openGraph: {
+      title,
+      description,
+      url: path,
+      siteName: siteConfig.name,
+      type: "website",
+    },
+  };
+}
 
 function normalize(value: string) {
   return value.toLowerCase().replace(/[^a-z0-9\u4e00-\u9fff]+/g, "");
