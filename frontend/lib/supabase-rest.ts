@@ -603,9 +603,10 @@ export async function registerMedia(
   return saveCmsRecord("media", value as unknown as Record<string, unknown>, accessToken);
 }
 
-export type InquiryStatus = "new" | "contacted" | "quoted" | "negotiating" | "won" | "lost" | "archived";
-export type InquiryItemRecord = { id: string; product_id: string | null; product_slug: string | null; product_name: string; quantity: number; notes: string | null; image_url: string | null };
-export type InquiryRecord = { id: string; name: string; email: string; company: string | null; role: string | null; country: string; phone: string | null; estimated_quantity: string | null; message: string | null; status: InquiryStatus; source: string; locale: string; created_at: string; inquiry_items: InquiryItemRecord[] };
+export type InquiryStatus = "new" | "reviewing" | "replied" | "quote_sent" | "won" | "lost" | "archived" | "contacted" | "quoted" | "negotiating";
+export type InquiryEmailStatus = "pending" | "sent" | "failed" | "not_required";
+export type InquiryItemRecord = { id: string; product_id: string | null; product_slug: string | null; product_name: string; quantity: number; notes: string | null; image_url: string | null; product_url: string | null };
+export type InquiryRecord = { id: string; name: string; email: string; company: string | null; role: string | null; position: string | null; country: string; phone: string | null; estimated_quantity: string | null; message: string | null; status: InquiryStatus; source: string; submission_source: string; locale: string; preferred_language: string | null; source_page: string | null; referrer: string | null; notification_status: InquiryEmailStatus; notification_sent_at: string | null; notification_error: string | null; confirmation_status: InquiryEmailStatus; confirmation_sent_at: string | null; confirmation_error: string | null; last_contacted_at: string | null; internal_notes: string | null; archived_at: string | null; created_at: string; updated_at: string; inquiry_items: InquiryItemRecord[] };
 
 export async function fetchInquiries(accessToken: string) {
   const { url } = requireConfig();
@@ -613,9 +614,29 @@ export async function fetchInquiries(accessToken: string) {
   return parseResponse<InquiryRecord[]>(response);
 }
 
+export async function fetchInquiry(id: string, accessToken: string) {
+  const { url } = requireConfig();
+  const response = await fetch(`${url}/rest/v1/inquiries?id=eq.${encodeURIComponent(id)}&select=*,inquiry_items(*)&limit=1`, { headers: authHeaders(accessToken), cache: "no-store" });
+  const rows = await parseResponse<InquiryRecord[]>(response);
+  return rows[0] || null;
+}
+
 export async function updateInquiryStatus(id: string, status: InquiryStatus, accessToken: string) {
   const { url } = requireConfig();
   const response = await fetch(`${url}/rest/v1/inquiries?id=eq.${encodeURIComponent(id)}`, { method: "PATCH", headers: { ...authHeaders(accessToken), "Content-Type": "application/json", Prefer: "return=representation" }, body: JSON.stringify({ status }) });
   const rows = await parseResponse<InquiryRecord[]>(response);
   return rows[0];
+}
+
+export async function updateInquiry(id: string, patch: Partial<Pick<InquiryRecord, "status" | "internal_notes" | "last_contacted_at" | "archived_at">>, accessToken: string) {
+  const { url } = requireConfig();
+  const response = await fetch(`${url}/rest/v1/inquiries?id=eq.${encodeURIComponent(id)}`, { method: "PATCH", headers: { ...authHeaders(accessToken), "Content-Type": "application/json", Prefer: "return=representation" }, body: JSON.stringify(patch) });
+  const rows = await parseResponse<InquiryRecord[]>(response);
+  return rows[0];
+}
+
+export async function deleteInquiry(id: string, accessToken: string) {
+  const { url } = requireConfig();
+  const response = await fetch(`${url}/rest/v1/inquiries?id=eq.${encodeURIComponent(id)}`, { method: "DELETE", headers: authHeaders(accessToken) });
+  if (!response.ok) throw new Error((await response.text()) || "Unable to delete inquiry.");
 }

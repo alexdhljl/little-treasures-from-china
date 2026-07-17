@@ -32,8 +32,13 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
 SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
 RESEND_API_KEY=your-resend-api-key
 NEXT_PUBLIC_CONTACT_EMAIL=hello@auctusheritage.com
-INQUIRY_NOTIFICATION_EMAIL=hello@auctusheritage.com
-INQUIRY_FROM_EMAIL=Auctus Heritage <onboarding@resend.dev>
+NEXT_PUBLIC_PARTNER_EMAIL=partner@auctusheritage.com
+NEXT_PUBLIC_CAREERS_EMAIL=careers@auctusheritage.com
+INQUIRY_NOTIFICATION_EMAIL=inquiry@auctusheritage.com
+INQUIRY_FROM_EMAIL=Auctus Heritage <hello@auctusheritage.com>
+INQUIRY_REPLY_TO=hello@auctusheritage.com
+NEXT_PUBLIC_TURNSTILE_SITE_KEY=
+TURNSTILE_SECRET_KEY=
 ```
 
 The service role key is included for trusted server/setup use. Do not expose it in browser code.
@@ -46,7 +51,7 @@ The service role key is included for trusted server/setup use. Do not expose it 
 
 For an existing database, also run `supabase/migrations/20260704_ltps_v1.sql` once. This upgrades products, museums, and collections to the bilingual Auctus Heritage Product Standard without deleting existing records, slugs, or images. See `docs/LTPS-v1.md` for field rules, image structure, and the review-first import workflow.
 
-Run `supabase/migrations/20260706_inquiry_workflow.sql` to enable inquiry storage and the admin inquiry dashboard. It creates `inquiries` and `inquiry_items` without changing product data.
+Run `supabase/migrations/20260706_inquiry_workflow.sql` to enable inquiry storage, then run `supabase/migrations/20260716_production_inquiry_email.sql`. The production migration is additive: it adds delivery tracking, duplicate protection, admin notes, product URL snapshots, and an atomic inquiry transaction without deleting existing data.
 4. Create an Auth user for yourself in Supabase Authentication.
 5. Register that user as an admin:
 
@@ -118,8 +123,11 @@ http://localhost:3000/admin/inquiries
 - Inquiry cart data stays in the visitor's browser until submission.
 - `/en/inquiry` and `/zh/inquiry` save customer and product details to Supabase.
 - Contact and catalog requests use the same tracked inquiry workflow.
-- Email notifications are sent through Resend when `RESEND_API_KEY` is configured.
-- If Resend is not configured, the inquiry is still saved successfully in Supabase.
+- Inquiries and server-resolved product snapshots are saved atomically before email is attempted.
+- Resend sends an internal notification to `inquiry@auctusheritage.com` and a localized customer confirmation.
+- Email failures are recorded in Supabase and never delete a saved inquiry.
+- Admin users can inspect delivery errors and retry either email from `/admin/inquiries/[id]`.
+- Visitors submit without creating an account; `/admin` remains protected by Supabase Auth and `admin_users` RLS.
 
 Product catalog:
 
@@ -246,6 +254,8 @@ There is no checkout yet. Product pages keep these inquiry-first actions:
 For Vercel, set the project root to `frontend`, or keep the root `vercel.json` build commands as configured.
 
 Add the same Supabase environment variables in Vercel Project Settings.
+
+Configure all non-secret email variables above for Production, Preview, and Development. Configure `RESEND_API_KEY` as a server-only secret in each environment that should send transactional mail. Never prefix it with `NEXT_PUBLIC_`. Turnstile remains disabled while both Turnstile variables are empty.
 
 The production domain is `auctusheritage.com`. `www.auctusheritage.com` and old
 Vercel project URLs should redirect permanently to the apex domain.
