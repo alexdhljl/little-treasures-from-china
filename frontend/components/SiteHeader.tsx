@@ -56,7 +56,7 @@ export function SiteHeader({ locale = "en", path = "/" }: SiteHeaderProps) {
     <header className="sticky top-0 z-30 border-b border-black/10 bg-white/95 backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-center gap-2.5 px-4 py-2 sm:px-6 sm:gap-3 sm:py-2.5 lg:gap-4 lg:py-3">
         <button aria-label="Open navigation menu" className="grid size-9 shrink-0 place-items-center" onClick={() => setOpen(true)} type="button"><Menu size={22} /></button>
-        <a className="block min-w-0" href={localizedPath(locale, "/")}><BrandLogo className="w-[154px] -translate-x-2 sm:w-[198px] sm:-translate-x-[10px] lg:w-[246px] lg:-translate-x-4" priority /></a>
+        <a className="block min-w-0" href={localizedPath(locale, "/")}><BrandLogo className="w-[190px] -translate-x-2 sm:w-[240px] sm:-translate-x-[10px] lg:w-[290px] lg:-translate-x-4" priority /></a>
         <div className="ml-auto hidden items-center gap-5 lg:flex">
           <div className="flex items-center gap-2 text-sm font-bold"><a className={locale === "en" ? "text-[#171717]" : "text-[#777]"} href={languageHref("en", path)}>EN</a><span className="text-[#bbb]">/</span><a className={locale === "zh" ? "text-[#171717]" : "text-[#777]"} href={languageHref("zh", path)}>中文</a></div>
           <a className="text-sm font-bold text-[#333] hover:text-[#2c6f6d]" href={localizedPath(locale, "/contact")}>{t.nav.contact}</a>
@@ -79,7 +79,7 @@ export function SiteHeader({ locale = "en", path = "/" }: SiteHeaderProps) {
 
     <div aria-hidden={!open} className={`fixed inset-0 z-[60] bg-black/45 transition ${open ? "visible opacity-100" : "invisible opacity-0"}`} onClick={close} />
     <aside aria-label="Main navigation" className={`fixed inset-y-0 left-0 z-[70] w-[min(88vw,390px)] overflow-y-auto bg-white shadow-2xl transition-transform duration-300 ${open ? "translate-x-0" : "-translate-x-full"}`}>
-      <div className="flex items-center justify-between border-b border-black/10 px-5 py-5"><BrandLogo className="w-[236px] -translate-x-2" /><button aria-label="Close navigation menu" className="grid size-10 place-items-center" onClick={close} type="button"><X size={22} /></button></div>
+      <div className="flex items-center justify-between border-b border-black/10 px-5 py-5"><BrandLogo className="w-[260px] -translate-x-2" /><button aria-label="Close navigation menu" className="grid size-10 place-items-center" onClick={close} type="button"><X size={22} /></button></div>
       <div className="px-5 py-5">
         <DrawerSection title={locale === "zh" ? "语言" : "Language"}><div className="flex gap-4 text-sm font-bold"><a href={languageHref("en", path)} onClick={close}>English</a><span className="text-[#bbb]">/</span><a href={languageHref("zh", path)} onClick={close}>中文</a></div></DrawerSection>
         <DrawerSection title={locale === "zh" ? "浏览" : "Browse"}><DrawerLinks close={close} locale={locale} links={drawerBrowse} /></DrawerSection>

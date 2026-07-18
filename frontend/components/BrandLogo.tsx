@@ -9,7 +9,7 @@ export function BrandLogo({ className = "", priority = false }: BrandLogoProps) 
   return (
     <span
       aria-label={siteConfig.name}
-      className={`relative block aspect-[2.63/1] overflow-hidden ${className}`}
+      className={`relative block aspect-[4.09/1] overflow-hidden ${className}`}
       role="img"
     >
       <img

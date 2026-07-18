@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     images: [
       {
-        url: siteConfig.logoPath,
+        url: siteConfig.ogImagePath,
         alt: siteConfig.name,
       },
     ],
@@ -35,10 +35,11 @@ export const metadata: Metadata = {
     title: "Auctus Heritage | Museum-Inspired Cultural Gifts",
     description:
       "Curated cultural gifts, museum-inspired objects, stationery, collectibles, and heritage collections.",
+    images: [siteConfig.ogImagePath],
   },
   icons: {
-    icon: siteConfig.markPath,
-    apple: siteConfig.markPath,
+    icon: siteConfig.faviconPath,
+    apple: siteConfig.appleTouchIconPath,
   },
 };
 
