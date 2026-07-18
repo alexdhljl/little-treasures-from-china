@@ -2,6 +2,14 @@
 
 This folder documents the production brand identity used by the Auctus Heritage website.
 
+The approved master logo source is:
+
+```text
+frontend/public/brand/auctus-heritage-logo-source.png
+```
+
+This source was provided by the founder and must not be redrawn or reinterpreted.
+
 ## Production Assets
 
 Website assets live in:
@@ -13,22 +21,22 @@ frontend/public/brand/
 Primary files:
 
 ```text
-logo-primary.svg
-logo-primary-black.svg
-logo-primary-white.svg
-logo-horizontal.svg
-logo-dark.svg
-logo-icon.svg
-favicon.svg
+logo-primary.png
+logo-primary-black.png
+logo-primary-white.png
+logo-horizontal.png
+logo-dark.png
+logo-icon.png
+favicon.png
 apple-touch-icon.png
-og-image.svg
+og-image.png
 ```
 
 Compatibility aliases:
 
 ```text
-auctus-heritage-logo.svg
-auctus-heritage-mark.svg
+auctus-heritage-logo.png
+auctus-heritage-mark.png
 ```
 
 ## Usage

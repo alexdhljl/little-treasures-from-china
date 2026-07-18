@@ -9,11 +9,11 @@ export const siteConfig = {
   description: "Curated Cultural Gifts and Museum-Inspired Objects",
   legalLine: "Auctus Heritage is a brand operated by Auctus Lab LLC.",
   location: "New York, USA",
-  logoPath: "/brand/logo-horizontal.svg",
-  markPath: "/brand/logo-icon.svg",
-  faviconPath: "/brand/favicon.svg",
+  logoPath: "/brand/logo-horizontal.png",
+  markPath: "/brand/logo-icon.png",
+  faviconPath: "/brand/favicon.png",
   appleTouchIconPath: "/brand/apple-touch-icon.png",
-  ogImagePath: "/brand/og-image.svg",
+  ogImagePath: "/brand/og-image.png",
 };
 
 export const siteConfigZh = {

@@ -11,7 +11,7 @@ AH geometric symbol + AUCTUS HERITAGE wordmark
 Use:
 
 ```text
-frontend/public/brand/logo-horizontal.svg
+frontend/public/brand/logo-horizontal.png
 ```
 
 ## Secondary Logo
@@ -21,7 +21,7 @@ The secondary mark is the AH geometric symbol only.
 Use:
 
 ```text
-frontend/public/brand/logo-icon.svg
+frontend/public/brand/logo-icon.png
 ```
 
 ## Minimum Size
@@ -87,4 +87,4 @@ Do not:
 
 ## Production Notes
 
-The logo should remain sharp on Retina and high-resolution displays. Prefer SVG for all browser-rendered surfaces. Use PNG only where the platform requires a raster icon, such as Apple touch icons.
+Use only the founder-approved master artwork. Do not redraw the AH mark or wordmark. The production PNG files are cropped, transparent-background derivatives of the approved master image for website display, metadata, and app icons.
