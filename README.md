@@ -32,11 +32,12 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
 SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
 RESEND_API_KEY=your-resend-api-key
 NEXT_PUBLIC_CONTACT_EMAIL=hello@auctusheritage.com
+PUBLIC_EMAIL=hello@auctusheritage.com
+ADMIN_NOTIFICATION_EMAIL=auctusheritage@gmail.com
 NEXT_PUBLIC_PARTNER_EMAIL=partner@auctusheritage.com
 NEXT_PUBLIC_CAREERS_EMAIL=careers@auctusheritage.com
-INQUIRY_NOTIFICATION_EMAIL=inquiry@auctusheritage.com
-INQUIRY_FROM_EMAIL=Auctus Heritage <hello@auctusheritage.com>
-INQUIRY_REPLY_TO=hello@auctusheritage.com
+TRANSACTIONAL_FROM=Auctus Heritage <hello@auctusheritage.com>
+TRANSACTIONAL_REPLY_TO=hello@auctusheritage.com
 NEXT_PUBLIC_TURNSTILE_SITE_KEY=
 TURNSTILE_SECRET_KEY=
 ```
@@ -124,7 +125,9 @@ http://localhost:3000/admin/inquiries
 - `/en/inquiry` and `/zh/inquiry` save customer and product details to Supabase.
 - Contact and catalog requests use the same tracked inquiry workflow.
 - Inquiries and server-resolved product snapshots are saved atomically before email is attempted.
-- Resend sends an internal notification to `inquiry@auctusheritage.com` and a localized customer confirmation.
+- Resend sends an internal notification to `ADMIN_NOTIFICATION_EMAIL` and a localized customer confirmation.
+- Internal notifications use `Reply-To: customer_email`, so replying from Gmail opens a reply to the customer.
+- Customer-facing emails use `hello@auctusheritage.com`; customers never see the internal Gmail address.
 - Email failures are recorded in Supabase and never delete a saved inquiry.
 - Admin users can inspect delivery errors and retry either email from `/admin/inquiries/[id]`.
 - Visitors submit without creating an account; `/admin` remains protected by Supabase Auth and `admin_users` RLS.

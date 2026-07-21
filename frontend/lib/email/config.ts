@@ -7,7 +7,7 @@ export const PUBLIC_EMAIL =
 
 export const ADMIN_NOTIFICATION_EMAIL =
   process.env.ADMIN_NOTIFICATION_EMAIL ||
-  "alexdhljl@gmail.com";
+  "auctusheritage@gmail.com";
 
 export const TRANSACTIONAL_FROM =
   process.env.TRANSACTIONAL_FROM ||

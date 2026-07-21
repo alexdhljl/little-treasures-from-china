@@ -5,7 +5,7 @@ export const siteConfig = {
   contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL || process.env.PUBLIC_EMAIL || "hello@auctusheritage.com",
   partnerEmail: process.env.NEXT_PUBLIC_PARTNER_EMAIL || "partner@auctusheritage.com",
   careersEmail: process.env.NEXT_PUBLIC_CAREERS_EMAIL || "careers@auctusheritage.com",
-  adminNotificationEmail: process.env.ADMIN_NOTIFICATION_EMAIL || "alexdhljl@gmail.com",
+  adminNotificationEmail: process.env.ADMIN_NOTIFICATION_EMAIL || "auctusheritage@gmail.com",
   description: "Curated Cultural Gifts and Museum-Inspired Objects",
   legalLine: "Auctus Heritage is a brand operated by Auctus Lab LLC.",
   location: "New York, USA",
