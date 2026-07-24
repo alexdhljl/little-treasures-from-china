@@ -12,6 +12,7 @@ import { fetchPublicCms, isSupabaseConfigured } from "@/lib/supabase-rest";
 
 const sections = ["about", "collections", "contact", "institutions", "museums", "regions"] as const;
 type Section = (typeof sections)[number];
+const contactShowcaseImage = "/images/contact-showcase.webp";
 
 type PageProps = {
   params: Promise<{ locale: string; section: string }>;
@@ -59,7 +60,6 @@ export default async function LocalizedSectionPage({ params }: PageProps) {
   const locale: Locale = localeParam;
   const t = dictionary[locale].staticPages[sectionParam];
   const cms = isSupabaseConfigured() ? await fetchPublicCms() : { categories: [], museums: [], collections: [], stories: [], settings: [] };
-  const homepage = (cms.settings.find((item) => item.key === "homepage")?.value || {}) as Record<string, string>;
 
   return (
     <main className="min-h-screen bg-[#fffdf8] text-[#171717]">
@@ -81,7 +81,7 @@ export default async function LocalizedSectionPage({ params }: PageProps) {
 
       {sectionParam === "about" ? <AboutCompany locale={locale} /> : null}
       {sectionParam === "collections" ? <CollectionsBody collections={cms.collections} locale={locale} /> : null}
-      {sectionParam === "contact" ? <ContactInquiryBody heroImage={homepage.heroImage || cms.collections.find((item) => item.bannerImage)?.bannerImage || ""} locale={locale} /> : null}
+      {sectionParam === "contact" ? <ContactInquiryBody heroImage={contactShowcaseImage} locale={locale} /> : null}
       {sectionParam === "institutions" ? <InstitutionsBody locale={locale} /> : null}
       {sectionParam === "museums" ? <MuseumsBody locale={locale} museums={cms.museums} /> : null}
       {sectionParam === "regions" ? <RegionsBody locale={locale} museums={cms.museums} /> : null}
