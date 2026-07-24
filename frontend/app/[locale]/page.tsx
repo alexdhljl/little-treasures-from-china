@@ -9,6 +9,8 @@ import { siteConfig } from "@/lib/site";
 import type { Product } from "@/lib/products";
 
 export const dynamic = "force-dynamic";
+const restoredHomepageHeroImage =
+  "https://pgbjgueicmpakgaaisdg.supabase.co/storage/v1/object/public/product-images/double-tailed-tiger-mini-stapler/cover.webp";
 
 type PageProps = { params: Promise<{ locale: string }> };
 
@@ -54,7 +56,7 @@ export default async function LocalizedHome({ params }: PageProps) {
   const occasions = cms.categories.filter((item) => item.kind === "occasion" && item.featured).slice(0, 10);
   const about = cms.stories.find((item) => item.kind === "about" && item.published);
   const settings = (cms.settings.find((item) => item.key === "homepage")?.value || {}) as Record<string, string>;
-  const heroImage = settings.heroImage || products.find((item) => item.images[0])?.images[0] || "";
+  const heroImage = settings.heroImage || restoredHomepageHeroImage;
   const heroTitle = locale === "zh" ? settings.heroTitleZh : settings.heroTitle;
   const heroDescription = locale === "zh" ? settings.heroDescriptionZh : settings.heroDescription;
 
@@ -77,7 +79,7 @@ export default async function LocalizedHome({ params }: PageProps) {
             </div>
           </div>
           <div className="h-[180px] overflow-hidden bg-[#ebe8e0] sm:h-[260px] md:h-auto">
-            {heroImage ? <img alt={locale === "zh" ? "中国博物馆文创礼品" : "Museum gifts from China"} className="h-full w-full object-cover" fetchPriority="high" src={heroImage} /> : null}
+            {heroImage ? <img alt={locale === "zh" ? "中国博物馆文创礼品" : "Museum gifts from China"} className="h-full w-full object-contain" fetchPriority="high" src={heroImage} /> : null}
           </div>
         </div>
       </section>
@@ -90,7 +92,7 @@ export default async function LocalizedHome({ params }: PageProps) {
         <div className="mt-5 grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-5">
           {collections.map((collection) => (
             <a className="group" href={`${localizedPath(locale, "/catalog")}?collection=${encodeURIComponent(collection.name)}`} key={collection.id}>
-              <div className="aspect-[4/3] overflow-hidden bg-[#efede7]">{collection.bannerImage ? <img alt="" className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.02]" loading="lazy" src={collection.bannerImage} /> : null}</div>
+              <div className="aspect-[4/3] overflow-hidden bg-white">{collection.bannerImage ? <img alt="" className="h-full w-full object-contain transition duration-500 group-hover:scale-[1.02]" loading="lazy" src={collection.bannerImage} /> : null}</div>
               <h3 className="mt-3 text-[16px] font-bold leading-tight sm:text-lg">{locale === "zh" ? collection.nameZh || displayFilter(collection.name, locale) : collection.name}</h3>
             </a>
           ))}
@@ -102,14 +104,14 @@ export default async function LocalizedHome({ params }: PageProps) {
         <div className="mt-5 grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:grid-cols-5">
           {occasions.map((occasion) => {
             const name = locale === "zh" ? occasion.nameZh || displayFilter(occasion.name, locale) : occasion.name;
-            return <a className="group border border-black/10 bg-white" href={`${localizedPath(locale, "/catalog")}?gift=${encodeURIComponent(name)}`} key={occasion.id}><div className="aspect-[4/3] overflow-hidden bg-[#e9e6df]">{occasion.image ? <img alt="" className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]" loading="lazy" src={occasion.image} /> : null}</div><p className="px-3 py-3 text-sm font-bold">{name}</p></a>;
+            return <a className="group border border-black/10 bg-white" href={`${localizedPath(locale, "/catalog")}?gift=${encodeURIComponent(name)}`} key={occasion.id}><div className="aspect-[4/3] overflow-hidden bg-white">{occasion.image ? <img alt="" className="h-full w-full object-contain transition duration-500 group-hover:scale-[1.03]" loading="lazy" src={occasion.image} /> : null}</div><p className="px-3 py-3 text-sm font-bold">{name}</p></a>;
           })}
         </div>
       </section>
 
       <section className="border-t border-black/10 bg-white py-10 sm:py-14">
         <div className="mx-auto grid max-w-7xl items-center gap-7 px-4 sm:px-6 md:grid-cols-[1.05fr_0.95fr]">
-          <div className="aspect-[5/3] max-h-[360px] overflow-hidden bg-[#ece9e1]">{about?.coverImage || heroImage ? <img alt="" className="h-full w-full object-cover" loading="lazy" src={about?.coverImage || heroImage} /> : null}</div>
+          <div className="aspect-[5/3] max-h-[360px] overflow-hidden bg-white">{about?.coverImage || heroImage ? <img alt="" className="h-full w-full object-contain" loading="lazy" src={about?.coverImage || heroImage} /> : null}</div>
           <div className="max-w-xl"><p className="commerce-kicker">{locale === "zh" ? "关于 Auctus Heritage" : "About Auctus Heritage"}</p><h2 className="mt-3 text-[28px] font-black leading-tight sm:text-[34px]">{locale === "zh" ? about?.titleZh || "把文化故事带进日常生活" : about?.title || "Cultural stories for everyday life"}</h2><p className="mt-4 line-clamp-4 text-[15px] leading-7 text-[#555]">{locale === "zh" ? about?.excerptZh : about?.excerpt}</p><a className="mt-5 inline-flex items-center gap-2 text-sm font-bold" href={localizedPath(locale, "/about")}>{locale === "zh" ? "了解更多" : "Learn More"}<ArrowRight size={15} /></a></div>
         </div>
       </section>
@@ -125,5 +127,5 @@ function SectionHeader({ label, href, locale }: { label: string; href: string; l
 
 function ProductSection({ label, products, locale, alternate = false }: { label: string; products: Product[]; locale: Locale; alternate?: boolean }) {
   if (!products.length) return null;
-  return <section className={`commerce-section border-b border-black/10 ${alternate ? "bg-[#f7f5f0]" : "bg-white"}`}><SectionHeader href={localizedPath(locale, "/catalog")} label={label} locale={locale} /><div className="mt-5 grid grid-cols-2 gap-x-3 gap-y-6 sm:grid-cols-3 md:gap-x-5 lg:grid-cols-4 xl:grid-cols-4">{products.map((product) => <a className="group min-w-0" href={localizedPath(locale, `/products/${product.slug}`)} key={product.id}><div className="grid aspect-[4/5] place-items-center overflow-hidden bg-[#efede7]">{product.images[0] ? <img alt={product.altText || productTitle(product, locale)} className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.025]" loading="lazy" src={product.images[0]} /> : <ImageOff className="text-[#999]" size={28} />}</div><div className="pt-3"><p className="truncate text-[11px] font-bold uppercase text-[#777]">{product.museum || product.category}</p><h3 className="mt-1 line-clamp-2 text-[15px] font-bold leading-[1.35] sm:text-base">{productTitle(product, locale)}</h3><p className="mt-1.5 text-sm text-[#555]">{formatPriceForLocale(product, locale)}</p></div></a>)}</div></section>;
+  return <section className={`commerce-section border-b border-black/10 ${alternate ? "bg-[#f7f5f0]" : "bg-white"}`}><SectionHeader href={localizedPath(locale, "/catalog")} label={label} locale={locale} /><div className="mt-5 grid grid-cols-2 gap-x-3 gap-y-6 sm:grid-cols-3 md:gap-x-5 lg:grid-cols-4 xl:grid-cols-4">{products.map((product) => <a className="group min-w-0" href={localizedPath(locale, `/products/${product.slug}`)} key={product.id}><div className="grid aspect-[4/5] place-items-center overflow-hidden bg-white">{product.images[0] ? <img alt={product.altText || productTitle(product, locale)} className="h-full w-full object-contain p-2 transition duration-500 group-hover:scale-[1.025]" loading="lazy" src={product.images[0]} /> : <ImageOff className="text-[#999]" size={28} />}</div><div className="pt-3"><p className="truncate text-[11px] font-bold uppercase text-[#777]">{product.museum || product.category}</p><h3 className="mt-1 line-clamp-2 text-[15px] font-bold leading-[1.35] sm:text-base">{productTitle(product, locale)}</h3><p className="mt-1.5 text-sm text-[#555]">{formatPriceForLocale(product, locale)}</p></div></a>)}</div></section>;
 }

@@ -131,11 +131,11 @@ export default async function LocalizedCatalogPage({ params, searchParams }: Cat
                 href={localizedPath(locale, `/products/${product.slug}`)}
                 key={product.id}
               >
-                <div className="grid aspect-[4/5] place-items-center overflow-hidden bg-[#f1efe9]">
+                <div className="grid aspect-[4/5] place-items-center overflow-hidden bg-white">
                   {product.images[0] ? (
                     <img
                       alt={productTitle(product, locale)}
-                      className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.025]"
+                      className="h-full w-full object-contain p-2 transition duration-500 group-hover:scale-[1.025]"
                       loading="lazy"
                       src={product.images[0]}
                     />

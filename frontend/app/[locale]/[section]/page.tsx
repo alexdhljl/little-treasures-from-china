@@ -124,7 +124,7 @@ function CollectionsBody({ locale, collections }: { locale: Locale; collections:
             href={`${localizedPath(locale, "/catalog")}?collection=${encodeURIComponent(collection.name)}`}
             key={collection.id}
           >
-            <div className="h-28 bg-[#ece9e1] sm:h-40">{collection.bannerImage ? <img alt="" className="h-full w-full object-cover" loading="lazy" src={collection.bannerImage} /> : null}</div>
+            <div className="h-28 bg-white sm:h-40">{collection.bannerImage ? <img alt="" className="h-full w-full object-contain" loading="lazy" src={collection.bannerImage} /> : null}</div>
             <div className="p-4 sm:p-5">
               <h2 className="text-xl font-black sm:text-2xl">{locale === "zh" ? collection.nameZh || displayFilter(collection.name, locale) : collection.name}</h2>
               <p className="mt-3 text-[15px] leading-6 text-[#555] sm:min-h-20 sm:text-sm">{locale === "zh" ? collection.descriptionZh || "系列介绍正在整理中。" : collection.description}</p>
@@ -140,7 +140,7 @@ function CollectionsBody({ locale, collections }: { locale: Locale; collections:
 }
 
 function ContactInquiryBody({ locale, heroImage }: { locale: Locale; heroImage: string }) {
-  return <section className="mx-auto grid max-w-7xl gap-6 px-4 py-10 sm:px-5 sm:py-16 lg:grid-cols-[1.08fr_0.92fr] lg:gap-10"><div className="relative aspect-[4/3] max-h-[420px] overflow-hidden bg-[#f1eee7] sm:min-h-[520px] sm:max-h-none">{heroImage ? <img alt={locale === "zh" ? "精选文化礼品目录" : "Curated cultural gifts catalog"} className="h-full w-full object-cover" src={heroImage} /> : null}</div><aside className="lg:sticky lg:top-24 lg:self-start"><ContactInquiryPanel locale={locale} /></aside></section>;
+  return <section className="mx-auto grid max-w-7xl gap-6 px-4 py-10 sm:px-5 sm:py-16 lg:grid-cols-[1.08fr_0.92fr] lg:gap-10"><div className="relative aspect-[4/3] max-h-[420px] overflow-hidden bg-white sm:min-h-[520px] sm:max-h-none">{heroImage ? <img alt={locale === "zh" ? "精选文化礼品目录" : "Curated cultural gifts catalog"} className="h-full w-full object-contain" src={heroImage} /> : null}</div><aside className="lg:sticky lg:top-24 lg:self-start"><ContactInquiryPanel locale={locale} /></aside></section>;
 }
 
 function ContactBody({ locale, heroImage }: { locale: Locale; heroImage: string }) {
@@ -150,7 +150,7 @@ function ContactBody({ locale, heroImage }: { locale: Locale; heroImage: string 
       <div className="relative aspect-[4/3] max-h-[420px] overflow-hidden bg-[#f1eee7] sm:min-h-[520px] sm:max-h-none">
         {heroImage ? <img
           alt={locale === "zh" ? "精选中国文化礼品目录" : "Curated Chinese museum gifts catalog"}
-          className="h-full w-full object-cover"
+          className="h-full w-full object-contain"
           src={heroImage}
         /> : null}
       </div>
@@ -217,7 +217,7 @@ function MuseumsBody({ locale, museums }: { locale: Locale; museums: CmsMuseum[]
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {museums.map((museum) => (
           <article className="overflow-hidden border border-black/10 bg-white" key={museum.id}>
-            <div className="h-40 bg-[#ece9e1]">{museum.coverImage ? <img alt="" className="h-full w-full object-cover" loading="lazy" src={museum.coverImage} /> : null}</div>
+            <div className="h-40 bg-white">{museum.coverImage ? <img alt="" className="h-full w-full object-contain" loading="lazy" src={museum.coverImage} /> : null}</div>
             <div className="p-4 sm:p-5">
             <Landmark className="text-[#2c6f6d]" size={24} />
             <h2 className="mt-4 text-xl font-black leading-tight sm:text-2xl">{locale === "zh" ? museum.nameZh || displayName(museum.name, locale) : museum.name}</h2>
