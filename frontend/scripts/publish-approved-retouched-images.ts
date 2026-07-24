@@ -25,11 +25,15 @@ type ProductRow = {
 const frontendRoot = process.cwd();
 const projectRoot = path.resolve(frontendRoot, "..");
 const dryRun = !process.argv.includes("--write");
+const includeReviewRequired = process.argv.includes("--include-review");
 const bucket = "product-images";
 const stamp = new Date().toISOString().replace(/[:.]/g, "-");
 const reviewCsvPath = path.join(projectRoot, "deliverables", "image-retouch-review", "full-batch", "image-status.csv");
 const backupRoot = path.join(projectRoot, "backup", "approved-image-replacement", stamp);
 const versionFolder = `retouched-${stamp.slice(0, 10)}`;
+const slugAliases: Record<string, string> = {
+  "double-tail-tiger-stapler": "double-tailed-tiger-mini-stapler",
+};
 
 async function loadLocalEnv() {
   const envPath = path.join(frontendRoot, ".env.local");
@@ -86,7 +90,10 @@ async function readApprovedHeroRows() {
   return lines.slice(1).map((line) => {
     const values = parseCsvLine(line);
     return Object.fromEntries(headers.map((header, index) => [header, values[index] || ""])) as StatusRow;
-  }).filter((row) => row.role === "hero" && row.status === "APPROVED" && row.output_file);
+  }).filter((row) => {
+    const statusAllowed = row.status === "APPROVED" || (includeReviewRequired && row.status === "REVIEW_REQUIRED");
+    return row.role === "hero" && statusAllowed && row.output_file;
+  });
 }
 
 async function request(url: string, options: RequestInit = {}) {
@@ -141,20 +148,25 @@ async function main() {
   const log = [];
 
   for (const row of rows) {
+    const productSlug = slugAliases[row.product_slug] || row.product_slug;
     const sourcePath = path.join(projectRoot, "deliverables", "image-retouch-review", "full-batch", row.output_file);
     if (!existsSync(sourcePath)) {
       log.push({ slug: row.product_slug, action: "skipped", reason: `Missing output ${row.output_file}` });
       continue;
     }
 
-    const product = await fetchProduct(row.product_slug);
+    const product = await fetchProduct(productSlug);
     if (!product) {
       log.push({ slug: row.product_slug, productName: row.product_name, action: "skipped", reason: "No matching product row in Supabase" });
       continue;
     }
+    if ((product.cover_image || "").includes(versionFolder)) {
+      log.push({ slug: row.product_slug, productSlug, productName: row.product_name, action: "already-current", currentCover: product.cover_image });
+      continue;
+    }
 
     const nextBytes = await readFile(sourcePath);
-    const objectPath = `${row.product_slug}/${versionFolder}/01-main.webp`;
+    const objectPath = `${productSlug}/${versionFolder}/01-main.webp`;
     const publicUrl = `${supabaseUrl}/storage/v1/object/public/${bucket}/${objectPath}`;
     const backupPath = path.join(backupRoot, row.product_slug, "product-row-before.json");
 
@@ -175,10 +187,10 @@ async function main() {
       const localSha = sha256(nextBytes);
       if (remoteSha !== localSha) throw new Error(`Remote hash mismatch for ${row.product_slug}`);
 
-      await patchProduct(row.product_slug, replaceFirstImage(product, publicUrl));
-      log.push({ slug: row.product_slug, productName: row.product_name, action: "updated", publicUrl, localSha, remoteSha, backupPath });
+      await patchProduct(productSlug, replaceFirstImage(product, publicUrl));
+      log.push({ slug: row.product_slug, productSlug, productName: row.product_name, action: "updated", publicUrl, localSha, remoteSha, backupPath });
     } else {
-      log.push({ slug: row.product_slug, productName: row.product_name, action: "would-update", publicUrl, currentCover: product.cover_image || product.images?.[0] || null, localSha: sha256(nextBytes) });
+      log.push({ slug: row.product_slug, productSlug, productName: row.product_name, action: "would-update", publicUrl, currentCover: product.cover_image || product.images?.[0] || null, localSha: sha256(nextBytes) });
     }
   }
 
