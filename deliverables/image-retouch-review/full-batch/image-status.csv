@@ -1,0 +1,87 @@
+﻿product_slug,product_name,source_file,output_file,role,match_confidence,background_check,text_preservation_check,status,notes
+needs-review-001,Blue Tengwang Pavilion package,微信图片_20260723201959_285_109.jpg,,candidate,0.34,NOT_PROCESSED,NOT_TESTED,REVIEW_REQUIRED,No reliable existing product match.
+needs-review-001,Blue Tengwang Pavilion package,微信图片_20260723202003_286_109.jpg,,candidate,0.34,NOT_PROCESSED,NOT_TESTED,REVIEW_REQUIRED,No reliable existing product match.
+needs-review-001,Blue Tengwang Pavilion package,微信图片_20260723202005_287_109.jpg,,hero,0.34,NOT_PROCESSED,NOT_TESTED,REVIEW_REQUIRED,No reliable existing product match.
+needs-review-002,White boxed figurine,微信图片_20260723202007_288_109.jpg,,candidate,0.31,NOT_PROCESSED,NOT_TESTED,REVIEW_REQUIRED,No reliable existing product match.
+needs-review-002,White boxed figurine,微信图片_20260723202008_289_109.jpg,,candidate,0.31,NOT_PROCESSED,NOT_TESTED,REVIEW_REQUIRED,No reliable existing product match.
+needs-review-002,White boxed figurine,微信图片_20260723202011_290_109.jpg,,hero,0.31,NOT_PROCESSED,NOT_TESTED,REVIEW_REQUIRED,No reliable existing product match.
+needs-review-003,Pink historical-character package,微信图片_20260723202013_291_109.jpg,,hero,0.28,NOT_PROCESSED,NOT_TESTED,REVIEW_REQUIRED,No reliable existing product match.
+needs-review-003,Pink historical-character package,微信图片_20260723202015_292_109.jpg,,candidate,0.28,NOT_PROCESSED,NOT_TESTED,REVIEW_REQUIRED,No reliable existing product match.
+needs-review-004,Turquoise packaged figure,微信图片_20260723202017_293_109.jpg,,hero,0.35,NOT_PROCESSED,NOT_TESTED,REVIEW_REQUIRED,No reliable existing product match.
+needs-review-004,Turquoise packaged figure,微信图片_20260723202019_294_109.jpg,,candidate,0.35,NOT_PROCESSED,NOT_TESTED,REVIEW_REQUIRED,No reliable existing product match.
+needs-review-005,Pink ornament package,微信图片_20260723202021_295_109.jpg,,hero,0.30,NOT_PROCESSED,NOT_TESTED,REVIEW_REQUIRED,No reliable existing product match.
+needs-review-005,Pink ornament package,微信图片_20260723202023_296_109.jpg,,candidate,0.30,NOT_PROCESSED,NOT_TESTED,REVIEW_REQUIRED,No reliable existing product match.
+needs-review-006,Turquoise single package,微信图片_20260723202025_297_109.jpg,,hero,0.24,NOT_PROCESSED,NOT_TESTED,REVIEW_REQUIRED,Single view; match confidence too low.
+needs-review-007,Brown boxed product,微信图片_20260723202027_298_109.jpg,,hero,0.27,NOT_PROCESSED,NOT_TESTED,REVIEW_REQUIRED,No reliable existing product match.
+needs-review-007,Brown boxed product,微信图片_20260723202029_299_109.jpg,,candidate,0.27,NOT_PROCESSED,NOT_TESTED,REVIEW_REQUIRED,No reliable existing product match.
+needs-review-007,Brown boxed product,微信图片_20260723202031_300_109.jpg,,candidate,0.27,NOT_PROCESSED,NOT_TESTED,REVIEW_REQUIRED,No reliable existing product match.
+needs-review-007,Brown boxed product,微信图片_20260723202033_301_109.jpg,,candidate,0.27,NOT_PROCESSED,NOT_TESTED,REVIEW_REQUIRED,No reliable existing product match.
+needs-review-008,Green Nezha-themed package,微信图片_20260723202035_302_109.jpg,,candidate,0.39,NOT_PROCESSED,NOT_TESTED,REVIEW_REQUIRED,No reliable existing product match.
+needs-review-008,Green Nezha-themed package,微信图片_20260723202037_303_109.jpg,,candidate,0.39,NOT_PROCESSED,NOT_TESTED,REVIEW_REQUIRED,No reliable existing product match.
+needs-review-008,Green Nezha-themed package,微信图片_20260723202039_304_109.jpg,,hero,0.39,NOT_PROCESSED,NOT_TESTED,REVIEW_REQUIRED,No reliable existing product match.
+sun-wukong-figurine,Sun Wukong Figurine,微信图片_20260723202042_305_109.jpg,products/sun-wukong-figurine/hero.webp,hero,0.98,PASS_APPROX_WHITE,VISUAL_PASS,APPROVED,Unpackaged Hero; existing slug match is reliable.
+sun-wukong-figurine,Sun Wukong Figurine,微信图片_20260723202044_306_109.jpg,,candidate,0.98,NOT_PROCESSED,VISUAL_PASS,APPROVED,Unpackaged Hero; existing slug match is reliable.
+sun-wukong-figurine,Sun Wukong Figurine,微信图片_20260723202046_307_109.jpg,,candidate,0.98,NOT_PROCESSED,VISUAL_PASS,APPROVED,Unpackaged Hero; existing slug match is reliable.
+sun-wukong-figurine,Sun Wukong Figurine,微信图片_20260723202048_308_109.jpg,,candidate,0.98,NOT_PROCESSED,VISUAL_PASS,APPROVED,Unpackaged Hero; existing slug match is reliable.
+sun-wukong-figurine,Sun Wukong Figurine,微信图片_20260723202050_309_109.jpg,,candidate,0.98,NOT_PROCESSED,VISUAL_PASS,APPROVED,Unpackaged Hero; existing slug match is reliable.
+sun-wukong-figurine,Sun Wukong Figurine,微信图片_20260723202052_310_109.jpg,,candidate,0.98,NOT_PROCESSED,VISUAL_PASS,APPROVED,Unpackaged Hero; existing slug match is reliable.
+sun-wukong-figurine,Sun Wukong Figurine,微信图片_20260723202054_311_109.jpg,,candidate,0.98,NOT_PROCESSED,VISUAL_PASS,APPROVED,Unpackaged Hero; existing slug match is reliable.
+sun-wukong-figurine,Sun Wukong Figurine,微信图片_20260723202056_312_109.jpg,,candidate,0.98,NOT_PROCESSED,VISUAL_PASS,APPROVED,Unpackaged Hero; existing slug match is reliable.
+rejected-back-only-009,Unidentified green package backs,微信图片_20260723202058_313_109.jpg,,hero,0.10,NOT_PROCESSED,NOT_TESTED,REJECTED,Only back/package views; no safe Hero.
+rejected-back-only-009,Unidentified green package backs,微信图片_20260723202100_314_109.jpg,,candidate,0.10,NOT_PROCESSED,NOT_TESTED,REJECTED,Only back/package views; no safe Hero.
+double-tail-tiger-stapler,Double-Tail Tiger Stapler,微信图片_20260723202102_315_109.jpg,,candidate,0.76,NOT_PROCESSED,REVIEW_REQUIRED,REVIEW_REQUIRED,Image treatment is usable; no reliable existing website slug.
+double-tail-tiger-stapler,Double-Tail Tiger Stapler,微信图片_20260723202104_316_109.jpg,,candidate,0.76,NOT_PROCESSED,REVIEW_REQUIRED,REVIEW_REQUIRED,Image treatment is usable; no reliable existing website slug.
+double-tail-tiger-stapler,Double-Tail Tiger Stapler,微信图片_20260723202106_317_109.jpg,products/double-tail-tiger-stapler/hero.webp,hero,0.76,PASS_APPROX_WHITE,REVIEW_REQUIRED,REVIEW_REQUIRED,Image treatment is usable; no reliable existing website slug.
+needs-review-010,Pig novelty pen,微信图片_20260723202108_318_109.jpg,,hero,0.32,NOT_PROCESSED,NOT_TESTED,REVIEW_REQUIRED,No reliable existing product match.
+needs-review-010,Pig novelty pen,微信图片_20260723202110_319_109.jpg,,candidate,0.32,NOT_PROCESSED,NOT_TESTED,REVIEW_REQUIRED,No reliable existing product match.
+needs-review-010,Pig novelty pen,微信图片_20260723202112_320_109.jpg,,candidate,0.32,NOT_PROCESSED,NOT_TESTED,REVIEW_REQUIRED,No reliable existing product match.
+jade-cong-fridge-magnet,Jade Cong Refrigerator Magnet,微信图片_20260723202114_321_109.jpg,,candidate,0.94,NOT_PROCESSED,VISUAL_PASS,APPROVED,Existing slug and visible package text match.
+jade-cong-fridge-magnet,Jade Cong Refrigerator Magnet,微信图片_20260723202116_322_109.jpg,,candidate,0.94,NOT_PROCESSED,VISUAL_PASS,APPROVED,Existing slug and visible package text match.
+jade-cong-fridge-magnet,Jade Cong Refrigerator Magnet,微信图片_20260723202119_323_109.jpg,,candidate,0.94,NOT_PROCESSED,VISUAL_PASS,APPROVED,Existing slug and visible package text match.
+jade-cong-fridge-magnet,Jade Cong Refrigerator Magnet,微信图片_20260723202121_324_109.jpg,,candidate,0.94,NOT_PROCESSED,VISUAL_PASS,APPROVED,Existing slug and visible package text match.
+jade-cong-fridge-magnet,Jade Cong Refrigerator Magnet,微信图片_20260723202123_325_109.jpg,,candidate,0.94,NOT_PROCESSED,VISUAL_PASS,APPROVED,Existing slug and visible package text match.
+jade-cong-fridge-magnet,Jade Cong Refrigerator Magnet,微信图片_20260723202125_326_109.jpg,products/jade-cong-fridge-magnet/hero.webp,hero,0.94,PASS_APPROX_WHITE,VISUAL_PASS,APPROVED,Existing slug and visible package text match.
+needs-review-011,Colorful mask-shaped magnet,微信图片_20260723202127_327_109.jpg,,hero,0.38,NOT_PROCESSED,NOT_TESTED,REVIEW_REQUIRED,No reliable existing product match.
+needs-review-011,Colorful mask-shaped magnet,微信图片_20260723202129_328_109.jpg,,candidate,0.38,NOT_PROCESSED,NOT_TESTED,REVIEW_REQUIRED,No reliable existing product match.
+needs-review-011,Colorful mask-shaped magnet,微信图片_20260723202131_329_109.jpg,,candidate,0.38,NOT_PROCESSED,NOT_TESTED,REVIEW_REQUIRED,No reliable existing product match.
+heritage-plush-keychains,Heritage Plush Keychain,微信图片_20260723202133_330_109.jpg,,candidate,0.91,NOT_PROCESSED,REVIEW_REQUIRED,REVIEW_REQUIRED,Tag text shows possible model reconstruction.
+heritage-plush-keychains,Heritage Plush Keychain,微信图片_20260723202135_331_109.jpg,,candidate,0.91,NOT_PROCESSED,REVIEW_REQUIRED,REVIEW_REQUIRED,Tag text shows possible model reconstruction.
+heritage-plush-keychains,Heritage Plush Keychain,微信图片_20260723202137_332_109.jpg,,candidate,0.91,NOT_PROCESSED,REVIEW_REQUIRED,REVIEW_REQUIRED,Tag text shows possible model reconstruction.
+heritage-plush-keychains,Heritage Plush Keychain,微信图片_20260723202139_333_109.jpg,products/heritage-plush-keychains/hero.webp,hero,0.91,PASS_APPROX_WHITE,REVIEW_REQUIRED,REVIEW_REQUIRED,Tag text shows possible model reconstruction.
+heritage-character-pencil-set,Heritage Character Pen Set,微信图片_20260723202141_334_109.jpg,products/heritage-character-pencil-set/hero.webp,hero,0.72,PASS_APPROX_WHITE,REVIEW_REQUIRED,REVIEW_REQUIRED,Visual set is clear but existing catalog naming/mapping is uncertain.
+heritage-character-pencil-set,Heritage Character Pen Set,微信图片_20260723202142_335_109.jpg,,candidate,0.72,NOT_PROCESSED,REVIEW_REQUIRED,REVIEW_REQUIRED,Visual set is clear but existing catalog naming/mapping is uncertain.
+heritage-character-pencil-set,Heritage Character Pen Set,微信图片_20260723202144_336_109.jpg,,candidate,0.72,NOT_PROCESSED,REVIEW_REQUIRED,REVIEW_REQUIRED,Visual set is clear but existing catalog naming/mapping is uncertain.
+heritage-character-pencil-set,Heritage Character Pen Set,微信图片_20260723202146_337_109.jpg,,candidate,0.72,NOT_PROCESSED,REVIEW_REQUIRED,REVIEW_REQUIRED,Visual set is clear but existing catalog naming/mapping is uncertain.
+heritage-character-pencil-set,Heritage Character Pen Set,微信图片_20260723202148_338_109.jpg,,candidate,0.72,NOT_PROCESSED,REVIEW_REQUIRED,REVIEW_REQUIRED,Visual set is clear but existing catalog naming/mapping is uncertain.
+heritage-character-pencil-set,Heritage Character Pen Set,微信图片_20260723202150_339_109.jpg,,candidate,0.72,NOT_PROCESSED,REVIEW_REQUIRED,REVIEW_REQUIRED,Visual set is clear but existing catalog naming/mapping is uncertain.
+heritage-character-pencil-set,Heritage Character Pen Set,微信图片_20260723202152_340_109.jpg,,candidate,0.72,NOT_PROCESSED,REVIEW_REQUIRED,REVIEW_REQUIRED,Visual set is clear but existing catalog naming/mapping is uncertain.
+houmuwu-ding-3d-eraser,Houmuwu Ding 3D Eraser,微信图片_20260723202154_341_109.jpg,,candidate,0.96,NOT_PROCESSED,VISUAL_PASS,APPROVED,Existing slug and visible package text match.
+houmuwu-ding-3d-eraser,Houmuwu Ding 3D Eraser,微信图片_20260723202156_342_109.jpg,,candidate,0.96,NOT_PROCESSED,VISUAL_PASS,APPROVED,Existing slug and visible package text match.
+houmuwu-ding-3d-eraser,Houmuwu Ding 3D Eraser,微信图片_20260723202158_343_109.jpg,products/houmuwu-ding-3d-eraser/hero.webp,hero,0.96,PASS_APPROX_WHITE,VISUAL_PASS,APPROVED,Existing slug and visible package text match.
+houmuwu-ding-3d-eraser,Houmuwu Ding 3D Eraser,微信图片_20260723202200_344_109.jpg,,candidate,0.96,NOT_PROCESSED,VISUAL_PASS,APPROVED,Existing slug and visible package text match.
+deer-head-gold-step-shake,Deer-Head Gold Step-Shake Ornament,微信图片_20260723202202_345_109.jpg,,candidate,1.00,NOT_PROCESSED,VISUAL_PASS,APPROVED,User-approved gold-standard output; no safe existing website slug.
+deer-head-gold-step-shake,Deer-Head Gold Step-Shake Ornament,微信图片_20260723202203_346_109.jpg,,candidate,1.00,NOT_PROCESSED,VISUAL_PASS,APPROVED,User-approved gold-standard output; no safe existing website slug.
+deer-head-gold-step-shake,Deer-Head Gold Step-Shake Ornament,微信图片_20260723202205_347_109.jpg,products/deer-head-gold-step-shake/hero.webp,hero,1.00,PASS_APPROX_WHITE,VISUAL_PASS,APPROVED,User-approved gold-standard output; no safe existing website slug.
+deer-head-gold-step-shake,Deer-Head Gold Step-Shake Ornament,微信图片_20260723202207_348_109.jpg,,candidate,1.00,NOT_PROCESSED,VISUAL_PASS,APPROVED,User-approved gold-standard output; no safe existing website slug.
+deer-head-gold-step-shake,Deer-Head Gold Step-Shake Ornament,微信图片_20260723202209_349_109.jpg,,candidate,1.00,NOT_PROCESSED,VISUAL_PASS,APPROVED,User-approved gold-standard output; no safe existing website slug.
+needs-review-012,Orange boxed cultural eraser,微信图片_20260723202211_350_109.jpg,,hero,0.35,NOT_PROCESSED,NOT_TESTED,REVIEW_REQUIRED,No reliable existing product match.
+needs-review-012,Orange boxed cultural eraser,微信图片_20260723202214_351_109.jpg,,candidate,0.35,NOT_PROCESSED,NOT_TESTED,REVIEW_REQUIRED,No reliable existing product match.
+needs-review-012,Orange boxed cultural eraser,微信图片_20260723202215_352_109.jpg,,candidate,0.35,NOT_PROCESSED,NOT_TESTED,REVIEW_REQUIRED,No reliable existing product match.
+gold-crown-ornament,Gold Crown Ornament Magnet,微信图片_20260723202217_353_109.jpg,,candidate,0.93,NOT_PROCESSED,REVIEW_REQUIRED,REVIEW_REQUIRED,Fine vertical package text shows possible reconstruction.
+gold-crown-ornament,Gold Crown Ornament Magnet,微信图片_20260723202219_354_109.jpg,products/gold-crown-ornament/hero.webp,hero,0.93,PASS_APPROX_WHITE,REVIEW_REQUIRED,REVIEW_REQUIRED,Fine vertical package text shows possible reconstruction.
+gold-crown-ornament,Gold Crown Ornament Magnet,微信图片_20260723202221_355_109.jpg,,candidate,0.93,NOT_PROCESSED,REVIEW_REQUIRED,REVIEW_REQUIRED,Fine vertical package text shows possible reconstruction.
+gold-crown-ornament,Gold Crown Ornament Magnet,微信图片_20260723202223_356_109.jpg,,candidate,0.93,NOT_PROCESSED,REVIEW_REQUIRED,REVIEW_REQUIRED,Fine vertical package text shows possible reconstruction.
+gold-crown-ornament,Gold Crown Ornament Magnet,微信图片_20260723202225_357_109.jpg,,candidate,0.93,NOT_PROCESSED,REVIEW_REQUIRED,REVIEW_REQUIRED,Fine vertical package text shows possible reconstruction.
+gold-crown-ornament,Gold Crown Ornament Magnet,微信图片_20260723202227_358_109.jpg,,candidate,0.93,NOT_PROCESSED,REVIEW_REQUIRED,REVIEW_REQUIRED,Fine vertical package text shows possible reconstruction.
+needs-review-013,Orange-blue boxed seal eraser,微信图片_20260723202229_359_109.jpg,,hero,0.33,NOT_PROCESSED,NOT_TESTED,REVIEW_REQUIRED,No reliable existing product match.
+needs-review-013,Orange-blue boxed seal eraser,微信图片_20260723202231_360_109.jpg,,candidate,0.33,NOT_PROCESSED,NOT_TESTED,REVIEW_REQUIRED,No reliable existing product match.
+needs-review-013,Orange-blue boxed seal eraser,微信图片_20260723202237_363_109.jpg,,candidate,0.33,NOT_PROCESSED,NOT_TESTED,REVIEW_REQUIRED,No reliable existing product match.
+needs-review-013,Orange-blue boxed seal eraser,微信图片_20260723202239_364_109.jpg,,candidate,0.33,NOT_PROCESSED,NOT_TESTED,REVIEW_REQUIRED,No reliable existing product match.
+needs-review-014,Round gold relief magnet,微信图片_20260723202233_361_109.jpg,,candidate,0.37,NOT_PROCESSED,NOT_TESTED,REVIEW_REQUIRED,No reliable existing product match.
+needs-review-014,Round gold relief magnet,微信图片_20260723202235_362_109.jpg,,candidate,0.37,NOT_PROCESSED,NOT_TESTED,REVIEW_REQUIRED,No reliable existing product match.
+needs-review-014,Round gold relief magnet,微信图片_20260723202241_365_109.jpg,,hero,0.37,NOT_PROCESSED,NOT_TESTED,REVIEW_REQUIRED,No reliable existing product match.
+needs-review-014,Round gold relief magnet,微信图片_20260723202243_366_109.jpg,,candidate,0.37,NOT_PROCESSED,NOT_TESTED,REVIEW_REQUIRED,No reliable existing product match.
+drumming-storyteller-3d-eraser,Drumming Storyteller 3D Eraser,微信图片_20260723202245_367_109.jpg,,candidate,0.97,NOT_PROCESSED,VISUAL_PASS,APPROVED,Existing slug and visible package text match.
+drumming-storyteller-3d-eraser,Drumming Storyteller 3D Eraser,微信图片_20260723202247_368_109.jpg,,candidate,0.97,NOT_PROCESSED,VISUAL_PASS,APPROVED,Existing slug and visible package text match.
+drumming-storyteller-3d-eraser,Drumming Storyteller 3D Eraser,微信图片_20260723202249_369_109.jpg,,candidate,0.97,NOT_PROCESSED,VISUAL_PASS,APPROVED,Existing slug and visible package text match.
+drumming-storyteller-3d-eraser,Drumming Storyteller 3D Eraser,微信图片_20260723202251_370_109.jpg,products/drumming-storyteller-3d-eraser/hero.webp,hero,0.97,PASS_APPROX_WHITE,VISUAL_PASS,APPROVED,Existing slug and visible package text match.

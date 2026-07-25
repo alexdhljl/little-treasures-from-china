@@ -1,0 +1,152 @@
+[
+  {
+    "key": "hero",
+    "source": "hero-original.jpg",
+    "png": "hero.png",
+    "webp": "hero.webp",
+    "destination": "product-images/deer-head-gold-step-shake/hero.webp",
+    "ocr": "Main visible text appears consistent by visual review; automated character-level preservation is not proven.",
+    "warnings": [
+      "Reference-image model may have reconstructed glitter texture and micro-details.",
+      "Requires manual pixel-level comparison before publication."
+    ],
+    "output": "hero.png",
+    "detail": "hero-detail.webp",
+    "source_sha256": "5e001cfa73fee4b9903a74df43fcc208f29d9bae4fd79eb3b058f44edb3eb480",
+    "output_sha256": "fb8d74c5d469aaf991f561da346309746626b6a9ba1e462a721c9bd658b84d39",
+    "dimensions": [
+      2048,
+      2048
+    ],
+    "corners": [
+      [
+        254,
+        254,
+        255
+      ],
+      [
+        255,
+        255,
+        255
+      ],
+      [
+        254,
+        254,
+        254
+      ],
+      [
+        253,
+        252,
+        253
+      ]
+    ],
+    "bbox": [
+      424,
+      199,
+      1728,
+      1844
+    ],
+    "bbox_coverage": 0.5114269256591797,
+    "pixel_coverage": 0.4734303951263428
+  },
+  {
+    "key": "gallery-01",
+    "source": "gallery-01-original.jpg",
+    "png": "gallery-01.png",
+    "webp": "gallery-01.webp",
+    "destination": "product-images/deer-head-gold-step-shake/gallery-01.webp",
+    "ocr": "NOT CONSISTENT: small Chinese text shows visible model reconstruction.",
+    "warnings": [
+      "NEEDS_MANUAL_RETOUCH: small printed characters are not reliably preserved.",
+      "Glitter distribution cannot be certified as identical to the source."
+    ],
+    "output": "gallery-01.png",
+    "detail": "gallery-01-detail.webp",
+    "source_sha256": "f7fd3f719db618a011b0dcf3882e8a4828147626b73a99c4363638dfc08366e9",
+    "output_sha256": "a67263a40433f4839ed214e174366791a688b1386dedc668bbc8d15be2d85839",
+    "dimensions": [
+      2048,
+      2048
+    ],
+    "corners": [
+      [
+        254,
+        255,
+        255
+      ],
+      [
+        255,
+        255,
+        255
+      ],
+      [
+        254,
+        253,
+        253
+      ],
+      [
+        253,
+        253,
+        253
+      ]
+    ],
+    "bbox": [
+      125,
+      242,
+      2036,
+      1652
+    ],
+    "bbox_coverage": 0.6424212455749512,
+    "pixel_coverage": 0.31403088569641113
+  },
+  {
+    "key": "packaging-review",
+    "source": "packaging-review-original.jpg",
+    "png": "packaging-review.png",
+    "webp": null,
+    "destination": "product-images/deer-head-gold-step-shake/packaging.webp (proposed only)",
+    "ocr": "NOT CONSISTENT: fine package text and underlying card text are not reliably preserved.",
+    "warnings": [
+      "NEEDS_MANUAL_RETOUCH: transparent plastic and fine text were model-reconstructed.",
+      "Review-only file; must not be published."
+    ],
+    "output": "packaging-review.png",
+    "detail": "packaging-review-detail.webp",
+    "source_sha256": "8c4bc53ae7ab077ade4fe50566e7607f0aeb573af23cfe6a9c0c1f5428329b2b",
+    "output_sha256": "59c98141efa03949c02d1e01f4ed827cf00d57a78bf66bbd28683993a0009d95",
+    "dimensions": [
+      2048,
+      2048
+    ],
+    "corners": [
+      [
+        254,
+        255,
+        255
+      ],
+      [
+        255,
+        255,
+        255
+      ],
+      [
+        254,
+        254,
+        254
+      ],
+      [
+        253,
+        253,
+        253
+      ]
+    ],
+    "bbox": [
+      316,
+      113,
+      1893,
+      1903
+    ],
+    "bbox_coverage": 0.6730151176452637,
+    "pixel_coverage": 0.5207550525665283
+  }
+]

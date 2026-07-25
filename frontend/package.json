@@ -10,6 +10,7 @@
     "test": "vitest run",
     "discover:leads": "node --experimental-strip-types scripts/discover-leads.ts",
     "organize:photos": "node --experimental-strip-types scripts/organize-product-photos.ts",
+    "images:upgrade": "python scripts/auctus-image-pipeline.py",
     "upload:product-images": "node --experimental-strip-types scripts/upload-product-images.ts",
     "import:products": "node --experimental-strip-types scripts/import-products.ts",
     "start": "next start",

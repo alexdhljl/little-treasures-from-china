@@ -1,0 +1,871 @@
+[
+  {
+    "slug": "needs-review-001",
+    "name": "Blue Tengwang Pavilion package",
+    "numbers": [
+      285,
+      286,
+      287
+    ],
+    "hero_number": 287,
+    "hero_source": "微信图片_20260723202005_287_109.jpg",
+    "source_previews": [
+      "source-previews/微信图片_20260723201959_285_109.webp",
+      "source-previews/微信图片_20260723202003_286_109.webp",
+      "source-previews/微信图片_20260723202005_287_109.webp"
+    ],
+    "output": null,
+    "confidence": 0.34,
+    "status": "REVIEW_REQUIRED",
+    "note": "No reliable existing product match.",
+    "metrics": null,
+    "source_hash": "5335d2af1d6fb884f0e6c2166b7c2d0fbbb9f0dff77ccf40ee0fbc08cf1d3ada",
+    "output_hash": null
+  },
+  {
+    "slug": "needs-review-002",
+    "name": "White boxed figurine",
+    "numbers": [
+      288,
+      289,
+      290
+    ],
+    "hero_number": 290,
+    "hero_source": "微信图片_20260723202011_290_109.jpg",
+    "source_previews": [
+      "source-previews/微信图片_20260723202007_288_109.webp",
+      "source-previews/微信图片_20260723202008_289_109.webp",
+      "source-previews/微信图片_20260723202011_290_109.webp"
+    ],
+    "output": null,
+    "confidence": 0.31,
+    "status": "REVIEW_REQUIRED",
+    "note": "No reliable existing product match.",
+    "metrics": null,
+    "source_hash": "b29e0f35c42a00cc05302f78eb22852306fbeb503db34f8201639bd066ad57dd",
+    "output_hash": null
+  },
+  {
+    "slug": "needs-review-003",
+    "name": "Pink historical-character package",
+    "numbers": [
+      291,
+      292
+    ],
+    "hero_number": 291,
+    "hero_source": "微信图片_20260723202013_291_109.jpg",
+    "source_previews": [
+      "source-previews/微信图片_20260723202013_291_109.webp",
+      "source-previews/微信图片_20260723202015_292_109.webp"
+    ],
+    "output": null,
+    "confidence": 0.28,
+    "status": "REVIEW_REQUIRED",
+    "note": "No reliable existing product match.",
+    "metrics": null,
+    "source_hash": "5a712e6565a68048c299f39b06a7ed0cf94717d75f569d24a9f746e2225c7fe9",
+    "output_hash": null
+  },
+  {
+    "slug": "needs-review-004",
+    "name": "Turquoise packaged figure",
+    "numbers": [
+      293,
+      294
+    ],
+    "hero_number": 293,
+    "hero_source": "微信图片_20260723202017_293_109.jpg",
+    "source_previews": [
+      "source-previews/微信图片_20260723202017_293_109.webp",
+      "source-previews/微信图片_20260723202019_294_109.webp"
+    ],
+    "output": null,
+    "confidence": 0.35,
+    "status": "REVIEW_REQUIRED",
+    "note": "No reliable existing product match.",
+    "metrics": null,
+    "source_hash": "a5f5524ef14bbccb7c42f6bdc170ded96379c15295fa44788f15cfb1037026b9",
+    "output_hash": null
+  },
+  {
+    "slug": "needs-review-005",
+    "name": "Pink ornament package",
+    "numbers": [
+      295,
+      296
+    ],
+    "hero_number": 295,
+    "hero_source": "微信图片_20260723202021_295_109.jpg",
+    "source_previews": [
+      "source-previews/微信图片_20260723202021_295_109.webp",
+      "source-previews/微信图片_20260723202023_296_109.webp"
+    ],
+    "output": null,
+    "confidence": 0.3,
+    "status": "REVIEW_REQUIRED",
+    "note": "No reliable existing product match.",
+    "metrics": null,
+    "source_hash": "84a32dcbf2001437f161caa734b2abea17afae2a3fa556f4c97fab2680d7a9d0",
+    "output_hash": null
+  },
+  {
+    "slug": "needs-review-006",
+    "name": "Turquoise single package",
+    "numbers": [
+      297
+    ],
+    "hero_number": 297,
+    "hero_source": "微信图片_20260723202025_297_109.jpg",
+    "source_previews": [
+      "source-previews/微信图片_20260723202025_297_109.webp"
+    ],
+    "output": null,
+    "confidence": 0.24,
+    "status": "REVIEW_REQUIRED",
+    "note": "Single view; match confidence too low.",
+    "metrics": null,
+    "source_hash": "d1d31a2069d6138bb44427e38018cc61be7cbc226120e209fbe83cd35dcabd9f",
+    "output_hash": null
+  },
+  {
+    "slug": "needs-review-007",
+    "name": "Brown boxed product",
+    "numbers": [
+      298,
+      299,
+      300,
+      301
+    ],
+    "hero_number": 298,
+    "hero_source": "微信图片_20260723202027_298_109.jpg",
+    "source_previews": [
+      "source-previews/微信图片_20260723202027_298_109.webp",
+      "source-previews/微信图片_20260723202029_299_109.webp",
+      "source-previews/微信图片_20260723202031_300_109.webp",
+      "source-previews/微信图片_20260723202033_301_109.webp"
+    ],
+    "output": null,
+    "confidence": 0.27,
+    "status": "REVIEW_REQUIRED",
+    "note": "No reliable existing product match.",
+    "metrics": null,
+    "source_hash": "8a31498d467649af1f35757a84ea32687c7cd871b5140b69fc54acb4330fc507",
+    "output_hash": null
+  },
+  {
+    "slug": "needs-review-008",
+    "name": "Green Nezha-themed package",
+    "numbers": [
+      302,
+      303,
+      304
+    ],
+    "hero_number": 304,
+    "hero_source": "微信图片_20260723202039_304_109.jpg",
+    "source_previews": [
+      "source-previews/微信图片_20260723202035_302_109.webp",
+      "source-previews/微信图片_20260723202037_303_109.webp",
+      "source-previews/微信图片_20260723202039_304_109.webp"
+    ],
+    "output": null,
+    "confidence": 0.39,
+    "status": "REVIEW_REQUIRED",
+    "note": "No reliable existing product match.",
+    "metrics": null,
+    "source_hash": "93ac7e6894fe12a0dee22cfe6402e44ac88deae61a2cce9dd6c4aac6e99b4ed2",
+    "output_hash": null
+  },
+  {
+    "slug": "sun-wukong-figurine",
+    "name": "Sun Wukong Figurine",
+    "numbers": [
+      305,
+      306,
+      307,
+      308,
+      309,
+      310,
+      311,
+      312
+    ],
+    "hero_number": 305,
+    "hero_source": "微信图片_20260723202042_305_109.jpg",
+    "source_previews": [
+      "source-previews/微信图片_20260723202042_305_109.webp",
+      "source-previews/微信图片_20260723202044_306_109.webp",
+      "source-previews/微信图片_20260723202046_307_109.webp",
+      "source-previews/微信图片_20260723202048_308_109.webp",
+      "source-previews/微信图片_20260723202050_309_109.webp",
+      "source-previews/微信图片_20260723202052_310_109.webp",
+      "source-previews/微信图片_20260723202054_311_109.webp",
+      "source-previews/微信图片_20260723202056_312_109.webp"
+    ],
+    "output": "products/sun-wukong-figurine/hero.webp",
+    "confidence": 0.98,
+    "status": "APPROVED",
+    "note": "Unpackaged Hero; existing slug match is reliable.",
+    "metrics": {
+      "dimensions": [
+        2048,
+        2048
+      ],
+      "corners": [
+        [
+          253,
+          255,
+          255
+        ],
+        [
+          255,
+          255,
+          255
+        ],
+        [
+          254,
+          253,
+          253
+        ],
+        [
+          253,
+          253,
+          254
+        ]
+      ],
+      "bbox": [
+        707,
+        106,
+        1409,
+        1830
+      ],
+      "coverage": 0.2885456085205078
+    },
+    "source_hash": "780d3c23a53afa59bb1599900b98663a7297b84eef34cf0593cf613785fb24fa",
+    "output_hash": "d6cfe0c1cc933a44c3965ae831e1760a1fedb3c6ce3157549180b33d0cbb5334"
+  },
+  {
+    "slug": "rejected-back-only-009",
+    "name": "Unidentified green package backs",
+    "numbers": [
+      313,
+      314
+    ],
+    "hero_number": 313,
+    "hero_source": "微信图片_20260723202058_313_109.jpg",
+    "source_previews": [
+      "source-previews/微信图片_20260723202058_313_109.webp",
+      "source-previews/微信图片_20260723202100_314_109.webp"
+    ],
+    "output": null,
+    "confidence": 0.1,
+    "status": "REJECTED",
+    "note": "Only back/package views; no safe Hero.",
+    "metrics": null,
+    "source_hash": "9eead3e18781bec61eb8abe1f45b716adefdd5bf6979614db96a0de15a1e2f9c",
+    "output_hash": null
+  },
+  {
+    "slug": "double-tail-tiger-stapler",
+    "name": "Double-Tail Tiger Stapler",
+    "numbers": [
+      315,
+      316,
+      317
+    ],
+    "hero_number": 317,
+    "hero_source": "微信图片_20260723202106_317_109.jpg",
+    "source_previews": [
+      "source-previews/微信图片_20260723202102_315_109.webp",
+      "source-previews/微信图片_20260723202104_316_109.webp",
+      "source-previews/微信图片_20260723202106_317_109.webp"
+    ],
+    "output": "products/double-tail-tiger-stapler/hero.webp",
+    "confidence": 0.76,
+    "status": "REVIEW_REQUIRED",
+    "note": "Image treatment is usable; no reliable existing website slug.",
+    "metrics": {
+      "dimensions": [
+        2048,
+        2048
+      ],
+      "corners": [
+        [
+          254,
+          255,
+          254
+        ],
+        [
+          254,
+          255,
+          254
+        ],
+        [
+          254,
+          254,
+          254
+        ],
+        [
+          254,
+          254,
+          254
+        ]
+      ],
+      "bbox": [
+        442,
+        187,
+        1730,
+        1781
+      ],
+      "coverage": 0.4894905090332031
+    },
+    "source_hash": "c02085715e28c3d3b0db95721cbd199deac1de52e50ea36afd1dd84781343d8f",
+    "output_hash": "23114bb1ca47a451890187183284de5e502c3b8f03e619ba272711e506e5d593"
+  },
+  {
+    "slug": "needs-review-010",
+    "name": "Pig novelty pen",
+    "numbers": [
+      318,
+      319,
+      320
+    ],
+    "hero_number": 318,
+    "hero_source": "微信图片_20260723202108_318_109.jpg",
+    "source_previews": [
+      "source-previews/微信图片_20260723202108_318_109.webp",
+      "source-previews/微信图片_20260723202110_319_109.webp",
+      "source-previews/微信图片_20260723202112_320_109.webp"
+    ],
+    "output": null,
+    "confidence": 0.32,
+    "status": "REVIEW_REQUIRED",
+    "note": "No reliable existing product match.",
+    "metrics": null,
+    "source_hash": "775cb280de89158f0dd0c2e9ac1e2187946fd291121f07ecb446bedff8374b3e",
+    "output_hash": null
+  },
+  {
+    "slug": "jade-cong-fridge-magnet",
+    "name": "Jade Cong Refrigerator Magnet",
+    "numbers": [
+      321,
+      322,
+      323,
+      324,
+      325,
+      326
+    ],
+    "hero_number": 326,
+    "hero_source": "微信图片_20260723202125_326_109.jpg",
+    "source_previews": [
+      "source-previews/微信图片_20260723202114_321_109.webp",
+      "source-previews/微信图片_20260723202116_322_109.webp",
+      "source-previews/微信图片_20260723202119_323_109.webp",
+      "source-previews/微信图片_20260723202121_324_109.webp",
+      "source-previews/微信图片_20260723202123_325_109.webp",
+      "source-previews/微信图片_20260723202125_326_109.webp"
+    ],
+    "output": "products/jade-cong-fridge-magnet/hero.webp",
+    "confidence": 0.94,
+    "status": "APPROVED",
+    "note": "Existing slug and visible package text match.",
+    "metrics": {
+      "dimensions": [
+        2048,
+        2048
+      ],
+      "corners": [
+        [
+          253,
+          254,
+          255
+        ],
+        [
+          255,
+          254,
+          255
+        ],
+        [
+          254,
+          254,
+          254
+        ],
+        [
+          253,
+          253,
+          253
+        ]
+      ],
+      "bbox": [
+        325,
+        153,
+        1710,
+        1871
+      ],
+      "coverage": 0.5673003196716309
+    },
+    "source_hash": "faad8cf4d8c973fad935fad17384f64d3e55b34d6bed626732ab049d68915e9d",
+    "output_hash": "3227a3ddbbf5b7b271bd10a8c0ccc0ea04b1ca02706a7a4ef72402a12dae8deb"
+  },
+  {
+    "slug": "needs-review-011",
+    "name": "Colorful mask-shaped magnet",
+    "numbers": [
+      327,
+      328,
+      329
+    ],
+    "hero_number": 327,
+    "hero_source": "微信图片_20260723202127_327_109.jpg",
+    "source_previews": [
+      "source-previews/微信图片_20260723202127_327_109.webp",
+      "source-previews/微信图片_20260723202129_328_109.webp",
+      "source-previews/微信图片_20260723202131_329_109.webp"
+    ],
+    "output": null,
+    "confidence": 0.38,
+    "status": "REVIEW_REQUIRED",
+    "note": "No reliable existing product match.",
+    "metrics": null,
+    "source_hash": "274562580b6855e828a1837689aa023f5d9585d7170e0ffad909ce2fceae557f",
+    "output_hash": null
+  },
+  {
+    "slug": "heritage-plush-keychains",
+    "name": "Heritage Plush Keychain",
+    "numbers": [
+      330,
+      331,
+      332,
+      333
+    ],
+    "hero_number": 333,
+    "hero_source": "微信图片_20260723202139_333_109.jpg",
+    "source_previews": [
+      "source-previews/微信图片_20260723202133_330_109.webp",
+      "source-previews/微信图片_20260723202135_331_109.webp",
+      "source-previews/微信图片_20260723202137_332_109.webp",
+      "source-previews/微信图片_20260723202139_333_109.webp"
+    ],
+    "output": "products/heritage-plush-keychains/hero.webp",
+    "confidence": 0.91,
+    "status": "REVIEW_REQUIRED",
+    "note": "Tag text shows possible model reconstruction.",
+    "metrics": {
+      "dimensions": [
+        2048,
+        2048
+      ],
+      "corners": [
+        [
+          253,
+          255,
+          254
+        ],
+        [
+          255,
+          255,
+          255
+        ],
+        [
+          254,
+          254,
+          253
+        ],
+        [
+          254,
+          253,
+          254
+        ]
+      ],
+      "bbox": [
+        398,
+        290,
+        1717,
+        1802
+      ],
+      "coverage": 0.47548484802246094
+    },
+    "source_hash": "0ff05296cd1e780bcdfad759cfa5de8bbf4353950b478823d7124e82341cc943",
+    "output_hash": "89c2b8b5d1c89b16b58ff06e38188c13de75113f01513e2abbe08b0cc70c591c"
+  },
+  {
+    "slug": "heritage-character-pencil-set",
+    "name": "Heritage Character Pen Set",
+    "numbers": [
+      334,
+      335,
+      336,
+      337,
+      338,
+      339,
+      340
+    ],
+    "hero_number": 334,
+    "hero_source": "微信图片_20260723202141_334_109.jpg",
+    "source_previews": [
+      "source-previews/微信图片_20260723202141_334_109.webp",
+      "source-previews/微信图片_20260723202142_335_109.webp",
+      "source-previews/微信图片_20260723202144_336_109.webp",
+      "source-previews/微信图片_20260723202146_337_109.webp",
+      "source-previews/微信图片_20260723202148_338_109.webp",
+      "source-previews/微信图片_20260723202150_339_109.webp",
+      "source-previews/微信图片_20260723202152_340_109.webp"
+    ],
+    "output": "products/heritage-character-pencil-set/hero.webp",
+    "confidence": 0.72,
+    "status": "REVIEW_REQUIRED",
+    "note": "Visual set is clear but existing catalog naming/mapping is uncertain.",
+    "metrics": {
+      "dimensions": [
+        2048,
+        2048
+      ],
+      "corners": [
+        [
+          253,
+          255,
+          254
+        ],
+        [
+          254,
+          255,
+          255
+        ],
+        [
+          254,
+          254,
+          253
+        ],
+        [
+          254,
+          254,
+          254
+        ]
+      ],
+      "bbox": [
+        437,
+        99,
+        1669,
+        1976
+      ],
+      "coverage": 0.5513343811035156
+    },
+    "source_hash": "7f69e09f4b63ad3abf6803abb4b667d3c1a2425753841049ea60910b63d6b10c",
+    "output_hash": "e3534d8cf276eed8bd143ebf6f3e1f9c41def9286267893aa3ecb7af09bdffd9"
+  },
+  {
+    "slug": "houmuwu-ding-3d-eraser",
+    "name": "Houmuwu Ding 3D Eraser",
+    "numbers": [
+      341,
+      342,
+      343,
+      344
+    ],
+    "hero_number": 343,
+    "hero_source": "微信图片_20260723202158_343_109.jpg",
+    "source_previews": [
+      "source-previews/微信图片_20260723202154_341_109.webp",
+      "source-previews/微信图片_20260723202156_342_109.webp",
+      "source-previews/微信图片_20260723202158_343_109.webp",
+      "source-previews/微信图片_20260723202200_344_109.webp"
+    ],
+    "output": "products/houmuwu-ding-3d-eraser/hero.webp",
+    "confidence": 0.96,
+    "status": "APPROVED",
+    "note": "Existing slug and visible package text match.",
+    "metrics": {
+      "dimensions": [
+        2048,
+        2048
+      ],
+      "corners": [
+        [
+          254,
+          255,
+          255
+        ],
+        [
+          255,
+          255,
+          255
+        ],
+        [
+          254,
+          253,
+          253
+        ],
+        [
+          254,
+          253,
+          254
+        ]
+      ],
+      "bbox": [
+        414,
+        191,
+        1674,
+        1731
+      ],
+      "coverage": 0.4626274108886719
+    },
+    "source_hash": "5b5ece97727185811f1d59cec9804d5002553654e88c896ee42d26fbc8527c17",
+    "output_hash": "a841efe41d5c19b17107b771aade9e4004f25e4b8fab89b38c3a2de174cafa64"
+  },
+  {
+    "slug": "deer-head-gold-step-shake",
+    "name": "Deer-Head Gold Step-Shake Ornament",
+    "numbers": [
+      345,
+      346,
+      347,
+      348,
+      349
+    ],
+    "hero_number": 347,
+    "hero_source": "微信图片_20260723202205_347_109.jpg",
+    "source_previews": [
+      "source-previews/微信图片_20260723202202_345_109.webp",
+      "source-previews/微信图片_20260723202203_346_109.webp",
+      "source-previews/微信图片_20260723202205_347_109.webp",
+      "source-previews/微信图片_20260723202207_348_109.webp",
+      "source-previews/微信图片_20260723202209_349_109.webp"
+    ],
+    "output": "products/deer-head-gold-step-shake/hero.webp",
+    "confidence": 1.0,
+    "status": "APPROVED",
+    "note": "User-approved gold-standard output; no safe existing website slug.",
+    "metrics": {
+      "dimensions": [
+        2048,
+        2048
+      ],
+      "corners": [
+        [
+          254,
+          254,
+          255
+        ],
+        [
+          255,
+          255,
+          255
+        ],
+        [
+          254,
+          254,
+          254
+        ],
+        [
+          253,
+          252,
+          253
+        ]
+      ],
+      "bbox": [
+        424,
+        199,
+        1728,
+        1844
+      ],
+      "coverage": 0.5114269256591797
+    },
+    "source_hash": "5e001cfa73fee4b9903a74df43fcc208f29d9bae4fd79eb3b058f44edb3eb480",
+    "output_hash": "f77cac2c88882adcaaa55a3c9155be3971903eb982280a24ea183a18fa92207b"
+  },
+  {
+    "slug": "needs-review-012",
+    "name": "Orange boxed cultural eraser",
+    "numbers": [
+      350,
+      351,
+      352
+    ],
+    "hero_number": 350,
+    "hero_source": "微信图片_20260723202211_350_109.jpg",
+    "source_previews": [
+      "source-previews/微信图片_20260723202211_350_109.webp",
+      "source-previews/微信图片_20260723202214_351_109.webp",
+      "source-previews/微信图片_20260723202215_352_109.webp"
+    ],
+    "output": null,
+    "confidence": 0.35,
+    "status": "REVIEW_REQUIRED",
+    "note": "No reliable existing product match.",
+    "metrics": null,
+    "source_hash": "ce71eab0cb8b1a51d69737a365620fc21a2a2058b2dfc4aefb5a2ab42ae81992",
+    "output_hash": null
+  },
+  {
+    "slug": "gold-crown-ornament",
+    "name": "Gold Crown Ornament Magnet",
+    "numbers": [
+      353,
+      354,
+      355,
+      356,
+      357,
+      358
+    ],
+    "hero_number": 354,
+    "hero_source": "微信图片_20260723202219_354_109.jpg",
+    "source_previews": [
+      "source-previews/微信图片_20260723202217_353_109.webp",
+      "source-previews/微信图片_20260723202219_354_109.webp",
+      "source-previews/微信图片_20260723202221_355_109.webp",
+      "source-previews/微信图片_20260723202223_356_109.webp",
+      "source-previews/微信图片_20260723202225_357_109.webp",
+      "source-previews/微信图片_20260723202227_358_109.webp"
+    ],
+    "output": "products/gold-crown-ornament/hero.webp",
+    "confidence": 0.93,
+    "status": "REVIEW_REQUIRED",
+    "note": "Fine vertical package text shows possible reconstruction.",
+    "metrics": {
+      "dimensions": [
+        2048,
+        2048
+      ],
+      "corners": [
+        [
+          254,
+          255,
+          255
+        ],
+        [
+          255,
+          255,
+          254
+        ],
+        [
+          254,
+          254,
+          254
+        ],
+        [
+          253,
+          253,
+          254
+        ]
+      ],
+      "bbox": [
+        362,
+        70,
+        1704,
+        2011
+      ],
+      "coverage": 0.6210379600524902
+    },
+    "source_hash": "c4a98a4448052aada384f44301326c44cd1ce0e66b95beebfa86207625dedcba",
+    "output_hash": "d2b6a364dc0ccfec028a188afde012ea9bfec1201875bd7a12513fe137cf9853"
+  },
+  {
+    "slug": "needs-review-013",
+    "name": "Orange-blue boxed seal eraser",
+    "numbers": [
+      359,
+      360,
+      363,
+      364
+    ],
+    "hero_number": 359,
+    "hero_source": "微信图片_20260723202229_359_109.jpg",
+    "source_previews": [
+      "source-previews/微信图片_20260723202229_359_109.webp",
+      "source-previews/微信图片_20260723202231_360_109.webp",
+      "source-previews/微信图片_20260723202237_363_109.webp",
+      "source-previews/微信图片_20260723202239_364_109.webp"
+    ],
+    "output": null,
+    "confidence": 0.33,
+    "status": "REVIEW_REQUIRED",
+    "note": "No reliable existing product match.",
+    "metrics": null,
+    "source_hash": "c268e541da520a14078588ffc7961c6221191505c278942d4771fc07a8f1b3a9",
+    "output_hash": null
+  },
+  {
+    "slug": "needs-review-014",
+    "name": "Round gold relief magnet",
+    "numbers": [
+      361,
+      362,
+      365,
+      366
+    ],
+    "hero_number": 365,
+    "hero_source": "微信图片_20260723202241_365_109.jpg",
+    "source_previews": [
+      "source-previews/微信图片_20260723202233_361_109.webp",
+      "source-previews/微信图片_20260723202235_362_109.webp",
+      "source-previews/微信图片_20260723202241_365_109.webp",
+      "source-previews/微信图片_20260723202243_366_109.webp"
+    ],
+    "output": null,
+    "confidence": 0.37,
+    "status": "REVIEW_REQUIRED",
+    "note": "No reliable existing product match.",
+    "metrics": null,
+    "source_hash": "134b491df707de1cae1008b48c7e2bd06155cf738d151fb6fdcaca2c09582771",
+    "output_hash": null
+  },
+  {
+    "slug": "drumming-storyteller-3d-eraser",
+    "name": "Drumming Storyteller 3D Eraser",
+    "numbers": [
+      367,
+      368,
+      369,
+      370
+    ],
+    "hero_number": 370,
+    "hero_source": "微信图片_20260723202251_370_109.jpg",
+    "source_previews": [
+      "source-previews/微信图片_20260723202245_367_109.webp",
+      "source-previews/微信图片_20260723202247_368_109.webp",
+      "source-previews/微信图片_20260723202249_369_109.webp",
+      "source-previews/微信图片_20260723202251_370_109.webp"
+    ],
+    "output": "products/drumming-storyteller-3d-eraser/hero.webp",
+    "confidence": 0.97,
+    "status": "APPROVED",
+    "note": "Existing slug and visible package text match.",
+    "metrics": {
+      "dimensions": [
+        2048,
+        2048
+      ],
+      "corners": [
+        [
+          253,
+          254,
+          255
+        ],
+        [
+          255,
+          255,
+          255
+        ],
+        [
+          254,
+          254,
+          254
+        ],
+        [
+          254,
+          253,
+          254
+        ]
+      ],
+      "bbox": [
+        361,
+        179,
+        1768,
+        1810
+      ],
+      "coverage": 0.5471270084381104
+    },
+    "source_hash": "ac7ef000879ed13f37053a73deca877df8f2b7da3182117a314dc93a49db3f11",
+    "output_hash": "adb1307e8c44e91b93cbfc3803fd51eb116a0aba523457a591bc78c853ae3284"
+  }
+]

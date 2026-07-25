@@ -27,3 +27,6 @@ frontend/public/images/little-treasures-hero.png
 
 .vercel
 .env*
+.python-version
+backup/auctus-image-pipeline-v2.1/
+outputs/auctus-image-pipeline-v2.1/
