@@ -40,7 +40,7 @@ import {
   fetchProducts,
   fetchSiteSettings,
   fetchStories,
-  getStoredSession,
+  getValidStoredSession,
   isSupabaseConfigured,
   registerMedia,
   saveCmsRecord,
@@ -169,7 +169,10 @@ function ProductEditor({ value, products, categories, museums, collections, savi
       </div>
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4"><label className="flex items-center gap-3 border border-black/10 px-4 py-3 text-sm font-bold"><input checked={value.needsReview} type="checkbox" onChange={(event) => set("needsReview", event.target.checked)} />Needs Review</label><label className="flex items-center gap-3 border border-black/10 px-4 py-3 text-sm font-bold"><input checked={value.aiGenerated} type="checkbox" onChange={(event) => set("aiGenerated", event.target.checked)} />AI Generated</label><label className="flex items-center gap-3 border border-black/10 px-4 py-3 text-sm font-bold"><input checked={value.translationChecked} type="checkbox" onChange={(event) => set("translationChecked", event.target.checked)} />Translation Checked</label><label className="flex items-center gap-3 border border-black/10 px-4 py-3 text-sm font-bold"><input checked={value.photoChecked} type="checkbox" onChange={(event) => set("photoChecked", event.target.checked)} />Photo Checked</label></div>
       <div className="grid gap-3">
-        <span className={labelClass}>Images</span>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <span className={labelClass}>Images</span>
+          <button className="inline-flex items-center justify-center gap-2 bg-[#171717] px-4 py-2.5 text-sm font-black text-white disabled:opacity-50" disabled={saving || uploading} type="submit"><Save size={16} />{saving ? "Saving..." : "Save image changes"}</button>
+        </div>
         <label className="grid min-h-32 cursor-pointer place-items-center border border-dashed border-black/25 bg-[#faf9f6] p-5 text-center" onDragOver={(event) => event.preventDefault()} onDrop={(event: DragEvent<HTMLLabelElement>) => { event.preventDefault(); receiveFiles(event.dataTransfer.files); }}>
           <span><ImagePlus className="mx-auto" size={24} /><strong className="mt-2 block">{uploading ? "Optimizing and uploading..." : "Drop images here or browse"}</strong><small className="mt-1 block text-[#777]">Multiple files · resized to 1600px · WebP</small></span>
           <input accept="image/*" className="hidden" disabled={uploading} multiple type="file" onChange={(event: ChangeEvent<HTMLInputElement>) => event.target.files && receiveFiles(event.target.files)} />
@@ -218,6 +221,17 @@ export default function AdminPage() {
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
 
+  async function resolveAccessToken() {
+    const session = await getValidStoredSession();
+    if (!session?.access_token) {
+      setAccessToken(null);
+      setStatus("Your admin session expired. Please sign in again.");
+      return null;
+    }
+    if (session.access_token !== accessToken) setAccessToken(session.access_token);
+    return session.access_token;
+  }
+
   async function loadAll(token = accessToken) {
     if (!token) return;
     setStatus("Refreshing content...");
@@ -227,7 +241,20 @@ export default function AdminPage() {
     } catch (error) { setStatus(error instanceof Error ? error.message : "Unable to load CMS data. Run the latest Supabase schema first."); }
   }
 
-  useEffect(() => { const session = getStoredSession(); if (session?.access_token) { setAccessToken(session.access_token); void loadAll(session.access_token); } }, []);
+  useEffect(() => {
+    let active = true;
+    void getValidStoredSession().then((session) => {
+      if (!active || !session?.access_token) return;
+      setAccessToken(session.access_token);
+      void loadAll(session.access_token);
+    });
+    const timer = window.setInterval(() => {
+      void getValidStoredSession().then((session) => {
+        if (active && session?.access_token) setAccessToken(session.access_token);
+      });
+    }, 45 * 60 * 1000);
+    return () => { active = false; window.clearInterval(timer); };
+  }, []);
 
   const filteredProducts = useMemo(() => products.filter((product) => {
     const text = `${product.englishName} ${product.name} ${product.museum} ${product.category}`.toLowerCase();
@@ -237,9 +264,9 @@ export default function AdminPage() {
   const visibleProducts = filteredProducts.slice((page - 1) * pageSize, page * pageSize);
 
   async function login(event: FormEvent) { event.preventDefault(); setStatus("Signing in..."); try { const session = await signInAdmin(email, password); setAccessToken(session.access_token); await loadAll(session.access_token); } catch (error) { setStatus(error instanceof Error ? error.message : "Sign in failed."); } }
-  async function saveProduct() { if (!accessToken || !draft) return; setSaving(true); try { if (draft.id) await updateProduct(draft.id, draft, accessToken); else await createProduct(draft, accessToken); setDraft(null); await loadAll(accessToken); setStatus("Product saved."); } catch (error) { setStatus(error instanceof Error ? error.message : "Save failed."); } finally { setSaving(false); } }
+  async function saveProduct() { if (!draft) return; setSaving(true); try { const token = await resolveAccessToken(); if (!token) return; if (draft.id) await updateProduct(draft.id, draft, token); else await createProduct(draft, token); setDraft(null); await loadAll(token); setStatus("Product saved."); } catch (error) { setStatus(error instanceof Error ? error.message : "Save failed."); } finally { setSaving(false); } }
   async function removeProduct(product: Product) { if (!accessToken || !window.confirm(`Delete ${product.englishName || product.name}?`)) return; await deleteProduct(product.id, accessToken); await loadAll(accessToken); }
-  async function uploadFiles(files: File[]) { if (!accessToken || !draft) return; setUploading(true); try { const urls: string[] = []; for (const source of files) { const optimized = await optimizeImage(source); const url = await uploadProductImage(optimized.file, accessToken); urls.push(url); await registerMedia({ url, filename: optimized.file.name, altText: draft.altText, mimeType: "image/webp", width: optimized.width, height: optimized.height }, accessToken); } setDraft((current) => current ? { ...current, images: [...current.images, ...urls] } : current); await loadAll(accessToken); } catch (error) { setStatus(error instanceof Error ? error.message : "Upload failed."); } finally { setUploading(false); } }
+  async function uploadFiles(files: File[]) { if (!draft) return; setUploading(true); try { const token = await resolveAccessToken(); if (!token) return; const urls: string[] = []; for (const source of files) { const optimized = await optimizeImage(source); const url = await uploadProductImage(optimized.file, token); urls.push(url); await registerMedia({ url, filename: optimized.file.name, altText: draft.altText, mimeType: "image/webp", width: optimized.width, height: optimized.height }, token); } const nextDraft = { ...draft, images: [...draft.images, ...urls] }; setDraft(nextDraft); if (nextDraft.id) { await updateProduct(nextDraft.id, nextDraft, token); setStatus(`${urls.length} image${urls.length === 1 ? "" : "s"} uploaded and saved.`); } else { setStatus(`${urls.length} image${urls.length === 1 ? "" : "s"} uploaded. Save the new product to finish.`); } await loadAll(token); } catch (error) { setStatus(error instanceof Error ? error.message : "Upload failed."); } finally { setUploading(false); } }
   async function uploadToLibrary(files: File[]) { if (!accessToken) return; setUploading(true); try { for (const source of files) { const optimized = await optimizeImage(source); const url = await uploadProductImage(optimized.file, accessToken); await registerMedia({ url, filename: optimized.file.name, altText: "", mimeType: "image/webp", width: optimized.width, height: optimized.height }, accessToken); } await loadAll(accessToken); } catch (error) { setStatus(error instanceof Error ? error.message : "Upload failed."); } finally { setUploading(false); } }
   async function saveCms(sectionName: CmsSection, value: Record<string, unknown>) { if (!accessToken) return; await saveCmsRecord(sectionName, value, accessToken); await loadAll(accessToken); }
   async function deleteCms(sectionName: CmsSection, id: string) { if (!accessToken || !window.confirm("Delete this record?")) return; await deleteCmsRecord(sectionName, id, accessToken); await loadAll(accessToken); }

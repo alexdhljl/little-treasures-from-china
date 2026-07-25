@@ -530,6 +530,30 @@ export function getStoredSession(): SupabaseSession | null {
   }
 }
 
+export async function getValidStoredSession(): Promise<SupabaseSession | null> {
+  const session = getStoredSession();
+  if (!session) return null;
+  const now = Math.floor(Date.now() / 1000);
+  if (session.expires_at && session.expires_at > now + 120) return session;
+
+  const { url, anonKey } = requireConfig();
+  const response = await fetch(`${url}/auth/v1/token?grant_type=refresh_token`, {
+    method: "POST",
+    headers: {
+      apikey: anonKey,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ refresh_token: session.refresh_token }),
+  });
+  if (!response.ok) {
+    clearStoredSession();
+    return null;
+  }
+  const refreshed = await parseResponse<SupabaseSession>(response);
+  window.localStorage.setItem(SESSION_KEY, JSON.stringify(refreshed));
+  return refreshed;
+}
+
 export function clearStoredSession() {
   window.localStorage.removeItem(SESSION_KEY);
 }
