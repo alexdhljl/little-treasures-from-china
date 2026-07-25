@@ -47,7 +47,8 @@ class Assignment:
 
 ASSIGNMENTS: list[Assignment] = [
     Assignment("phoenix-pattern-glass-cup", "Tengwang Pavilion Cup / Package", ("285", "286", "287"), "287", 0.74, "Visible Tengwang Pavilion packaging; existing product is the closest catalog match."),
-    Assignment("turquoise-animal-3d-eraser", "Turquoise / jade animal 3D eraser", ("288", "289", "290", "293", "294", "297"), "293", 0.78, "Packaging and object views show animal 3D eraser family."),
+    Assignment("baoji-bronze-miniature-gift", "Baoji Bronze Miniature Gift", ("288", "289", "290"), "290", 0.99, "Newly photographed Baoji bronze miniature package and product views."),
+    Assignment("turquoise-animal-3d-eraser", "Turquoise / jade animal 3D eraser", ("293", "294", "297"), "293", 0.92, "Packaging and object views show animal 3D eraser family."),
     Assignment("fu-hao-owl-zun-coin-bank", "Shi Fa You / pink bronze package", ("291", "292", "295", "296"), "295", 0.82, "Existing LTPS row maps this pink package to the current slug."),
     Assignment("fu-hao-owl-zun-fridge-magnet", "Bo Ju Li bronze gift", ("298", "299", "300", "301"), "298", 0.82, "Brown Bo Ju Li package; existing database slug is legacy named."),
     Assignment("heritage-motif-gift-box", "Hulu vase translucent gift", ("302", "303", "304", "308"), "303", 0.80, "Hulu vase package; existing LTPS row maps to this slug."),

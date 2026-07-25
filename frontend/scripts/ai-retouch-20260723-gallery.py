@@ -157,13 +157,11 @@ def soft_shadow(alpha: Image.Image, size: tuple[int, int]) -> Image.Image:
 
 
 def retouch_image(source: Path, output: Path) -> tuple[str, bool]:
-    if output.exists():
-        return "Reused existing AI retouched output from prior partial run.", False
     image = ImageOps.exif_transpose(Image.open(source)).convert("RGB")
     image.thumbnail((1800, 1800), Image.Resampling.LANCZOS)
-    image = ImageEnhance.Brightness(image).enhance(1.03)
-    image = ImageEnhance.Contrast(image).enhance(1.04)
-    image = ImageEnhance.Color(image).enhance(1.015)
+    image = ImageEnhance.Brightness(image).enhance(1.13)
+    image = ImageEnhance.Contrast(image).enhance(1.06)
+    image = ImageEnhance.Color(image).enhance(1.10)
     cutout = remove(image, session=SESSION, alpha_matting=False)
     rgba = cutout.convert("RGBA")
     bbox = alpha_bbox(rgba.getchannel("A"))

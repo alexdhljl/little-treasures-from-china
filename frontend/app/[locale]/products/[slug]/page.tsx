@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { ArrowRight, ImageOff, Mail } from "lucide-react";
 import { AddToInquiryButton } from "@/components/AddToInquiryButton";
 import { ProductGallery } from "@/components/ProductGallery";
@@ -53,7 +53,6 @@ export default async function LocalizedProductPage({ params }: ProductPageProps)
   const { locale: localeParam, slug } = await params;
   if (!isLocale(localeParam)) notFound();
   const locale: Locale = localeParam;
-  if (slug === "sun-wukong-figurine") redirect(localizedPath(locale, "/products/wukong-fridge-magnet"));
   const product = isSupabaseConfigured() ? await fetchPublicProductBySlug(slug) : null;
   if (!product) return <main className="min-h-screen bg-white"><SiteHeader locale={locale} path={`/products/${slug}`} /><section className="mx-auto max-w-5xl px-4 py-20"><h1 className="text-3xl font-black">{locale === "zh" ? "没有找到这个产品" : "Product not found"}</h1><a className="mt-6 inline-flex font-bold" href={localizedPath(locale, "/catalog")}>{locale === "zh" ? "返回产品目录" : "Back to products"}</a></section></main>;
 
