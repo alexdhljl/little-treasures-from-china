@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { ArrowRight, ImageOff, Mail } from "lucide-react";
 import { AddToInquiryButton } from "@/components/AddToInquiryButton";
 import { ProductGallery } from "@/components/ProductGallery";
@@ -53,6 +53,7 @@ export default async function LocalizedProductPage({ params }: ProductPageProps)
   const { locale: localeParam, slug } = await params;
   if (!isLocale(localeParam)) notFound();
   const locale: Locale = localeParam;
+  if (slug === "sun-wukong-figurine") redirect(localizedPath(locale, "/products/wukong-fridge-magnet"));
   const product = isSupabaseConfigured() ? await fetchPublicProductBySlug(slug) : null;
   if (!product) return <main className="min-h-screen bg-white"><SiteHeader locale={locale} path={`/products/${slug}`} /><section className="mx-auto max-w-5xl px-4 py-20"><h1 className="text-3xl font-black">{locale === "zh" ? "没有找到这个产品" : "Product not found"}</h1><a className="mt-6 inline-flex font-bold" href={localizedPath(locale, "/catalog")}>{locale === "zh" ? "返回产品目录" : "Back to products"}</a></section></main>;
 
@@ -69,9 +70,9 @@ export default async function LocalizedProductPage({ params }: ProductPageProps)
   return <main className="min-h-screen bg-white text-[#171717]">
     <SiteHeader locale={locale} path={`/products/${slug}`} />
     <nav className="mx-auto flex max-w-7xl flex-wrap items-center gap-2 px-4 py-4 text-xs text-[#777] sm:px-6"><a href={localizedPath(locale, "/")}>{locale === "zh" ? "首页" : "Home"}</a><span>/</span><a href={localizedPath(locale, "/catalog")}>{locale === "zh" ? "全部产品" : "All Products"}</a><span>/</span><span className="max-w-[240px] truncate text-[#222]">{title}</span></nav>
-    <section className="mx-auto grid max-w-7xl gap-7 px-4 pb-10 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:pb-16">
-      <div className="lg:sticky lg:top-24 lg:self-start"><ProductGallery alt={imageAlt || title} images={product.images} /></div>
-      <aside className="pt-1 lg:pt-3">
+    <section className="mx-auto grid max-w-7xl gap-7 px-4 pb-10 sm:px-6 lg:grid-cols-[minmax(0,0.92fr)_minmax(380px,1.08fr)] lg:gap-12 lg:pb-16">
+      <div className="min-w-0 lg:sticky lg:top-24 lg:self-start"><ProductGallery alt={imageAlt || title} images={product.images} /></div>
+      <aside className="min-w-0 pt-1 lg:pt-3">
         <div className="flex items-start justify-between gap-5"><div><p className="commerce-kicker">{displayFilter(product.category, locale) || (locale === "zh" ? "文化礼品" : "Museum Gift")}</p><h1 className="mt-2 text-[26px] font-black leading-[1.15] sm:text-[32px]">{title}</h1>{productSubtitle(product, locale) ? <p className="mt-2 text-sm text-[#666]">{productSubtitle(product, locale)}</p> : null}</div><ProductUtilityActions title={title} /></div>
         <p className="mt-5 text-xl font-bold">{formatPriceForLocale(product, locale)}</p>{shortDescription ? <p className="mt-5 text-[15px] leading-6 text-[#555]">{shortDescription}</p> : null}
         <dl className="mt-6 border-t border-black/15 text-sm"><InfoRow label={locale === "zh" ? "博物馆" : "Museum"} value={displayName(product.museum, locale) || (locale === "zh" ? "精选合作机构" : "Curated partner")} /><InfoRow label={locale === "zh" ? "系列" : "Collection"} value={displayFilter(product.collection || product.officialCollection, locale) || (locale === "zh" ? "待确认" : "To be confirmed")} /><InfoRow label={locale === "zh" ? "起订量" : "MOQ"} value={String(product.moq || 1)} /><InfoRow label={locale === "zh" ? "材质" : "Material"} value={displayProductAttribute(product.materials, locale, locale === "zh" ? "待确认" : "To be confirmed")} /><InfoRow label={locale === "zh" ? "尺寸" : "Dimensions"} value={displayProductAttribute(product.dimensions, locale, locale === "zh" ? "待确认" : "To be confirmed")} /><InfoRow label={locale === "zh" ? "产地" : "Origin"} value={displayProductAttribute(product.origin || origin, locale)} /><InfoRow label={locale === "zh" ? "交付周期" : "Lead Time"} value={displayProductAttribute(product.leadTime || product.shippingNote, locale, locale === "zh" ? "报价时确认" : "Confirmed with quote")} /><InfoRow label={locale === "zh" ? "库存" : "Availability"} value={inventoryLabel(product.inventoryStatus, locale)} /></dl>

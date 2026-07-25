@@ -34,8 +34,8 @@ export function ProductGallery({ images, alt }: { images: string[]; alt: string 
 
   return <>
     <div className="relative overflow-hidden bg-white" onTouchStart={(event) => { touchStart.current = event.touches[0].clientX; }} onTouchEnd={(event) => swipeEnd(event.changedTouches[0].clientX)}>
-      <button aria-label="Open fullscreen image" className="grid aspect-[4/5] max-h-[720px] w-full place-items-center" onClick={() => setLightbox(true)} type="button">
-        <img alt={`${alt} ${index + 1}`} className="h-full w-full object-contain p-3" src={image} />
+      <button aria-label="Open fullscreen image" className="grid aspect-[4/5] max-h-[640px] w-full place-items-center sm:aspect-square" onClick={() => setLightbox(true)} type="button">
+        <img alt={`${alt} ${index + 1}`} className="h-full w-full object-contain p-5 sm:p-8" src={image} />
       </button>
       {count > 1 ? <>
         <button aria-label="Previous image" className="absolute left-3 top-1/2 grid size-10 -translate-y-1/2 place-items-center bg-white/95 shadow-sm" onClick={() => go(index - 1)} type="button"><ChevronLeft size={20} /></button>
