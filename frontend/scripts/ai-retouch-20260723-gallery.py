@@ -36,7 +36,7 @@ REPORT_HTML = DELIVERABLES / "2026-07-24-ai-retouch-gallery-report.html"
 REPORT_CSV = DELIVERABLES / "2026-07-24-ai-retouch-gallery-status.csv"
 REPORT_SUMMARY = DELIVERABLES / "2026-07-24-ai-retouch-gallery-summary.json"
 BUCKET = "product-images"
-VERSION = "ai-retouched-2026-07-24"
+VERSION = "ai-retouched-2026-07-25-v3"
 ORIGINAL_DOUBLE_TIGER_HERO = (
     "https://pgbjgueicmpakgaaisdg.supabase.co/storage/v1/object/public/"
     "product-images/double-tailed-tiger-mini-stapler/cover.webp"
@@ -159,9 +159,11 @@ def soft_shadow(alpha: Image.Image, size: tuple[int, int]) -> Image.Image:
 def retouch_image(source: Path, output: Path) -> tuple[str, bool]:
     image = ImageOps.exif_transpose(Image.open(source)).convert("RGB")
     image.thumbnail((1800, 1800), Image.Resampling.LANCZOS)
-    image = ImageEnhance.Brightness(image).enhance(1.13)
+    gamma = 0.76
+    image = image.point([round(255 * ((value / 255) ** gamma)) for value in range(256)] * 3)
+    image = ImageEnhance.Brightness(image).enhance(1.10)
     image = ImageEnhance.Contrast(image).enhance(1.06)
-    image = ImageEnhance.Color(image).enhance(1.10)
+    image = ImageEnhance.Color(image).enhance(1.20)
     cutout = remove(image, session=SESSION, alpha_matting=False)
     rgba = cutout.convert("RGBA")
     bbox = alpha_bbox(rgba.getchannel("A"))
@@ -288,19 +290,14 @@ def main() -> None:
             + (current.get("packaging_images") or [])
             + (current.get("lifestyle_images") or [])
         )
-        retained_old = [
-            url
-            for url in existing_all
-            if "/20260723/" not in url and VERSION not in url and "retouched-2026-07-24" not in url
-        ]
         if slug == "double-tailed-tiger-mini-stapler":
             cover = ORIGINAL_DOUBLE_TIGER_HERO
-            gallery = dedupe(urls + [url for url in retained_old if url != cover])
+            gallery = dedupe(urls)
             images = dedupe([cover] + gallery)
         else:
             hero = next((item.retouched_uploaded_url for item in output_rows if item.product_slug == slug and item.assigned_role == "hero"), urls[0])
             cover = hero
-            gallery = dedupe([url for url in urls if url != hero] + retained_old)
+            gallery = dedupe([url for url in urls if url != hero])
             images = dedupe([cover] + gallery)
         encoded_slug = urllib.parse.quote(slug, safe="")
         request_json(

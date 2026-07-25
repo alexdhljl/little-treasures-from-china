@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronLeft, ChevronRight, Expand, X } from "lucide-react";
+import { ArrowLeft, ChevronLeft, ChevronRight, Expand, Minimize2, X } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 export function ProductGallery({ images, alt }: { images: string[]; alt: string }) {
@@ -46,6 +46,10 @@ export function ProductGallery({ images, alt }: { images: string[]; alt: string 
     </div>
     {count > 1 ? <div className="mt-3 flex gap-2 overflow-x-auto pb-1">{cleanImages.map((src, imageIndex) => <button aria-label={`View image ${imageIndex + 1}`} className={`relative aspect-[4/5] w-[68px] shrink-0 overflow-hidden border-2 bg-white ${imageIndex === index ? "border-[#171717]" : "border-transparent"}`} key={`${src}-${imageIndex}`} onClick={() => setIndex(imageIndex)} type="button"><img alt="" className="h-full w-full object-contain p-1" loading="lazy" src={src} /></button>)}</div> : null}
     {lightbox ? <div aria-modal="true" className="fixed inset-0 z-[80] grid place-items-center bg-black/95 p-4" role="dialog" onClick={() => setLightbox(false)}>
+      <div className="absolute left-4 top-4 z-10 flex gap-2">
+        <button aria-label="Back to product page" className="flex h-11 items-center gap-2 bg-white px-4 text-sm font-bold text-black" onClick={() => setLightbox(false)} type="button"><ArrowLeft size={19} /><span>返回 / Back</span></button>
+        <button aria-label="Reduce image" className="flex h-11 items-center gap-2 bg-white px-4 text-sm font-bold text-black" onClick={() => setLightbox(false)} type="button"><Minimize2 size={19} /><span>缩小 / Reduce</span></button>
+      </div>
       <button aria-label="Close fullscreen image" className="absolute right-4 top-4 grid size-11 place-items-center bg-white text-black" onClick={() => setLightbox(false)} type="button"><X size={22} /></button>
       {count > 1 ? <><button aria-label="Previous image" className="absolute left-3 top-1/2 grid size-11 -translate-y-1/2 place-items-center bg-white text-black sm:left-6" onClick={(event) => { event.stopPropagation(); go(index - 1); }} type="button"><ChevronLeft /></button><button aria-label="Next image" className="absolute right-3 top-1/2 grid size-11 -translate-y-1/2 place-items-center bg-white text-black sm:right-6" onClick={(event) => { event.stopPropagation(); go(index + 1); }} type="button"><ChevronRight /></button></> : null}
       <img alt={`${alt} ${index + 1}`} className="max-h-[90vh] max-w-[92vw] object-contain" onClick={(event) => event.stopPropagation()} src={image} />
