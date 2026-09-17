@@ -32,11 +32,11 @@ npm run dev -- --hostname 127.0.0.1 --port 3000
 - Lead Discovery: http://localhost:3000/lead-discovery
 - Storefront: http://localhost:3000/en
 
-Backend, in an environment with the packages from `backend/requirements.txt`:
+Backend, using the verified project-local environment (see `lead-discovery-backend-runtime.md` for setup):
 
 ```powershell
 cd "D:\C_Drive_Moved\Projects\博物馆文创\backend"
-python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
+.venv\Scripts\python.exe -m uvicorn app.main:app --host 127.0.0.1 --port 8000
 ```
 
 - Health: http://127.0.0.1:8000/health
@@ -60,7 +60,7 @@ python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
 - `POST /api/v1/leads/discover-and-crawl`
 - `POST /api/v1/leads/crawl`
 - `POST /api/v1/leads/crawl-batch`
-- `GET /api/v1/leads/daily-update` (existing route can initiate crawling; not invoked)
+- `GET /api/v1/leads/daily-update` (read-only summary; verified during runtime restoration)
 - `POST /api/v1/crm/generate-draft`
 - `POST /scraper/crawl`
 
@@ -74,7 +74,7 @@ Discovery engine, scoring engine, `seed_targets.json` and `discovery_sources.jso
 - Browser screenshots and JSON evidence are in the ignored backup directory.
 - Global TypeScript check has a pre-existing failure at `frontend/app/[locale]/[section]/page.tsx:159`: missing `siteConfig`. That file is unchanged by recovery. No recovery-module TypeScript errors remain.
 - All 9 backend Python files pass syntax parsing. The unchanged scoring engine produces the online-store signal for all 3 named museum seeds. Configuration contains 4 crawler seeds and 5 discovery phases.
-- Backend startup initially blocked: the available Python runtime lacks FastAPI, Uvicorn, HTTPX and BeautifulSoup. Installing a project-local environment requires the user's answer to the pending installation question.
+- Backend startup was initially blocked by missing dependencies. After explicit authorization, the minimal runtime was installed only in `backend/.venv`; startup, live endpoints, no-key behavior and browser communication now pass. See `lead-discovery-backend-runtime.md`.
 
 ## Git and secrets
 

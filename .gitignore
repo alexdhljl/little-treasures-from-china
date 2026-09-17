@@ -14,7 +14,12 @@ __pycache__/
 backend/*
 !backend/app/
 !backend/requirements.txt
+!backend/requirements-runtime.txt
+!backend/requirements-runtime.lock.txt
 !backend/run_daily_crawler.py
+!backend/tests/
+backend/tests/*
+!backend/tests/test_runtime.py
 backend/app/**
 !backend/app/**/
 !backend/app/**/*.py

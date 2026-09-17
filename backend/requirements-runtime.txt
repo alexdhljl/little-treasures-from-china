@@ -1,0 +1,8 @@
+# Minimal local API runtime, based on the minor versions in requirements.txt.
+# Optional Playwright/browser and paid LLM SDKs are not needed for seed mode.
+# For the verified full resolution use requirements-runtime.lock.txt.
+fastapi>=0.115.0,<0.116.0
+uvicorn>=0.30.0,<0.31.0
+httpx>=0.27.0,<0.28.0
+beautifulsoup4>=4.12.0,<4.13.0
+pydantic>=2.8.0,<2.9.0
