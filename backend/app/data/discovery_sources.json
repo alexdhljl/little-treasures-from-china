@@ -1,0 +1,97 @@
+{
+  "museums": {
+    "target_count": 1500,
+    "category": "Museum",
+    "directory_sources": [
+      "AAM museum directory",
+      "Museum Store Association members",
+      "Association of Children's Museums",
+      "American Alliance of Museums",
+      "American Public Gardens Association",
+      "Association of Zoos and Aquariums"
+    ],
+    "search_queries": [
+      "site:.org museum store gift shop United States",
+      "site:.org museum store vendor application",
+      "site:.org art museum gift shop wholesale",
+      "site:.org history museum store",
+      "site:.org botanical garden gift shop",
+      "site:.org cultural center museum store",
+      "site:.org museum shop collections Asian art",
+      "site:.org museum retail buyer contact"
+    ]
+  },
+  "universities": {
+    "target_count": 700,
+    "category": "University",
+    "directory_sources": [
+      "Top US university lists",
+      "Campus bookstore directories",
+      "Alumni association pages",
+      "Conference and event services pages"
+    ],
+    "search_queries": [
+      "site:.edu campus store gifts",
+      "site:.edu bookstore gifts alumni",
+      "site:.edu alumni office gifts",
+      "site:.edu conference services gifts",
+      "site:.edu university store vendor",
+      "site:.edu campus bookstore buyer"
+    ]
+  },
+  "attractions": {
+    "target_count": 1200,
+    "category": "Attraction",
+    "directory_sources": [
+      "National park partner stores",
+      "State park foundations",
+      "Historic site associations",
+      "Aquarium and zoo directories",
+      "Theme park and visitor attraction lists"
+    ],
+    "search_queries": [
+      "site:.org visitor center gift shop national park",
+      "site:.org historic site gift shop",
+      "site:.org aquarium gift shop",
+      "site:.org zoo gift shop retail",
+      "site:.org conservancy store gift shop",
+      "site:.com attraction gift shop wholesale"
+    ]
+  },
+  "corporate": {
+    "target_count": 1000,
+    "category": "Corporate",
+    "directory_sources": [
+      "Fortune 500 company websites",
+      "Hospitality groups",
+      "Technology company employee experience pages",
+      "Finance and healthcare event marketing teams"
+    ],
+    "search_queries": [
+      "site:.com corporate gifts employee experience",
+      "site:.com company store branded gifts",
+      "site:.com client appreciation gifts procurement",
+      "site:.com employee engagement gifts",
+      "site:.com brand partnership merchandise",
+      "site:.com event gifts marketing procurement"
+    ]
+  },
+  "schools": {
+    "target_count": 800,
+    "category": "University",
+    "directory_sources": [
+      "Independent school associations",
+      "Private school networks",
+      "International school directories",
+      "Chinese school associations",
+      "STEM and after-school program networks"
+    ],
+    "search_queries": [
+      "site:.org independent school store gifts",
+      "site:.org private school auction gifts",
+      "site:.org Chinese school gifts events",
+      "site:.org international school store",
+      "site:.org STEM program gifts"
+    ]
+  }
+}
