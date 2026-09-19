@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.crm_email_drafts import router as crm_email_router
 from app.api.leads import router as leads_router
+from app.api.sales_leads import router as sales_leads_router
 from app.services.scraper_engine import router as scraper_router
 
 
@@ -22,6 +23,7 @@ app.add_middleware(
 )
 
 app.include_router(leads_router)
+app.include_router(sales_leads_router)
 app.include_router(crm_email_router)
 app.include_router(scraper_router)
 

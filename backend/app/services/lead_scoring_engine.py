@@ -4,6 +4,7 @@ import math
 import re
 from dataclasses import dataclass, field
 from typing import Any
+from app.services.scraper_engine import CONTACT_TITLE_PATTERNS
 
 
 ScoreRecord = dict[str, Any]

@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import asyncio
-import hashlib
 import re
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -279,28 +278,12 @@ async def fetch_with_playwright(url: str) -> PageFetch | None:
 
 
 async def enrich_contacts_mock(domain: str, contacts: list[ExtractedContact]) -> EnrichmentResult:
-    # Replace this with Hunter/Apollo/People Data Labs clients. Keep the output contract stable.
-    if contacts:
-        return EnrichmentResult(
-            provider="mock_enrichment",
-            status="fallback_used",
-            contacts=contacts,
-            notes="Public contacts found; paid enrichment provider not configured.",
-        )
-
-    synthetic_id = hashlib.sha1(domain.encode("utf-8")).hexdigest()[:8]
+    # Legacy function name retained for callers. Never invent an address from a domain.
     return EnrichmentResult(
-        provider="mock_enrichment",
-        status="fallback_used",
-        contacts=[
-            ExtractedContact(
-                email=f"partnerships+{synthetic_id}@{domain}",
-                title_hint="Partnerships or Retail Contact",
-                source_url=f"https://{domain}",
-                confidence=0.18,
-            )
-        ],
-        notes="No public contacts found. Placeholder contact should be reviewed before outreach.",
+        provider="public_website",
+        status="public_contacts_found" if contacts else "missing",
+        contacts=contacts,
+        notes="Public extraction only; contact ownership and deliverability are unverified.",
     )
 
 

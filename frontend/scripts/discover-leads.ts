@@ -1,6 +1,7 @@
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { seedLeads, type SeedLead } from "../data/seed-leads.ts";
+import { mergeInstitutionRows, parseCsv } from "../lib/lead-discovery/csv.ts";
 
 const outputCsv = resolve("data/seed-leads.csv");
 const outputJson = resolve("data/seed-leads.json");
@@ -47,9 +48,12 @@ if (importArg) {
   const csvPath = resolve(importArg.replace("--import=", ""));
   const parsed = parseCsv(readFileSync(csvPath, "utf8"));
   const importedPath = resolve("data/imported-leads.json");
+  const existing = existsSync(importedPath) ? JSON.parse(readFileSync(importedPath, "utf8")) : [];
+  const merged = mergeInstitutionRows(existing, parsed);
   mkdirSync(dirname(importedPath), { recursive: true });
-  writeFileSync(importedPath, JSON.stringify(parsed, null, 2), "utf8");
-  console.log(`Imported ${parsed.length} lead rows into ${importedPath}`);
+  writeFileSync(importedPath, JSON.stringify(merged.records, null, 2), "utf8");
+  writeFileSync(resolve("data/import-duplicates.json"), JSON.stringify(merged.duplicates, null, 2), "utf8");
+  console.log(`Read ${parsed.length} rows; retained ${merged.records.length} unique institutions; ${merged.duplicates.length} duplicate records recorded.`);
   process.exit(0);
 }
 
@@ -77,36 +81,4 @@ function csvCell(value: unknown) {
   }
   const text = String(value).replaceAll('"', '""');
   return /[",\n]/.test(text) ? `"${text}"` : text;
-}
-
-function parseCsv(csv: string) {
-  const lines = csv.trim().split(/\r?\n/);
-  const headers = splitCsvLine(lines[0]);
-  return lines.slice(1).map((line) => {
-    const values = splitCsvLine(line);
-    return Object.fromEntries(headers.map((header, index) => [header, values[index] ?? ""]));
-  });
-}
-
-function splitCsvLine(line: string) {
-  const values: string[] = [];
-  let current = "";
-  let quoted = false;
-  for (let index = 0; index < line.length; index += 1) {
-    const char = line[index];
-    const next = line[index + 1];
-    if (char === '"' && quoted && next === '"') {
-      current += '"';
-      index += 1;
-    } else if (char === '"') {
-      quoted = !quoted;
-    } else if (char === "," && !quoted) {
-      values.push(current);
-      current = "";
-    } else {
-      current += char;
-    }
-  }
-  values.push(current);
-  return values;
 }

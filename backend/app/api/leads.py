@@ -52,7 +52,10 @@ class DiscoverAndCrawlRequest(BaseModel):
 
 @router.get("")
 async def list_leads() -> dict:
-    return {"leads": repository.list_leads()}
+    # Old disk records may carry heuristic Verified labels. Never expose these
+    # as verified contacts; leave the historical source file untouched.
+    return {"leads": [{**lead, "contactStatus": "Unverified"} if lead.get("contactStatus") == "Verified" else lead
+                      for lead in repository.list_leads()]}
 
 
 @router.post("/discover-targets")
@@ -137,7 +140,8 @@ async def crawl_batch(request: BatchCrawlRequest) -> dict:
 async def daily_update() -> dict:
     leads = repository.list_leads()
     high_score = [lead for lead in leads if lead.get("score", 0) >= 80]
-    verified = [lead for lead in leads if lead.get("contactStatus") == "Verified"]
+    # Historical heuristic 'Verified' is not proof of human contact verification.
+    verified = [lead for lead in leads if lead.get("contact_verification") == "verified_by_reviewer"]
     not_contacted = [lead for lead in leads if lead.get("pipelineStage") == "Not Contacted"]
 
     return {
@@ -168,7 +172,12 @@ def lead_from_crawl(request: CrawlLeadRequest, crawl_result, score: float) -> di
         "state": "NA",
         "city": "Research",
         "score": round(score),
-        "contactStatus": "Verified" if direct_contact and direct_contact.confidence >= 0.5 else "Generic" if direct_contact else "Missing",
+        "contactStatus": "Unverified" if contacts else "Missing",
+        "contact_verification": "unverified" if contacts else "missing",
+        "email": direct_contact.email if direct_contact else None,
+        "phone": next((contact.phone for contact in contacts if contact.phone), None),
+        "contact_page": direct_contact.source_url if direct_contact else None,
+        "contacts": [contact.model_dump() for contact in contacts],
         "pipelineStage": "Not Contacted",
         "decisionMaker": direct_contact.title_hint if direct_contact else "Retail / procurement contact needed",
         "websiteUrl": str(request.homepage_url),

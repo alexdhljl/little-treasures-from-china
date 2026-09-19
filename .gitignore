@@ -20,6 +20,7 @@ backend/*
 !backend/tests/
 backend/tests/*
 !backend/tests/test_runtime.py
+!backend/tests/test_sales_foundation.py
 backend/app/**
 !backend/app/**/
 !backend/app/**/*.py

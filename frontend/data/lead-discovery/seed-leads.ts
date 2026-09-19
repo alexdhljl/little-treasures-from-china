@@ -508,7 +508,7 @@ export type DashboardSeedLead = {
   state: string;
   city: string;
   score: number;
-  contactStatus: "Verified" | "Generic" | "Missing";
+  contactStatus: "Unverified" | "Generic" | "Missing";
   pipelineStage: "Not Contacted";
   decisionMaker?: string;
   websiteUrl?: string;
@@ -566,7 +566,7 @@ export function toDashboardLead(lead: SeedLead, index: number): DashboardSeedLea
     state: lead.state,
     city: lead.city,
     score: lead.opportunity_score,
-    contactStatus: lead.correct_business_email || lead.retail_contact_email ? "Verified" : lead.contact_page_url || lead.phone ? "Generic" : "Missing",
+    contactStatus: lead.correct_business_email || lead.retail_contact_email ? "Unverified" : lead.contact_page_url || lead.phone ? "Generic" : "Missing",
     pipelineStage: "Not Contacted",
     decisionMaker: lead.retail_contact_title ?? lead.procurement_contact_email ?? undefined,
     websiteUrl: lead.website_url,

@@ -41,7 +41,7 @@ import {
 import { seedDashboardLeads, type SeedLead } from "@/data/seed-leads";
 
 type LeadCategory = "Museum" | "University" | "Corporate" | "Zoo/Aquarium" | "Attraction";
-type ContactStatus = "Verified" | "Generic" | "Missing";
+type ContactStatus = "Unverified" | "Generic" | "Missing";
 type Locale = "zh" | "en";
 type DashboardViewKey = "leadMap" | "museums" | "universities" | "corporate" | "procurement" | "aiDrafts" | "opportunities";
 type DiscoveryPhase = "museums" | "universities" | "attractions" | "corporate" | "schools";
@@ -88,7 +88,7 @@ const categoryColors: Record<LeadCategory, string> = {
 };
 
 const contactStatusStyles: Record<ContactStatus, string> = {
-  Verified: "border-emerald-500 bg-emerald-50 text-emerald-900",
+  Unverified: "border-emerald-500 bg-emerald-50 text-emerald-900",
   Generic: "border-amber-500 bg-amber-50 text-amber-950",
   Missing: "border-rose-500 bg-rose-50 text-rose-950",
 };
@@ -124,8 +124,8 @@ const categoryLabels: Record<Locale, Record<string, string>> = {
 };
 
 const statusLabels: Record<Locale, Record<ContactStatus, string>> = {
-  zh: { Verified: "已验证", Generic: "通用邮箱", Missing: "待补充" },
-  en: { Verified: "Verified", Generic: "Generic", Missing: "Missing" },
+  zh: { Unverified: "公开联系方式（未核验）", Generic: "公开联系入口", Missing: "待补充" },
+  en: { Unverified: "Public contact (unverified)", Generic: "Generic", Missing: "Missing" },
 };
 
 const discoveryPhaseLabels: Record<Locale, Record<DiscoveryPhase, string>> = {
@@ -187,7 +187,7 @@ const ui = {
     },
     metrics: {
       total: "机构总数",
-      contacts: "采购联系人",
+      contacts: "公开联系方式",
       avg: "平均分",
       museums: "博物馆线索",
     },
@@ -278,7 +278,7 @@ const ui = {
     },
     metrics: {
       total: "Total Institutions",
-      contacts: "Procurement Contacts",
+      contacts: "Public Contact Leads",
       avg: "Avg. Score",
       museums: "Museum Leads",
     },
@@ -401,10 +401,10 @@ export default function DashboardView() {
 
   const metrics = useMemo(() => {
     const total = filteredLeads.length;
-    const verifiedContacts = filteredLeads.filter((lead) => lead.contactStatus === "Verified").length;
+    const publicContactLeads = filteredLeads.filter((lead) => lead.contactStatus === "Unverified").length;
     const averageScore = total ? Math.round(filteredLeads.reduce((sum, lead) => sum + lead.score, 0) / total) : 0;
     const museums = filteredLeads.filter((lead) => lead.category === "Museum").length;
-    return { total, verifiedContacts, averageScore, museums };
+    return { total, publicContactLeads, averageScore, museums };
   }, [filteredLeads]);
 
   const stateDensity = useMemo(() => {
@@ -428,7 +428,7 @@ export default function DashboardView() {
 
   const states = ["All", ...Array.from(new Set(leads.map((lead) => lead.state))).sort()];
   const categories = ["All", ...Array.from(new Set(leads.map((lead) => lead.category))).sort()];
-  const contactStatuses = ["All", "Verified", "Generic", "Missing"];
+  const contactStatuses = ["All", "Unverified", "Generic", "Missing"];
 
   function showCategory(category: string) {
     setActiveView(
@@ -562,7 +562,7 @@ export default function DashboardView() {
             <button
               onClick={() => {
                 setActiveView("procurement");
-                setContactFilter("Verified");
+                setContactFilter("Unverified");
               }}
               className={activeView === "procurement" ? "text-[#ef2950]" : ""}
             >
@@ -586,7 +586,7 @@ export default function DashboardView() {
 
       <section className="mx-auto grid max-w-[1520px] gap-5 px-8 py-7 lg:grid-cols-4">
         <MetricTile icon={Building2} label={text.metrics.total} value={metrics.total.toString()} color="bg-[#00a6a6]" />
-        <MetricTile icon={MailCheck} label={text.metrics.contacts} value={metrics.verifiedContacts.toString()} color="bg-[#ffbe0b]" />
+        <MetricTile icon={MailCheck} label={text.metrics.contacts} value={metrics.publicContactLeads.toString()} color="bg-[#ffbe0b]" />
         <MetricTile icon={TrendingUp} label={text.metrics.avg} value={metrics.averageScore.toString()} color="bg-[#ef2950]" />
         <MetricTile icon={Landmark} label={text.metrics.museums} value={metrics.museums.toString()} color="bg-[#7c3aed]" />
       </section>
@@ -1430,7 +1430,7 @@ function createPreviewLead(url: string, category: LeadCategory, locale: Locale):
     score: 61,
     contactStatus: "Missing",
     pipelineStage: "Not Contacted",
-    decisionMaker: isZh ? "需要补充零售 / 采购联系人" : "Retail / procurement contact needed",
+    decisionMaker: isZh ? "需要补充零售 / 公开联系方式" : "Retail / procurement contact needed",
     websiteUrl: url,
     theme: isZh
       ? "新添加的官网。启动后端爬虫后，可发现礼品商店、采购、批发和联系人信号。"
