@@ -16,8 +16,9 @@ type Page = { items: Lead[]; total: number };
 type Duplicate = { fingerprint: string; reason: string; needs_review: number; incoming: { institution_name: string } };
 
 async function request(path: string, method = "GET", body?: unknown) {
+  const token = typeof window === "undefined" ? null : sessionStorage.getItem("lead-discovery-write-token");
   const response = await fetch(`${API}${path}`, {
-    method, headers: body === undefined ? undefined : { "Content-Type": "application/json" },
+    method, headers: method === "GET" ? undefined : { ...(body === undefined ? {} : { "Content-Type": "application/json" }), ...(token ? { "x-lead-discovery-write-token": token } : {}) },
     body: body === undefined ? undefined : JSON.stringify(body),
   });
   const result = await response.json();
@@ -40,6 +41,7 @@ export default function SalesLeadList() {
   const [edit, setEdit] = useState<Lead | null>(null);
   const [note, setNote] = useState("");
   const [status, setStatus] = useState("new");
+  const [writeToken, setWriteToken] = useState("");
   const loadSequence = useRef(0);
   const reload = useCallback(async () => {
     const sequence = ++loadSequence.current;
@@ -67,6 +69,8 @@ export default function SalesLeadList() {
         <Link href="/lead-discovery" className="underline">← 返回文化商业数据库</Link>
         <h1 className="text-3xl font-bold">销售机构名单</h1>
         <p>先核对机构名称、地区与官网或可信公开来源，再分配销售。邮箱和负责人允许为空；联系方式均未核验。</p>
+        <label className="block text-sm">Preview 写入令牌（仅保存在此浏览器会话）<input type="password" className="ml-3 border p-2" value={writeToken} onChange={e => { setWriteToken(e.target.value); if (e.target.value) sessionStorage.setItem("lead-discovery-write-token", e.target.value); else sessionStorage.removeItem("lead-discovery-write-token"); }} /></label>
+        <div className="grid grid-cols-2 gap-2 text-sm sm:grid-cols-3">{[["总数", page.total], ["待审核", page.items.filter(x => x.review_status !== "approved").length], ["Ready", page.items.filter(x => x.status === "ready").length], ["已分配", page.items.filter(x => !!x.assigned_salesperson).length], ["已联系", page.items.filter(x => x.status === "contacted").length], ["Qualified", page.items.filter(x => x.status === "qualified").length]].map(([label, value]) => <div className="border bg-white p-2" key={String(label)}>{label}: <b>{value}</b></div>)}</div>
         <div className="flex flex-wrap gap-3">
           <button className={button} disabled={busy} onClick={() => act(async () => showImport(await request("/import/seeds", "POST")))}>导入原有 100 条 seed</button>
           <label className={button}>导入 CSV
