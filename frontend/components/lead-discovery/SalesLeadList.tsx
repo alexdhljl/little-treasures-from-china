@@ -41,6 +41,8 @@ export default function SalesLeadList() {
   const [edit, setEdit] = useState<Lead | null>(null);
   const [note, setNote] = useState("");
   const [status, setStatus] = useState("new");
+  const [analysis, setAnalysis] = useState<Record<string, unknown> | null>(null);
+  const [analyzing, setAnalyzing] = useState(false);
   const [writeToken, setWriteToken] = useState("");
   const loadSequence = useRef(0);
   const reload = useCallback(async () => {
@@ -129,6 +131,8 @@ export default function SalesLeadList() {
           <label>状态<select aria-label="状态" className="ml-3 border p-2" value={status} onChange={e => setStatus(e.target.value)}>{["new", "reviewing", "ready", "contacted", "follow_up", "qualified", "disqualified", "archived"].map(s => <option key={s}>{s}</option>)}</select></label>
           <label className="block">备注<textarea aria-label="备注" className="block w-full border p-2" value={note} onChange={e => setNote(e.target.value)} /></label>
           <button className={button} disabled={busy} onClick={() => act(async () => { await request(`/${edit.id}`, "PATCH", { revision: edit.revision, status, notes: note }); setEdit(null); return "状态和备注已保存。"; })}>保存状态和备注</button>
+          <button className="ml-3 underline disabled:opacity-40" disabled={analyzing || busy} onClick={async () => { setAnalyzing(true); setAnalysis(null); try { const sourceText = [edit.notes, edit.reason_to_contact, edit.institution_name, edit.website, edit.source_url].filter(Boolean).join("\n"); const result = await request("/../enrichment", "POST", { leadId: edit.id, institutionName: edit.institution_name, sourceUrls: [edit.website, edit.source_url, edit.contact_page].filter(Boolean), sourceText }); setAnalysis(result); } catch (error) { setAnalysis({ error: error instanceof Error ? error.message : "AI analysis failed" }); } finally { setAnalyzing(false); } }}>Analyze with AI</button>
+          {analyzing && <p>AI analysis loading…</p>}{analysis && <details open className="border p-3"><summary className="font-semibold">AI-generated analysis — requires human review</summary><pre className="mt-2 whitespace-pre-wrap text-xs">{JSON.stringify(analysis, null, 2)}</pre></details>}
           <button className="ml-4 underline" onClick={() => setEdit(null)}>取消</button>
         </section>}
       </div>
