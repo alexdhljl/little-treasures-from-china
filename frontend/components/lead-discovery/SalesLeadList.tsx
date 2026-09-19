@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { leadDiscoveryApiBase } from "@/lib/lead-discovery/api";
 
-const API = "http://127.0.0.1:8000/api/v1/sales-leads";
+const API = leadDiscoveryApiBase("sales");
 type Lead = {
   id: string; institution_name: string | null; institution_type: string | null;
   website: string | null; city: string | null; state: string | null; country: string | null;

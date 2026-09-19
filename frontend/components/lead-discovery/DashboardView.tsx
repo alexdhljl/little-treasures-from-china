@@ -40,6 +40,7 @@ import {
 } from "recharts";
 import type { SeedLead } from "@/data/lead-discovery/seed-leads";
 import { initialLeads } from "@/lib/lead-discovery/seed-data";
+import { leadDiscoveryApiBase } from "@/lib/lead-discovery/api";
 
 type LeadCategory = "Museum" | "University" | "Corporate" | "Zoo/Aquarium" | "Attraction";
 type ContactStatus = "Unverified" | "Generic" | "Missing";
@@ -450,7 +451,7 @@ export default function DashboardView() {
     const url = normalizeUrl(crawlUrl);
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/v1/leads/crawl", {
+      const response = await fetch(`${leadDiscoveryApiBase("legacy")}/crawl`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ homepage_url: url, category: crawlCategory }),
@@ -471,7 +472,7 @@ export default function DashboardView() {
   async function discoverTargets() {
     setCrawlStatus(text.crawl.discovering);
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/v1/leads/discover-targets", {
+      const response = await fetch(`${leadDiscoveryApiBase("legacy")}/discover-targets`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ phase: discoveryPhase, max_results: 12 }),
