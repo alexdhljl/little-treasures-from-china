@@ -1,0 +1,14 @@
+import { NextRequest, NextResponse } from "next/server";
+import { canMutateLeadDiscovery } from "@/lib/lead-discovery/auth";
+import { cloudSql, ensureLeadSchema } from "@/lib/lead-discovery/cloud-db";
+import { configuredEnrichmentProvider } from "@/lib/lead-discovery/ai/enrichment";
+import { enrichmentSchemaVersion, fingerprint, type EnrichmentInput } from "@/lib/lead-discovery/ai/provider";
+export const runtime = "nodejs";
+export async function POST(request: NextRequest) { try {
+  if (!canMutateLeadDiscovery(request.headers.get("x-lead-discovery-write-token"))) return NextResponse.json({ detail: "Write authorization required" }, { status: 401 });
+  const provider = configuredEnrichmentProvider(); if (!provider) return NextResponse.json({ detail: "AI enrichment unavailable: DEEPSEEK_API_KEY is not configured" }, { status: 503 });
+  const input = await request.json() as EnrichmentInput; if (!input?.leadId || !input.institutionName || !Array.isArray(input.sourceUrls) || typeof input.sourceText !== "string") return NextResponse.json({ detail: "Invalid enrichment input" }, { status: 422 });
+  await ensureLeadSchema(); const sql = cloudSql(); await sql(`CREATE TABLE IF NOT EXISTS lead_ai_enrichments (id bigserial PRIMARY KEY,lead_id uuid NOT NULL REFERENCES lead_institutions(id) ON DELETE CASCADE,provider text NOT NULL,model text NOT NULL,source_content_hash text NOT NULL,schema_version text NOT NULL,source_urls jsonb NOT NULL,enrichment jsonb NOT NULL,created_at timestamptz NOT NULL DEFAULT now(),superseded_at timestamptz,UNIQUE(lead_id,provider,model,source_content_hash,schema_version))`);
+  const hash = fingerprint(input, provider.name, provider.model); const existing = await sql("SELECT enrichment FROM lead_ai_enrichments WHERE lead_id=$1 AND provider=$2 AND model=$3 AND source_content_hash=$4 AND schema_version=$5", [input.leadId, provider.name, provider.model, hash, enrichmentSchemaVersion]); if (existing[0]) return NextResponse.json({ cached: true, enrichment: (existing[0] as { enrichment: unknown }).enrichment });
+  const enrichment = await provider.enrich(input); await sql("INSERT INTO lead_ai_enrichments(lead_id,provider,model,source_content_hash,schema_version,source_urls,enrichment) VALUES($1,$2,$3,$4,$5,$6::jsonb,$7::jsonb)", [input.leadId, provider.name, provider.model, hash, enrichmentSchemaVersion, JSON.stringify(input.sourceUrls), JSON.stringify(enrichment)]); await sql("INSERT INTO lead_audit_log(lead_id,action,new_value,actor,context) VALUES($1,'ai_enrichment',$2::jsonb,$3,'ai')", [input.leadId, JSON.stringify({ provider: provider.name, model: provider.model, hash }), request.headers.get("x-lead-discovery-actor") || "preview-admin"]); return NextResponse.json({ cached: false, provider: provider.name, model: provider.model, enrichment });
+ } catch { return NextResponse.json({ detail: "AI enrichment request failed" }, { status: 422 }); } }
