@@ -12,3 +12,8 @@ export function leadDiscoveryApiBase(path: "sales" | "legacy") {
   }
   return `${localFallback}/${path === "sales" ? "sales-leads" : "leads"}`;
 }
+
+export function leadDiscoveryEnrichmentUrl() {
+  const configured = process.env.NEXT_PUBLIC_LEAD_DISCOVERY_API_BASE_URL?.replace(/\/api\/v1\/?$/, "").replace(/\/$/, "");
+  return configured ? `${configured}/api/lead-discovery/enrichment` : "/api/lead-discovery/enrichment";
+}
